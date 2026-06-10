@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard • India Result Exam</title>
+  <link rel="icon" type="image/png" href="INDIAL.PNG" />
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+  
+  <!-- Quill Editor CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg: #f8fafc;
+      --panel-bg: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+      --success-hover: #059669;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top navbar */
+    .navbar {
+      background-color: #0f172a;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-brand img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    .nav-email {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      font-size: 13px;
+    }
+
+    .btn-logout:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    /* Maintenance Toggle Switch */
+    .maintenance-toggle-container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 12px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #475569;
+      transition: .4s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #f59e0b;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    .maintenance-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    input:checked ~ .maintenance-label {
+      color: #f59e0b;
+    }
+
+    /* Layout structure */
+    .dashboard-container {
+      max-width: 1400px;
+      width: 100%;
+      margin: 24px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 1100px) {
+      .dashboard-container {
+        grid-template-columns: 3fr 2fr;
+      }
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      height: fit-content;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    /* Search & filter */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      font-size: 14px;
+      transition: border 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* 1-Click Importer styles */
+    .importer-section {
+      background: linear-gradient(135deg, #eef2ff 0%, #faf5ff 100%);
+      border: 1px dashed #c7d2fe;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .importer-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3730a3;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .importer-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .importer-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #c7d2fe;
+      border-radius: 8px;
+      outline: none;
+      font-size: 13.5px;
+      background: white;
+    }
+
+    .btn-import {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-import:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-import:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Form grid styles */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 600px) {
+      .form-grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .form-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    /* Admin Tabs Styling */
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      margin: 20px 24px 0;
+      max-width: 1400px;
+      width: calc(100% - 48px);
+      align-self: center;
+      background: #e2e8f0;
+      padding: 6px;
+      border-radius: 12px;
+    }
+
+    .admin-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .admin-tab.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-tab:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .admin-tab span {
+        display: none;
+      }
+      .admin-tab i {
+        font-size: 18px;
+      }
+    }
+</toolcall_replace_content>
+
+    .form-control {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      font-size: 14px;
+      transition: all 0.2s;
+      background-color: #f8fafc;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    /* Sub-tables layout */
+    .sub-section {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .sub-section-header {
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rows-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .post-row, .link-row, .category-vacancy-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      background: #f8fafc;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    @media (min-width: 600px) {
+      .post-row {
+        grid-template-columns: auto 2fr 1fr 1fr 1fr 2fr auto;
+        align-items: end;
+      }
+      .link-row {
+        grid-template-columns: auto 2fr 3fr auto;
+        align-items: end;
+      }
+      .category-vacancy-row {
+        grid-template-columns: auto 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr auto;
+        align-items: end;
+      }
+    }
+
+    .drag-handle {
+      cursor: move;
+      color: #94a3b8;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 38px;
+      align-self: end;
+      margin-bottom: 2px;
+    }
+
+    .post-row.dragging, .link-row.dragging, .category-vacancy-row.dragging {
+      opacity: 0.5;
+      border: 1px dashed #64748b;
+      background: #f1f5f9;
+    }
+
+    .btn-row-action {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-add {
+      background: #f1f5f9;
+      color: var(--primary);
+      border: 1px solid #c7d2fe;
+    }
+    .btn-add:hover {
+      background: #e0e7ff;
+    }
+
+    .btn-remove {
+      background: #fee2e2;
+      color: var(--danger);
+      height: 38px;
+      justify-content: center;
+    }
+    .btn-remove:hover {
+      background: #fecaca;
+    }
+
+    /* Quill override area */
+    .quill-wrapper {
+      margin-top: 20px;
+    }
+
+    /* Actions bar */
+    .actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-size: 14.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 14.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+
+    /* Job manager table */
+    .jobs-table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .jobs-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    .jobs-table th {
+      background-color: #f8fafc;
+      padding: 12px 16px;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .jobs-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: #334155;
+    }
+
+    .jobs-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .job-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-job { background-color: #e0e7ff; color: #4338ca; }
+    .badge-admit { background-color: #fef3c7; color: #d97706; }
+    .badge-result { background-color: #d1fae5; color: #065f46; }
+    .badge-admission { background-color: #fae8ff; color: #86198f; }
+    .badge-key { background-color: #e2e8f0; color: #475569; }
+    .badge-yojana { background-color: #ffedd5; color: #c2410c; }
+    .badge-outsourcing { background-color: #e0f2fe; color: #0369a1; }
+
+    .job-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+
+    .btn-edit {
+      background-color: #e0f2fe;
+      color: #0284c7;
+    }
+    .btn-edit:hover {
+      background-color: #bae6fd;
+    }
+
+    .btn-delete {
+      background-color: #fee2e2;
+      color: var(--danger);
+    }
+    .btn-delete:hover {
+      background-color: #fecaca;
+    }
+
+    /* Toast system */
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 400px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast-success { border-left: 4px solid #10b981; }
+    .toast-error { border-left: 4px solid #ef4444; }
+    .toast-warning { border-left: 4px solid #f59e0b; }
+    .toast-info { border-left: 4px solid #3b82f6; }
+
+    .toast-icon { font-size: 18px; }
+    .toast-success .toast-icon { color: #10b981; }
+    .toast-error .toast-icon { color: #ef4444; }
+    .toast-warning .toast-icon { color: #f59e0b; }
+    .toast-info .toast-icon { color: #3b82f6; }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .spinner-small {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .empty-state i {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar" role="banner">
+    <div class="nav-brand">
+      <img src="INDIAL.PNG" alt="Logo" />
+      <span>India Result Exam Admin</span>
+    </div>
+    <div class="nav-user">
+      <div class="maintenance-toggle-container">
+        <label class="switch">
+          <input type="checkbox" id="maintenanceToggle">
+          <span class="slider"></span>
+        </label>
+        <span class="maintenance-label">Maintenance Mode</span>
+      </div>
+      <span class="nav-email" id="navEmail">loading...</span>
+      <button class="btn-logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
+    </div>
+  </nav>
+
+  <!-- Admin Navigation Tabs -->
+  <div class="admin-tabs">
+    <button class="admin-tab" data-tab="add-post">
+      <i class="fa-solid fa-plus-circle"></i>
+      <span>Add New Post</span>
+    </button>
+    <button class="admin-tab active" data-tab="manage-posts">
+      <i class="fa-solid fa-list-check"></i>
+      <span>Active Posts</span>
+    </button>
+    <button class="admin-tab" data-tab="analytics">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Analytics</span>
+    </button>
+  </div>
+
+  <!-- Dashboard Main Grid -->
+  <div class="dashboard-container">
+    
+    <!-- Tab Content: Add/Edit Post -->
+    <div id="tab-add-post" class="tab-content">
+      <!-- Left Column: Unified Form -->
+      <section class="panel" style="width: 100%;">
+      <h2 class="panel-title" id="formPanelTitle"><i class="fa-solid fa-plus-circle text-primary"></i> Add New Job Post</h2>
+      
+      <!-- 1-Click Importer Area -->
+      <div class="importer-section">
+        <h3 class="importer-title"><i class="fa-solid fa-magic"></i> 1-Click Sarkari Result Importer</h3>
+        <div class="importer-row">
+          <input 
+            type="url" 
+            id="sarkariImportUrl" 
+            class="importer-input" 
+            placeholder="Sarkari Result post URL paste karein (e.g. https://www.sarkariresult.com/...)"
+          />
+          <button class="btn-import" id="sarkariImportBtn">
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+            <span id="importBtnText">Fetch & Fill</span>
+          </button>
+        </div>
+      </div>
+
+      <form id="jobForm">
+        <div class="form-grid">
+          
+          <!-- Smart Toggles -->
+          <div class="form-grid-2 form-grid" style="margin-top: 10px; padding: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;">
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-bottom: 0;">
+              <input type="checkbox" id="showOnHome" checked style="width: 20px; height: 20px; cursor: pointer;" />
+              <label for="showOnHome" class="form-label" style="margin-bottom: 0; cursor: pointer; font-weight: 700; color: #92400e;">Show on Home Page</label>
+            </div>
+            <div class="form-group">
+              <label for="badge" class="form-label">Badge</label>
+              <select id="badge" class="form-control">
+                <option value="New">New</option>
+                <option value="Ending Soon">Ending Soon</option>
+                <option value="Result Out">Result Out</option>
+                <option value="Admit Card">Admit Card Out</option>
+                <option value="Update">Update</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 10px;">
+            <label for="sourceUrl" class="form-label">Source URL (Sarkari Result Link for Auto-Sync)</label>
+            <input type="text" id="sourceUrl" class="form-control" placeholder="https://www.sarkariresult.com/..." />
+          </div>
+
+          <!-- Title & Category & State -->
+          <div class="form-grid-3 form-grid">
+            <div class="form-group">
+              <label for="title" class="form-label">Job Post Title *</label>
+              <input type="text" id="title" class="form-control" required placeholder="e.g. SSB Constable Online Form 2026" />
+            </div>
+            <div class="form-group">
+              <label for="category" class="form-label">Category *</label>
+              <select id="category" class="form-control" required>
+                <option value="Latest Jobs">Latest Jobs</option>
+                <option value="Outsourcing">Outsourcing</option>
+                <option value="Admit Card">Admit Card</option>
+                <option value="Result">Result</option>
+                <option value="Admission">Admission</option>
+                <option value="Answer Key">Answer Key</option>
+                <option value="Sarkari Yojana">Sarkari Yojana</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="state" class="form-label">State / Tag *</label>
+              <select id="state" class="form-control" required>
+                <option value="ALL">All (National / Central)</option>
+                <option value="UP">UP</option>
+                <option value="Bihar">Bihar</option>
+                <option value="MP">MP</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Uttrakhand">Uttrakhand</option>
+                <option value="Hariyana">Hariyana</option>
+                <option value="Gujrat">Gujrat</option>
+                <option value="Armed Forces">Armed Forces</option>
+                <option value="Railway">Railway</option>
+                <option value="SSC">SSC</option>
+                <option value="Banking">Banking</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Org & Official Web -->
+          <div class="form-grid-2 form-grid">
+            <div class="form-group">
+              <label for="organization" class="form-label">Organization Name</label>
+              <input type="text" id="organization" class="form-control" placeholder="e.g. Sashastra Seema Bal SSB" />
+            </div>
+            <div class="form-group">
+              <label for="officialLink" class="form-label">Official Website URL</label>
+              <input type="url" id="officialLink" class="form-control" placeholder="e.g. https://recruitment.ssb.gov.in" />
+            </div>
+          </div>
+
+          <!-- Main Apply Link -->
+          <div class="form-group">
+            <label for="applyLink" class="form-label">Main Apply Link URL *</label>
+            <input type="url" id="applyLink" class="form-control" required placeholder="e.g. https://applyssb.com" />
+          </div>
+
+          <!-- Dates Fields -->
+          <div class="form-grid-2 form-grid">
+            <div class="form-group">
+              <label for="applicationBegin" class="form-label">Application Begin Date</label>
+              <input type="text" id="applicationBegin" class="form-control" placeholder="e.g. 21/03/2026" />
+            </div>
+            <div class="form-group">
+              <label for="lastDate" class="form-label">Last Date for Apply</label>
+              <input type="text" id="lastDate" class="form-control" placeholder="e.g. 20/04/2026" />
+            </div>
+          </div>
+          <div class="form-grid-2 form-grid">
+            <div class="form-group">
+              <label for="examDate" class="form-label">Exam Date</label>
+              <input type="text" id="examDate" class="form-control" placeholder="e.g. As per Schedule" />
+            </div>
+            <div class="form-group">
+              <label for="admitCardDate" class="form-label">Admit Card Date</label>
+              <input type="text" id="admitCardDate" class="form-control" placeholder="e.g. Available Soon" />
+            </div>
+          </div>
+
+          <!-- Fees -->
+          <div class="form-grid-3 form-grid">
+            <div class="form-group">
+              <label for="feeGeneral" class="form-label">General/OBC/EWS Fee</label>
+              <input type="text" id="feeGeneral" class="form-control" placeholder="e.g. 100/-" />
+            </div>
+            <div class="form-group">
+              <label for="feeSCST" class="form-label">SC/ST/PH Fee</label>
+              <input type="text" id="feeSCST" class="form-control" placeholder="e.g. 0/-" />
+            </div>
+            <div class="form-group">
+              <label for="feeFemale" class="form-label">All Female Fee</label>
+              <input type="text" id="feeFemale" class="form-control" placeholder="e.g. 0/-" />
+            </div>
+          </div>
+
+          <!-- Age Limit & Selection Process -->
+          <div class="form-grid-2 form-grid">
+            <div class="form-group">
+              <label for="ageLimit" class="form-label">Age Limit Details</label>
+              <textarea id="ageLimit" rows="3" class="form-control" placeholder="e.g. Min Age: 18 Years | Max Age: 27 Years. Age relaxation extra as per rules."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="selectionProcess" class="form-label">Selection Process</label>
+              <textarea id="selectionProcess" rows="3" class="form-control" placeholder="e.g. Written Exam | Physical Test | Document Verification"></textarea>
+            </div>
+          </div>
+
+          <!-- Sub-section: Category-Wise Vacancy Details -->
+          <div class="sub-section">
+            <div class="sub-section-header">
+              <span><i class="fa-solid fa-border-all text-warning"></i> Category-Wise Vacancy Details (Gen, OBC, EWS, SC, ST...)</span>
+              <button type="button" class="btn-row-action btn-add" id="addCategoryRowBtn"><i class="fa-solid fa-plus"></i> Add Row</button>
+            </div>
+            <div class="rows-container" id="categoryVacancyContainer">
+              <!-- Dynamically populated category vacancy rows -->
+            </div>
+          </div>
+
+          <!-- Sub-table: Recruitment Posts -->
+          <div class="sub-section">
+            <div class="sub-section-header">
+              <span><i class="fa-solid fa-table text-success"></i> Recruitment Post Rows (Multi-Post details)</span>
+              <button type="button" class="btn-row-action btn-add" id="addPostRowBtn"><i class="fa-solid fa-plus"></i> Add Row</button>
+            </div>
+            <div class="rows-container" id="postsContainer">
+              <!-- Dynamically populated rows -->
+          </div>
+
+          <!-- Customizable Vacancy Table Builder -->
+          <div class="sub-section">
+            <div class="sub-section-header" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+              <span><i class="fa-solid fa-table-cells text-success"></i> Custom Vacancy Details Table Builder (Dynamic Columns &amp; Rows)</span>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn-row-action" style="background: #e2e8f0; color: #334155;" id="tableAddColBtn"><i class="fa-solid fa-columns"></i> Add Column</button>
+                <button type="button" class="btn-row-action" style="background: #e2e8f0; color: #334155;" id="tableRemoveColBtn"><i class="fa-solid fa-minus"></i> Remove Column</button>
+                <button type="button" class="btn-row-action btn-add" id="tableAddRowBtn"><i class="fa-solid fa-plus"></i> Add Row</button>
+              </div>
+            </div>
+            <div style="overflow-x: auto; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px;">
+              <table id="customGridTable" style="width: 100%; border-collapse: collapse; min-width: 600px;">
+                <thead>
+                  <tr id="customGridHeaderRow">
+                    <th style="padding: 8px; border: 1px solid #cbd5e1; width: 30%;"><input type="text" class="form-control text-sm header-input" value="Post Name" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+                    <th style="padding: 8px; border: 1px solid #cbd5e1; width: 20%;"><input type="text" class="form-control text-sm header-input" value="Total Post" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+                    <th style="padding: 8px; border: 1px solid #cbd5e1; width: 50%;"><input type="text" class="form-control text-sm header-input" id="dynamicEligibilityHeader" value="Eligibility" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+                  </tr>
+                </thead>
+                <tbody id="customGridBody">
+                  <!-- Custom rows will be added here -->
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size: 11.5px; color: #64748b; margin-top: 8px; margin-bottom: 0;">
+              <i class="fa-solid fa-circle-info"></i> Edit the header inputs directly to rename columns (e.g. "SGPGIMS Eligibility"). Use <strong>|</strong> to separate bullet points in cells. Leaving the builder table empty will fallback to standard Post Rows.
+            </p>
+          </div>
+
+          <!-- Sub-table: Important Links -->
+          <div class="sub-section">
+            <div class="sub-section-header">
+              <span><i class="fa-solid fa-link text-primary"></i> Custom Links Grid (Dynamic Buttons)</span>
+              <button type="button" class="btn-row-action btn-add" id="addLinkRowBtn"><i class="fa-solid fa-plus"></i> Add Row</button>
+            </div>
+            <div class="rows-container" id="linksContainer">
+              <!-- Dynamically populated rows -->
+            </div>
+          </div>
+
+          <!-- Quill Rich Text Editor Override (Collapsible) -->
+          <details class="quill-wrapper">
+            <summary class="form-label" style="cursor:pointer; select:none; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between">
+              <span><i class="fa-solid fa-file-code"></i> HTML Description Override (Optional)</span>
+              <i class="fa-solid fa-chevron-down text-xs"></i>
+            </summary>
+            <div style="margin-top:12px">
+              <div id="quillEditor" style="height:250px; background:white"></div>
+            </div>
+          </details>
+          
+        </div>
+
+        <!-- Submission Buttons -->
+        <div class="actions-bar">
+          <button type="button" class="btn-secondary" id="resetBtn">Cancel / Clear</button>
+          <button type="submit" class="btn-primary" id="saveJobBtn">
+            <i class="fa-solid fa-save"></i>
+            <span id="saveBtnText">Save Post</span>
+          </button>
+        </div>
+      </form>
+      </section>
+    </div>
+
+    <!-- Tab Content: Manage Posts -->
+    <div id="tab-manage-posts" class="tab-content active">
+      <!-- Right Column: Active Jobs Management -->
+      <section class="panel" style="width: 100%;">
+      <!-- Recent Activity Section (Last 24 Hours) -->
+      <div id="recentActivitySection" class="hidden" style="margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px;">
+        <h2 class="panel-title" style="color: var(--primary);"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity (Last 24h)</h2>
+        <div id="recentActivityList" style="display: grid; gap: 10px;">
+          <!-- Recent posts will appear here -->
+        </div>
+      </div>
+
+      <h2 class="panel-title"><i class="fa-solid fa-list-check text-success"></i> Active Job Posts</h2>
+      
+      <!-- Filters -->
+      <div class="filter-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by title..." />
+        <select id="categoryFilter" class="form-control" style="max-width: 140px; margin: 0">
+          <option value="">All Categories</option>
+          <option value="Latest Jobs">Latest Jobs</option>
+          <option value="Outsourcing">Outsourcing</option>
+          <option value="Admit Card">Admit Card</option>
+          <option value="Result">Result</option>
+          <option value="Admission">Admission</option>
+          <option value="Answer Key">Answer Key</option>
+          <option value="Sarkari Yojana">Sarkari Yojana</option>
+        </select>
+      </div>
+
+      <!-- Live Jobs Table -->
+      <div class="jobs-table-container">
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th>Post Title</th>
+              <th>Category</th>
+              <th>Last Date</th>
+              <th style="width: 90px; text-align: center">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="jobsListBody">
+            <!-- Dynamic rows loaded from Firestore -->
+            <tr>
+              <td colspan="4" class="empty-state">
+                <i class="fa-solid fa-spinner fa-spin text-primary"></i>
+                <span>Loading active posts...</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </section>
+    </div>
+
+    <!-- Tab Content: Analytics -->
+    <div id="tab-analytics" class="tab-content">
+      <section class="panel" style="width: 100%;">
+        <h2 class="panel-title"><i class="fa-solid fa-chart-line text-success"></i> Website Analytics</h2>
+        <div class="empty-state">
+          <i class="fa-solid fa-chart-simple"></i>
+          <p>Analytics module is coming soon. You'll be able to see post views and link clicks here.</p>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <!-- Toasts container -->
+  <div id="toast-container"></div>
+
+  <!-- Quill rich editor library -->
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+  <!-- Load Config and ES Module Main Admin Script -->
+  <script src="/firebase-config.js"></script>
+  <script src="/sarkari-details-generator.js"></script>
+  <script type="module" src="/admin.js"></script>
+</body>
+</html>
