@@ -98,6 +98,13 @@ function checkAuth() {
         setupEvents();
         await loadJobs();
         await loadSiteConfig();
+        
+        // Check URL for edit parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const editId = urlParams.get('edit');
+        if (editId) {
+          editJob(editId);
+        }
       } else {
         showToast('Unauthorized account. Redirecting to login...', 'warning');
         setTimeout(() => signOut(auth).then(() => window.location.href = 'login.html'), 1500);

@@ -350,7 +350,12 @@
         <section class="tab is-active" id="details">
           <article class="card details-card">
             <header class="card__header" style="display:flex; flex-direction:column; gap:6px; align-items:flex-start">
-              <h2 class="section__title" id="jobTitle">Loading…</h2>
+              <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                <h2 class="section__title" id="jobTitle">Loading…</h2>
+                <a href="/admin.html" id="editPostBtn" style="display:none; background: #4f46e5; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+                  <i class="fa-solid fa-pen-to-square"></i> Edit Post
+                </a>
+              </div>
               <span id="jobBadge" class="badge">—</span>
               <div id="jobMeta" class="muted"></div>
             </header>

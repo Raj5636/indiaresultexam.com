@@ -268,10 +268,19 @@ async function loadDetails() {
       }
     }
 
-    // Title and badge
-    const rawTitle = data.title || 'Untitled';
-    const titleEl = qs('#jobTitle');
-    if (titleEl) titleEl.textContent = rawTitle;
+    // Title and badge and edit button
+        const rawTitle = data.title || 'Untitled';
+        const titleEl = qs('#jobTitle');
+        if (titleEl) titleEl.textContent = rawTitle;
+        
+        // Show edit button and set href with post ID
+        const editBtn = qs('#editPostBtn');
+        if (editBtn) {
+          editBtn.style.display = 'flex';
+          editBtn.style.alignItems = 'center';
+          editBtn.style.gap = '6px';
+          editBtn.href = `/admin.html?edit=${id}`;
+        }
     // Strip any HTML tags before using in document.title
     const tmp = document.createElement('div');
     tmp.innerHTML = String(rawTitle);
