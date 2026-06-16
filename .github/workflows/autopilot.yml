@@ -1,0 +1,29 @@
+name: India Result Exam Autopilot
+
+on:
+  schedule:
+    - cron: '0 */2 * * *' # Runs every 2 hours
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  scrape_and_update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Scrapers
+        run: node autopilot.js
+        env:
+          # If you need secret environment variables, add them here
+          # PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          # CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          NODE_OPTIONS: "--max-old-space-size=4096"

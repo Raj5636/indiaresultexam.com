@@ -1,0 +1,11 @@
+{
+  "telegramEnabled": false,
+  "telegramBotToken": "YOUR_TELEGRAM_BOT_TOKEN",
+  "telegramChatId": "@YOUR_TELEGRAM_CHANNEL_USERNAME_OR_CHAT_ID",
+  "whatsAppEnabled": false,
+  "whatsAppProvider": "webhook",
+  "whatsAppWebhookUrl": "https://your-webhook-url-here.com",
+  "whatsAppGreenApiIdInstance": "",
+  "whatsAppGreenApiApiTokenInstance": "",
+  "whatsAppChatId": "YOUR_WHATSAPP_GROUP_OR_CONTACT_ID"
+}

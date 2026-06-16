@@ -32,6 +32,7 @@ function cleanBranding(text) {
   if (!text) return '';
   let cleaned = String(text);
   cleaned = cleaned.replace(/sarkari\s*result/gi, 'India Result Exam');
+  cleaned = cleaned.replace(/sarkariresult\.com\.cm/gi, 'indiaresultexam.com');
   cleaned = cleaned.replace(/sarkariresult\.com/gi, 'indiaresultexam.com');
   cleaned = cleaned.replace(/sarkariresult/gi, 'indiaresultexam');
   cleaned = cleaned.replace(/©\s*IndiaResultExam\.Com/gi, '© IndiaResultExam.Com');
@@ -39,9 +40,13 @@ function cleanBranding(text) {
   return cleaned;
 }
 
-// Check if job exists by Source URL or Title
+// Check if job exists by Source URL or Title and return its data
 async function findExistingJob(title, sourceUrl, accessToken) {
   try {
+    // Clean title for better matching (ignore case and extra spaces)
+    const cleanTitle = title.trim();
+
+    // 1. Try finding by sourceUrl first (most reliable)
     if (sourceUrl) {
       const urlRes = await fetch(`https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents:runQuery`, {
         method: 'POST',
@@ -62,8 +67,15 @@ async function findExistingJob(title, sourceUrl, accessToken) {
       });
       const urlResults = await urlRes.json();
       const urlMatch = urlResults.find(r => r.document);
-      if (urlMatch) return urlMatch.document.name;
+      if (urlMatch) {
+        return {
+          path: urlMatch.document.name,
+          data: urlMatch.document.fields
+        };
+      }
     }
+
+    // 2. Fallback to title search (EQUAL check)
     const titleRes = await fetch(`https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents:runQuery`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
@@ -74,7 +86,7 @@ async function findExistingJob(title, sourceUrl, accessToken) {
             fieldFilter: {
               field: { fieldPath: 'title' },
               op: 'EQUAL',
-              value: { stringValue: title }
+              value: { stringValue: cleanTitle }
             }
           },
           limit: 1
@@ -83,7 +95,13 @@ async function findExistingJob(title, sourceUrl, accessToken) {
     });
     const titleResults = await titleRes.json();
     const titleMatch = titleResults.find(r => r.document);
-    return titleMatch ? titleMatch.document.name : null;
+    if (titleMatch) {
+      return {
+        path: titleMatch.document.name,
+        data: titleMatch.document.fields
+      };
+    }
+    return null;
   } catch (err) {
     console.error('Error finding existing job:', err);
     return null;
@@ -247,7 +265,17 @@ function parsePostDate(postDateStr) {
   return new Date();
 }
 
-// Helper to check if a date is older than N days
+// Helper to check if a date is older than today
+function isDateBeforeToday(date) {
+  if (!date) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const postDate = new Date(date);
+  postDate.setHours(0, 0, 0, 0);
+  return postDate < today;
+}
+
+// Helper to check if a date is older than N days (kept for backward compatibility)
 function isTooOld(date, maxDays = 30) {
   if (!date) return false;
   const now = new Date();
@@ -257,7 +285,7 @@ function isTooOld(date, maxDays = 30) {
 }
 
 // Save job data to Firestore via POST (create) or PATCH (update) request
-async function saveToFirestore(data, accessToken, existingDocId = null) {
+async function saveToFirestore(data, accessToken, existingDocId = null, existingData = null) {
   let createdAtDate = new Date();
   if (data.postDate) {
     createdAtDate = parsePostDate(data.postDate);
@@ -276,10 +304,24 @@ async function saveToFirestore(data, accessToken, existingDocId = null) {
     }
   }
 
+  // Determine approval status
+  let approvedStatus = false;
+  if (existingData) {
+    // If we have existing data, preserve its approval status
+    approvedStatus = existingData.approved?.booleanValue ?? false;
+  }
+
+  // If post is already approved, skip updating to preserve manual edits
+  if (existingDocId && approvedStatus) {
+    console.log(`  [SKIP] Post is already approved. Skipping update to preserve manual edits.`);
+    return existingDocId;
+  }
+
   const fields = toFirestoreFields({
     ...data,
     createdAt: createdAtDate,
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    approved: approvedStatus
   });
 
   let url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/latest_jobs`;
@@ -368,7 +410,8 @@ function createProfessionalTable(data) {
   `;
 
   const commissionText = organization || 'Combined Recruitment Board';
-  const headerAdvtText = `${commissionText} Advt No. 07-Exam/2026 : Short Details of Notification`;
+  const advtNoValue = data.advtNo || '07-Exam/2026';
+  const headerAdvtText = `${commissionText} Advt No. ${advtNoValue} : Short Details of Notification`;
   
   const datesList = [];
   if (startDate) datesList.push(`<li>Application Begin : <strong>${startDate}</strong></li>`);
@@ -379,9 +422,15 @@ function createProfessionalTable(data) {
   const datesHTML = datesList.length > 0 ? `<ul class="sarkari-bullet-list">${datesList.join('')}</ul>` : '';
 
   const feesList = [];
-  if (feeGeneral) feesList.push(`<li>General / OBC / EWS : <strong>${feeGeneral}</strong></li>`);
-  if (feeSCST) feesList.push(`<li>SC / ST : <strong>${feeSCST}</strong></li>`);
-  if (feeFemale) feesList.push(`<li>All Category Female : <strong>${feeFemale}</strong></li>`);
+  if (data.feeRows && Array.isArray(data.feeRows) && data.feeRows.length > 0) {
+    data.feeRows.forEach(f => {
+      feesList.push(`<li>${f.category} : <strong>${f.amount}</strong></li>`);
+    });
+  } else {
+    if (feeGeneral) feesList.push(`<li>General / OBC / EWS : <strong>${feeGeneral}</strong></li>`);
+    if (feeSCST) feesList.push(`<li>SC / ST : <strong>${feeSCST}</strong></li>`);
+    if (feeFemale) feesList.push(`<li>All Category Female : <strong>${feeFemale}</strong></li>`);
+  }
   const feesHTML = feesList.length > 0 ? `<ul class="sarkari-bullet-list">${feesList.join('')}</ul>` : '';
 
   const masterTableHTML = `
@@ -1078,7 +1127,8 @@ async function scrapeJobDetails(url, category) {
     doc.querySelectorAll('a').forEach(anchor => {
       const href = anchor.getAttribute('href');
       if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
-      const absUrl = href.startsWith('http') ? href : `https://www.sarkariresult.com/${href.replace(/^\//, '')}`;
+      const baseDomain = url.toLowerCase().includes('sarkariresult.com.cm') ? 'https://www.sarkariresult.com.cm' : 'https://www.sarkariresult.com';
+      const absUrl = href.startsWith('http') ? href : `${baseDomain}/${href.replace(/^\//, '')}`;
       const text = anchor.textContent.trim().replace(/\s+/g, ' ');
       const lowText = text.toLowerCase();
       const parent = anchor.parentElement ? anchor.parentElement.textContent.toLowerCase() : '';
@@ -1113,6 +1163,12 @@ async function scrapeJobDetails(url, category) {
     );
 
     const totalPostsNum = recruitmentPosts.reduce((acc, curr) => acc + (parseInt(curr.totalPost) || 0), 0) || 'Various';
+    
+    const feeRows = [];
+    if (feeGeneral) feeRows.push({ category: 'General / OBC / EWS', amount: feeGeneral });
+    if (feeSCST) feeRows.push({ category: 'SC / ST / PH', amount: feeSCST });
+    if (feeFemale) feeRows.push({ category: 'All Category Female', amount: feeFemale });
+
     const description = createProfessionalTable({
       title,
       postName: title,
@@ -1125,6 +1181,7 @@ async function scrapeJobDetails(url, category) {
       feeGeneral,
       feeSCST,
       feeFemale,
+      feeRows,
       ageLimit,
       selectionProcess,
       recruitmentPosts,
@@ -1148,6 +1205,7 @@ async function scrapeJobDetails(url, category) {
       feeGeneral,
       feeSCST,
       feeFemale,
+      feeRows,
       ageLimit,
       selectionProcess,
       recruitmentPosts,
@@ -1172,9 +1230,27 @@ async function scrapeJobDetails(url, category) {
   }
 }
 
+// Parse command-line arguments
+function parseArgs() {
+  let maxItems = 100; // Default: 100 items
+  
+  for (let i = 2; i < process.argv.length; i++) {
+    const arg = process.argv[i];
+    if (arg.startsWith('--limit=')) {
+      const limit = parseInt(arg.split('=')[1]);
+      if (!isNaN(limit) && limit > 0) {
+        maxItems = limit;
+      }
+    }
+  }
+  
+  return { maxItems };
+}
+
 // Main crawling loop
 async function main() {
-  const maxItems = 100; // Increased to capture more admit cards
+  const args = parseArgs();
+  const maxItems = args.maxItems;
   
   try {
     console.log('Retrieving fresh Firebase Access Token...');
@@ -1182,7 +1258,7 @@ async function main() {
     console.log('Access token successfully retrieved.');
 
     console.log('Fetching Sarkari Result Admit Card page to discover active cards...');
-    const pageRes = await fetch('https://www.sarkariresult.com/admitcard/');
+    const pageRes = await fetch('https://www.sarkariresult.com.cm/admit-card/');
     const pageHTML = await pageRes.text();
     const dom = new JSDOM(pageHTML);
     const doc = dom.window.document;
@@ -1193,37 +1269,33 @@ async function main() {
     const tasks = [];
     let discoveredSortIndex = 0;
     
+    // Skip general links and media
+    const skipWords = ['latest-jobs', 'admitcard', 'admit-card', 'result', 'syllabus', 'answerkey', 'contact', 'disclaimer', 'privacy', 'homepage', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'view more', 'view-more'];
+    
     anchors.forEach(a => {
-      const href = a.getAttribute('href') || '';
+      let href = a.getAttribute('href') || '';
       const text = a.textContent.trim().replace(/\s+/g, ' ');
       
       if (!href || text.length <= 5) return;
       
-      const lowHref = href.toLowerCase();
+      // Make href absolute if it's relative
+      if (href.startsWith('/')) {
+        href = 'https://www.sarkariresult.com.cm' + href;
+      }
       
-      // Skip main listings
-      const isListing = lowHref.endsWith('/admitcard') || lowHref.endsWith('/admitcard/') ||
-                        lowHref.endsWith('/latestjob') || lowHref.endsWith('/latestjob/') ||
-                        lowHref.endsWith('/result') || lowHref.endsWith('/result/') ||
-                        lowHref.endsWith('/syllabus') || lowHref.endsWith('/syllabus/') ||
-                        lowHref.endsWith('/answerkey') || lowHref.endsWith('/answerkey/') ||
-                        lowHref.endsWith('sarkariresult.com') || lowHref.endsWith('sarkariresult.com/');
-      if (isListing) return;
+      const lowHref = href.toLowerCase();
+      const lowText = text.toLowerCase();
+      
+      const isSelf = skipWords.some(w => lowHref.includes(`/${w}/`) || lowHref.endsWith(`/${w}`) || lowHref.endsWith(`/${w}/`) || lowText.includes(w));
+      if (isSelf) return;
+      
+      // Skip media files
+      if (lowHref.includes('.pdf') || lowHref.includes('.jpg') || lowHref.includes('.png')) return;
 
-      // Only match admit card details URLs from Sarkari Result directories (like /2026/, /admitcard/, etc.)
-      const isAdmitCardUrl = href.includes('sarkariresult.com/') && (
-        href.includes('/2026/') || 
-        href.includes('/admitcard/') ||
-        href.includes('/bank/') || 
-        href.includes('/ssc/') || 
-        href.includes('/upsssc/') || 
-        href.includes('/bihar/') || 
-        href.includes('/railway/') || 
-        href.includes('/upsc/') || 
-        href.includes('/delhi/') || 
-        href.includes('/rpsc/') ||
-        href.includes('/force/')
-      );
+      // Only match admit card details URLs from Sarkari Result directories (like /2026/, /admit-card/, etc.)
+      const isAdmitCardUrl = (lowHref.includes('sarkariresult.com') || lowHref.includes('sarkariresult.com.cm')) && 
+        !lowHref.includes('/index') &&
+        !tasks.some(t => t.url === href);
 
       if (isAdmitCardUrl && !tasks.some(t => t.url === href)) {
         tasks.push({
@@ -1254,8 +1326,8 @@ async function main() {
 
       // --- FRESHNESS CHECK ---
       const postDateObj = parsePostDate(scrapedData.postDate);
-      if (isTooOld(postDateObj, 90)) { // Relaxed to 90 days
-        console.log(`  [SKIP] Admit Card is too old (${scrapedData.postDate}). Skipping...`);
+      if (isDateBeforeToday(postDateObj)) {
+        console.log(`  [SKIP] Admit Card is older than today (${scrapedData.postDate}). Skipping...`);
         continue;
       }
       scrapedData.showOnHome = true;
@@ -1279,7 +1351,7 @@ async function main() {
       const cleanUrl = (u) => {
         if (!u) return '#';
         let s = String(u).trim();
-        if (s.toLowerCase().includes('sarkariresult.com')) {
+        if (s.toLowerCase().includes('sarkariresult.com') || s.toLowerCase().includes('sarkariresult.com.cm')) {
           const isMedia = /\.(pdf|png|jpe?g|gif|zip|docx?|xlsx?)$/i.test(s);
           if (!isMedia) {
             return 'https://indiaresultexam.com';
@@ -1299,15 +1371,17 @@ async function main() {
       }
 
       // 2. Check if already exists in Firestore (sync data while preserving ID)
-      const existingDocPath = await findExistingJob(scrapedData.title, scrapedData.sourceUrl, accessToken);
+      const existingJob = await findExistingJob(scrapedData.title, scrapedData.sourceUrl, accessToken);
       let existingDocId = null;
-      if (existingDocPath) {
-        existingDocId = existingDocPath.split('/').pop();
+      let existingData = null;
+      if (existingJob) {
+        existingDocId = existingJob.path.split('/').pop();
+        existingData = existingJob.data;
         console.log(`  [SYNC] Admit Card "${scrapedData.title}" already exists (ID: ${existingDocId}). Updating to sync latest changes...`);
       }
 
       // 3. Save to Firestore (Update if exists, Create if new)
-      const docId = await saveToFirestore(scrapedData, accessToken, existingDocId);
+      const docId = await saveToFirestore(scrapedData, accessToken, existingDocId, existingData);
       console.log(`  [SUCCESS] ${existingDocId ? 'Updated' : 'Imported'} successfully! ID: ${docId}`);
       importedCount++;
 

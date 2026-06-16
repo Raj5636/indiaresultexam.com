@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Educational Portals & Boards • India Result Exam</title>
+  <link rel="icon" type="image/png" href="/INDIAL.PNG" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" referrerpolicy="no-referrer" />
+  <style>
+    body { 
+      font-family: 'Poppins', 'Inter', Arial, sans-serif; 
+      line-height: 1.6; 
+      margin: 0; 
+      padding: 0; 
+      background: linear-gradient(135deg, rgba(255,153,51,0.18) 0%, rgba(255,255,255,0.92) 50%, rgba(18,136,7,0.18) 100%) !important;
+    }
+    
+    .details-card { 
+      padding: 32px 24px; 
+      background: rgba(255, 255, 255, 0.7) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-frosted) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04) !important;
+      border-radius: 20px;
+    }
+
+    .edu-icon-wrapper {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 22px;
+      margin-right: 16px;
+      flex-shrink: 0;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 15px var(--accent-shadow);
+    }
+
+    .edu-card:hover .edu-icon-wrapper {
+      transform: scale(1.18) rotate(15deg);
+    }
+
+    .edu-status {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(37, 211, 102, 0.12);
+      color: #128807;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-left: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(37, 211, 102, 0.2);
+    }
+
+    .edu-status .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #25D366;
+      border-radius: 50%;
+      margin-right: 6px;
+      display: inline-block;
+      animation: pulseGreenGlow 1.5s infinite alternate;
+    }
+
+    @keyframes pulseGreenGlow {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      100% { box-shadow: 0 0 0 6px rgba(37, 211, 102, 0); }
+    }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .edu-card {
+      background: linear-gradient(135deg, var(--accent-bg) 0%, rgba(255, 255, 255, 0.85) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.02);
+      border: 1px solid var(--border-frosted);
+      border-top: 5px solid var(--accent);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, transparent 50%, rgba(15, 23, 42, 0.02) 100%);
+      border-radius: 0 0 0 100%;
+      pointer-events: none;
+    }
+
+    .edu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 45px var(--accent-shadow-hover) !important;
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .edu-title {
+      margin: 0;
+      color: #0f172a;
+      font-size: 18px;
+      font-weight: 800;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .edu-subtitle {
+      margin: 3px 0 0;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .edu-desc {
+      margin: 18px 0 22px;
+      color: #475569;
+      font-size: 13.5px;
+      line-height: 1.6;
+      font-weight: 500;
+      flex-grow: 1;
+    }
+
+    .edu-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    
+    .edu-btn-visit {
+      flex: 1.2;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px var(--accent-shadow);
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .edu-btn-visit:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 8px 20px var(--accent-shadow-hover);
+    }
+
+    .edu-btn-details {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1.8px solid var(--accent);
+      background: var(--accent-bg);
+      color: var(--accent);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .edu-btn-details:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 6px 15px var(--accent-glow);
+    }
+
+    /* Brand Variables Mapping */
+    .edu-card.upmsp {
+      --accent: #ff9933;
+      --accent-bg: rgba(255, 153, 51, 0.05);
+      --accent-shadow: rgba(255, 153, 51, 0.15);
+      --accent-shadow-hover: rgba(255, 153, 51, 0.3);
+      --accent-glow: rgba(255, 153, 51, 0.12);
+    }
+    .edu-card.udise {
+      --accent: #128807;
+      --accent-bg: rgba(18, 136, 7, 0.04);
+      --accent-shadow: rgba(18, 136, 7, 0.15);
+      --accent-shadow-hover: rgba(18, 136, 7, 0.3);
+      --accent-glow: rgba(18, 136, 7, 0.12);
+    }
+    .edu-card.mjpru {
+      --accent: #1e40af;
+      --accent-bg: rgba(30, 64, 175, 0.04);
+      --accent-shadow: rgba(30, 64, 175, 0.15);
+      --accent-shadow-hover: rgba(30, 64, 175, 0.3);
+      --accent-glow: rgba(30, 64, 175, 0.12);
+    }
+    .edu-card.ccsu {
+      --accent: #7c3aed;
+      --accent-bg: rgba(124, 58, 237, 0.04);
+      --accent-shadow: rgba(124, 58, 237, 0.15);
+      --accent-shadow-hover: rgba(124, 58, 237, 0.3);
+      --accent-glow: rgba(124, 58, 237, 0.12);
+    }
+    .edu-card.cbse {
+      --accent: #0891b2;
+      --accent-bg: rgba(8, 145, 178, 0.04);
+      --accent-shadow: rgba(8, 145, 178, 0.15);
+      --accent-shadow-hover: rgba(8, 145, 178, 0.3);
+      --accent-glow: rgba(8, 145, 178, 0.12);
+    }
+    .edu-card.ugcnet {
+      --accent: #be123c;
+      --accent-bg: rgba(190, 18, 60, 0.04);
+      --accent-shadow: rgba(190, 18, 60, 0.15);
+      --accent-shadow-hover: rgba(190, 18, 60, 0.3);
+      --accent-glow: rgba(190, 18, 60, 0.12);
+    }
+
+    @media (max-width: 768px) {
+      .details-card {
+        padding: 20px 14px;
+      }
+      .edu-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .edu-card {
+        padding: 20px;
+      }
+      .edu-actions {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar and header will be injected from index.html to inherit design -->
+    <aside class="sidebar" aria-label="Main Sidebar Navigation" id="injectedSidebar" hidden></aside>
+    <div class="shell">
+      <header class="header" role="banner" id="injectedHeader">
+        <h1 class="header__title">India Result Exam</h1>
+      </header>
+
+      <main class="main" role="main">
+        <section class="tab is-active" id="education-portal">
+          <article class="card details-card">
+            <header class="card__header" style="margin-bottom:28px; text-align:center; display:block; border-bottom:1px dashed var(--border); padding-bottom:24px;">
+              <h2 class="section__title" style="color:var(--tiranga-green); font-size:28px; margin:0 0 8px 0; font-family:'Poppins',sans-serif; font-weight:800; justify-content:center;">
+                <i class="fa-solid fa-graduation-cap" style="color:#ff9933; margin-right:10px; text-shadow: 0 0 10px rgba(255, 153, 51, 0.25);"></i> Education Portal (शिक्षा विभाग)
+              </h2>
+              <p class="muted" style="margin:0; font-size:15px; font-weight:600; color:#475569;">
+                उत्तर प्रदेश एवं राष्ट्रीय स्तर के सभी प्रमुख बोर्ड, विश्वविद्यालयों और शैक्षिक विभागों की सूची।
+              </p>
+            </header>
+            
+            <div class="edu-grid">
+              <!-- UPMSP -->
+              <div class="edu-card upmsp">
+                <div>
+                  <div style="display:flex; align-items:center;">
+                    <div class="edu-icon-wrapper" style="background: linear-gradient(135deg, #ff9933, #f47c1c);">
+                      <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <div>
+                      <h3 class="edu-title">UPMSP (UP Board)</h3>
+                      <p class="edu-subtitle">BOARD PORTAL</p>
+                    </div>
+                    <span class="edu-status"><span class="pulse-dot"></span>LIVE</span>
+                  </div>
+                  <p class="edu-desc">उत्तर प्रदेश माध्यमिक शिक्षा परिषद् (UPMSP) की आधिकारिक वेबसाइट। हाईस्कूल (Class 10) एवं इंटरमीडिएट (Class 12) के बोर्ड परीक्षा परिणाम, मॉडल पेपर्स, सिलेबस एवं पंजीकरण के लिए आवश्यक पोर्टल।</p>
+                </div>
+                <div class="edu-actions">
+                  <a href="https://upmsp.edu.in/" target="_blank" class="edu-btn-visit" style="background: linear-gradient(135deg, #ff9933, #f47c1c);"><i class="fa-solid fa-up-right-from-square"></i> Official Link</a>
+                  <a href="/edu-upmsp.html" class="edu-btn-details"><i class="fa-solid fa-circle-info"></i> Guide Info</a>
+                </div>
+              </div>
+
+              <!-- UDISE+ -->
+              <div class="edu-card udise">
+                <div>
+                  <div style="display:flex; align-items:center;">
+                    <div class="edu-icon-wrapper" style="background: linear-gradient(135deg, #128807, #1b9d0e);">
+                      <i class="fa-solid fa-database"></i>
+                    </div>
+                    <div>
+                      <h3 class="edu-title">UDISE+ Portal</h3>
+                      <p class="edu-subtitle">GOVT OF INDIA</p>
+                    </div>
+                    <span class="edu-status"><span class="pulse-dot"></span>LIVE</span>
+                  </div>
+                  <p class="edu-desc">शिक्षा मंत्रालय, भारत सरकार का एकीकृत जिला शिक्षा सूचना प्रणाली पोर्टल। स्कूलों के बुनियादी ढांचे, शिक्षकों और छात्रों से संबंधित आंकड़ों की प्रविष्टि, विश्लेषण, स्कूल रिपोर्ट कार्ड और सांख्यिकी रिपोर्ट प्राप्त करें।</p>
+                </div>
+                <div class="edu-actions">
+                  <a href="https://udiseplus.gov.in/" target="_blank" class="edu-btn-visit" style="background: linear-gradient(135deg, #128807, #1b9d0e);"><i class="fa-solid fa-up-right-from-square"></i> Official Link</a>
+                  <a href="/edu-udise.html" class="edu-btn-details"><i class="fa-solid fa-circle-info"></i> Guide Info</a>
+                </div>
+              </div>
+
+              <!-- MJPRU -->
+              <div class="edu-card mjpru">
+                <div>
+                  <div style="display:flex; align-items:center;">
+                    <div class="edu-icon-wrapper" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
+                      <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div>
+                      <h3 class="edu-title">MJPRU University</h3>
+                      <p class="edu-subtitle">BAREILLY UNIVERSITY</p>
+                    </div>
+                    <span class="edu-status"><span class="pulse-dot"></span>LIVE</span>
+                  </div>
+                  <p class="edu-desc">महात्मा ज्योतिबा फुले रुहेलखंड विश्वविद्यालय (MJPRU), बरेली। सेमेस्टर एवं वार्षिक परीक्षाओं के एडमिट कार्ड, मुख्य परीक्षा परिणाम, ऑनलाइन प्रवेश पंजीकरण, सम्बद्ध कॉलेजों की सूची और विश्वविद्यालय समाचार।</p>
+                </div>
+                <div class="edu-actions">
+                  <a href="https://www.mjpru.ac.in/" target="_blank" class="edu-btn-visit" style="background: linear-gradient(135deg, #1e40af, #3b82f6);"><i class="fa-solid fa-up-right-from-square"></i> Official Link</a>
+                  <a href="/edu-mjpru.html" class="edu-btn-details"><i class="fa-solid fa-circle-info"></i> Guide Info</a>
+                </div>
+              </div>
+
+              <!-- CCSU -->
+              <div class="edu-card ccsu">
+                <div>
+                  <div style="display:flex; align-items:center;">
+                    <div class="edu-icon-wrapper" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">
+                      <i class="fa-solid fa-school"></i>
+                    </div>
+                    <div>
+                      <h3 class="edu-title">CCS University</h3>
+                      <p class="edu-subtitle">MEERUT UNIVERSITY</p>
+                    </div>
+                    <span class="edu-status"><span class="pulse-dot"></span>LIVE</span>
+                  </div>
+                  <p class="edu-desc">चौधरी चरण सिंह विश्वविद्यालय (CCSU), मेरठ। मुख्य कैंपस एवं सम्बद्ध कॉलेजों के डिग्री कोर्स परीक्षा कार्यक्रम (Time Table), ऑनलाइन प्रवेश प्रक्रिया, बैक पेपर परीक्षा फॉर्म एवं परीक्षा परिणामों का आधिकारिक पोर्टल।</p>
+                </div>
+                <div class="edu-actions">
+                  <a href="https://www.ccsuniversity.ac.in/" target="_blank" class="edu-btn-visit" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);"><i class="fa-solid fa-up-right-from-square"></i> Official Link</a>
+                  <a href="/edu-ccsu.html" class="edu-btn-details"><i class="fa-solid fa-circle-info"></i> Guide Info</a>
+                </div>
+              </div>
+
+              <!-- CBSE -->
+              <div class="edu-card cbse">
+                <div>
+                  <div style="display:flex; align-items:center;">
+                    <div class="edu-icon-wrapper" style="background: linear-gradient(135deg, #0891b2, #22d3ee);">
+                      <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                      <h3 class="edu-title">CBSE Board</h3>
+                      <p class="edu-subtitle">NATIONAL BOARD</p>
+                    </div>
+                    <span class="edu-status"><span class="pulse-dot"></span>LIVE</span>
+                  </div>
+                  <p class="edu-desc">केंद्रीय माध्यमिक शिक्षा बोर्ड (CBSE) का मुख्य वेब पोर्टल। बोर्ड परीक्षा परिणाम, परीक्षा दिशानिर्देश, सैंपल पेपर्स, शैक्षणिक पाठ्यक्रम, सम्बद्धता सूची एवं डिजिलॉकर के माध्यम से मार्कशीट डाउनलोड पोर्टल।</p>
+                </div>
+                <div class="edu-actions">
+                  <a href="https://www.cbse.gov.in/" target="_blank" class="edu-btn-visit" style="background: linear-gradient(135deg, #0891b2, #22d3ee);"><i class="fa-solid fa-up-right-from-square"></i> Official Link</a>
+                  <a href="/edu-cbse.html" class="edu-btn-details"><i class="fa-solid fa-circle-info"></i> Guide Info</a>
+                </div>
+              </div>
+
+              <!-- UGC NET -->
+              <div class="edu-card ugcnet">
+                <div>
+                  <div style="display:flex; align-items:center;">
+                    <div class="edu-icon-wrapper" style="background: linear-gradient(135deg, #be123c, #fb7185);">
+                      <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <div>
+                      <h3 class="edu-title">UGC NET (NTA)</h3>
+                      <p class="edu-subtitle">ELIGIBILITY EXAM</p>
+                    </div>
+                    <span class="edu-status"><span class="pulse-dot"></span>LIVE</span>
+                  </div>
+                  <p class="edu-desc">राष्ट्रीय पात्रता परीक्षा (UGC NET) आधिकारिक पोर्टल। सहायक प्रोफेसर पात्रता और जूनियर रिसर्च फैलोशिप (JRF) परीक्षा के ऑनलाइन आवेदन फॉर्म, परीक्षा तिथियां, एडमिट कार्ड, उत्तर कुंजी एवं परिणाम।</p>
+                </div>
+                <div class="edu-actions">
+                  <a href="https://ugcnet.nta.ac.in/" target="_blank" class="edu-btn-visit" style="background: linear-gradient(135deg, #be123c, #fb7185);"><i class="fa-solid fa-up-right-from-square"></i> Official Link</a>
+                  <a href="/edu-ugcnet.html" class="edu-btn-details"><i class="fa-solid fa-circle-info"></i> Guide Info</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer__container">
+      <div class="footer__grid">
+        <!-- Col 1: Brand & Status -->
+        <div class="footer__col">
+          <h4 class="footer__brand-title">India Result Exam</h4>
+          <p class="footer__brand-desc">Your trusted gateway to latest government jobs, exam results, admit cards, and digital services across India. We deliver fast, reliable, and verified notifications.</p>
+          <div class="footer__status-card">
+            <span class="footer__status-dot"></span>
+            <div>
+              <div class="footer__status-text">Live Updates Active</div>
+              <div class="footer__status-sub">Refreshed: 24/7 Server Monitor</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="/#latest-jobs"><i class="fa-solid fa-chevron-right"></i> Latest Jobs</a></li>
+            <li><a href="/#admit-cards"><i class="fa-solid fa-chevron-right"></i> Admit Cards</a></li>
+            <li><a href="/#results"><i class="fa-solid fa-chevron-right"></i> Exam Results</a></li>
+            <li><a href="/#answer-key"><i class="fa-solid fa-chevron-right"></i> Answer Keys</a></li>
+            <li><a href="/#sarkari-yojana"><i class="fa-solid fa-chevron-right"></i> Sarkari Yojana</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Services & Tools -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Services &amp; Tools</h4>
+          <ul class="footer__links">
+            <li><a href="/csc-services.html"><i class="fa-solid fa-chevron-right"></i> CSC Services</a></li>
+            <li><a href="/education.html"><i class="fa-solid fa-chevron-right"></i> Education Dept</a></li>
+            <li><a href="/important-services.html"><i class="fa-solid fa-chevron-right"></i> Important Links</a></li>
+            <li><a href="/#image-resizer"><i class="fa-solid fa-chevron-right"></i> Photo Resizer</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Stay Connected -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Connect with Us</h4>
+          <p class="footer__brand-desc">Join our official social networks for instant alerts on your mobile phone.</p>
+          <div class="footer__social-list">
+            <a href="https://t.me/" target="_blank" rel="noopener" class="footer__social-btn telegram" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://wa.me/" target="_blank" rel="noopener" class="footer__social-btn whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer__social-btn youtube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer__bottom">
+      <div class="footer__bottom-inner">
+        <div class="footer__copy">
+          &copy; 2026 India Result Exam. All Rights Reserved.
+        </div>
+        <div class="footer__legal-links">
+          <a href="/contact-us">Contact Us</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/disclaimer">Disclaimer</a>
+          <a href="/terms">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/firebase-config.js"></script>
+  <script>
+    const qs = (s, r = document) => r.querySelector(s);
+    async function injectShellFromIndex() {
+      try {
+        const res = await fetch('/index.html', { credentials: 'same-origin' });
+        const text = await res.text();
+        const docFrag = document.implementation.createHTMLDocument('index');
+        docFrag.documentElement.innerHTML = text;
+        const sidebar = docFrag.querySelector('.sidebar');
+        const header = docFrag.querySelector('.header');
+        if (sidebar) {
+          const targetSidebar = qs('#injectedSidebar');
+          targetSidebar.innerHTML = sidebar.innerHTML;
+          targetSidebar.hidden = false;
+        }
+        if (header) {
+          const targetHeader = qs('#injectedHeader');
+          targetHeader.innerHTML = header.innerHTML;
+        }
+        // Enable hamburger toggle logic minimally if present
+        const hamburger = qs('.hamburger');
+        const app = qs('.app');
+        if (hamburger && app) {
+          hamburger.addEventListener('click', (e) => {
+            e.preventDefault();
+            app.classList.toggle('sidebar-open');
+          });
+        }
+        // Sidebar nav redirect to index with hash so categories work from details page
+        const navBtns = Array.from(document.querySelectorAll('.sidebar .nav__item'));
+        navBtns.forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = btn.getAttribute('data-tab-target') || 'home';
+            if (target === 'education-dept') {
+              // Stay on this page
+              return;
+            }
+            if (target === 'csc-services') {
+              location.href = '/csc-services.html';
+              return;
+            }
+            if (target === 'important-services') {
+              location.href = '/important-services.html';
+              return;
+            }
+            let hash = '#home';
+            if (target === 'results') hash = '#results';
+            else if (target === 'admit-cards') hash = '#admit-cards';
+            else if (target === 'latest-jobs') hash = '#latest-jobs';
+            else if (target === 'answer-key') hash = '#answer-key';
+            else if (target === 'admission') hash = '#admission';
+            else if (target === 'otr') hash = '#otr';
+            else if (target === 'image-resizer') hash = '#image-resizer';
+            else if (target === 'sarkari-yojana') hash = '#sarkari-yojana';
+            location.href = `/${hash}`;
+          });
+        });
+        
+        // Highlight active nav item
+        const eduBtn = document.querySelector('.sidebar .nav__item[data-tab-target="education-dept"]');
+        if (eduBtn) {
+          document.querySelectorAll('.sidebar .nav__item').forEach(b => b.classList.remove('is-active'));
+          eduBtn.classList.add('is-active');
+        }
+      } catch (e) {
+        console.warn('Failed to inject shell from index.html', e);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', injectShellFromIndex);
+  </script>
+</body>
+</html>

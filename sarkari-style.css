@@ -1,0 +1,522 @@
+/* Sarkari Result Style - Exact Match */
+.sarkari-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    background: transparent !important;
+}
+
+/* Main Title Style */
+.sarkari-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+}
+
+/* Sarkari Result Table Style - Exact Match */
+.sarkari-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #128807 !important;
+    margin: 20px 0;
+    background: #fff;
+    font-size: 14px;
+}
+
+.sarkari-table th {
+    background-color: #FF9933 !important;
+    color: #ffffff !important;
+    padding: 12px 8px !important;
+    border: 1px solid #128807 !important;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.sarkari-table td {
+    border: 1px solid #128807 !important;
+    padding: 10px 8px !important;
+    color: #000000 !important;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Section Headers */
+.sarkari-section-header {
+    background-color: #FF9933 !important;
+    color: #ffffff !important;
+    padding: 12px !important;
+    border: 1px solid #128807 !important;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    text-transform: uppercase;
+}
+
+/* Important Dates Section */
+.sarkari-dates-section {
+    margin: 20px 0;
+}
+
+.sarkari-dates-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sarkari-dates-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.sarkari-dates-list li:last-child {
+    border-bottom: none;
+}
+
+/* Application Fee Section */
+.sarkari-fee-section {
+    margin: 20px 0;
+}
+
+.sarkari-fee-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sarkari-fee-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.sarkari-fee-list li:last-child {
+    border-bottom: none;
+}
+
+/* Recruitment Table - Multiple Posts */
+.sarkari-recruitment-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #128807 !important;
+    margin: 20px 0;
+    background: #fff;
+    font-size: 13px;
+}
+
+.sarkari-recruitment-table th {
+    background-color: #FF9933 !important;
+    color: #ffffff !important;
+    padding: 10px 5px !important;
+    border: 1px solid #128807 !important;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.sarkari-recruitment-table td {
+    border: 1px solid #128807 !important;
+    padding: 8px 5px !important;
+    color: #000000 !important;
+    vertical-align: top;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* Download Links */
+.sarkari-download-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sarkari-download-link:hover {
+    text-decoration: underline;
+}
+
+/* How to Apply Section */
+.sarkari-how-to-apply {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.sarkari-how-to-apply ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.sarkari-how-to-apply li {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Important Links Section */
+.sarkari-links-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: #e9ecef;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.sarkari-link-button {
+    display: inline-block;
+    margin: 5px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid #0056b3;
+    transition: all 0.3s;
+}
+
+.sarkari-link-button:hover {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
+
+.sarkari-link-button.official {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: 1px solid #c82333;
+}
+
+.sarkari-link-button.official:hover {
+    background: linear-gradient(135deg, #c82333, #a02622);
+}
+
+/* Multiple Apply Links Grid */
+.sarkari-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sarkari-container {
+        padding: 5px;
+    }
+    
+    .sarkari-title {
+        font-size: 20px;
+        padding: 10px;
+    }
+    
+    .sarkari-table,
+    .sarkari-recruitment-table {
+        font-size: 12px;
+    }
+    
+    .sarkari-table th,
+    .sarkari-table td,
+    .sarkari-recruitment-table th,
+    .sarkari-recruitment-table td {
+        padding: 5px 3px !important;
+        font-size: 12px !important;
+    }
+    
+    .sarkari-links-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .sarkari-link-button {
+        display: none;
+    }
+    
+    .sarkari-container {
+        background: white;
+        box-shadow: none;
+    }
+}
+
+/* Precise Sarkari Result Layout Matching */
+.sarkari-title-block {
+    width: 100% !important;
+    margin-bottom: 25px !important;
+    font-family: Arial, sans-serif !important;
+    line-height: 1.6 !important;
+    background-color: #ffffff !important;
+    padding: 15px !important;
+    border: 2px solid #128807 !important;
+    border-radius: 4px !important;
+}
+.sarkari-title-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 15px;
+    margin-bottom: 12px;
+    align-items: start;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 10px;
+}
+.sarkari-title-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+@media (max-width: 768px) {
+    .sarkari-title-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+.sarkari-title-label {
+    color: #e65c00 !important;
+    font-weight: bold;
+    font-size: 15px;
+}
+.sarkari-title-value {
+    color: #000000 !important;
+    font-size: 15px;
+}
+.sarkari-title-value.large-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.sarkari-text-magenta {
+    color: #e65c00 !important; /* Premium visible saffron */
+    font-weight: bold;
+}
+.sarkari-text-green {
+    color: #128807 !important; /* Tiranga Green */
+    font-weight: bold;
+}
+.sarkari-text-red {
+    color: #e65c00 !important;
+    font-weight: bold;
+}
+.sarkari-text-blue {
+    color: #000080 !important; /* Ashoka Chakra Blue */
+    font-weight: bold;
+}
+.sarkari-bold-red-val {
+    color: #e65c00 !important;
+    font-weight: bold;
+}
+
+.sarkari-bullet-list {
+    list-style-type: disc !important;
+    margin: 10px 0 !important;
+    padding-left: 24px !important;
+    text-align: left !important;
+}
+.sarkari-bullet-list li {
+    margin-bottom: 6px !important;
+    font-size: 14px !important;
+    color: #000000 !important;
+    line-height: 1.5 !important;
+}
+.sarkari-cell-center {
+    text-align: center !important;
+}
+.sarkari-cell-left {
+    text-align: left !important;
+}
+.sarkari-border-thin {
+    border: 1px solid #777 !important;
+}
+
+/* Force override details.html global th color rules */
+.sarkari-master-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 2px solid #128807 !important;
+    margin: 20px 0 !important;
+    background: #ffffff !important;
+}
+
+.sarkari-master-table th, 
+.sarkari-master-table td {
+    border: 1px solid #128807 !important;
+    padding: 10px !important;
+    color: #000000 !important;
+    vertical-align: top !important;
+}
+
+/* Force override details.html global th color rules */
+.sarkari-container .sarkari-master-table th,
+.responsive-container .professional-table .sarkari-master-table th,
+.details-card .sarkari-master-table th {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+.sarkari-container .sarkari-table th,
+.responsive-container .professional-table .sarkari-table th,
+.details-card .sarkari-table th {
+    background-color: #FF9933 !important;
+    background: #FF9933 !important;
+    color: #ffffff !important;
+}
+
+/* Styling for Category-Wise Vacancy Table matching Screenshots */
+.sarkari-container .sarkari-category-table,
+.responsive-container .professional-table .sarkari-category-table,
+.details-card .sarkari-category-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 2px solid #128807 !important;
+    margin: 20px 0 !important;
+    background: #ffffff !important;
+    font-size: 14px !important;
+}
+
+.sarkari-container .sarkari-category-table th,
+.responsive-container .professional-table .sarkari-category-table th,
+.details-card .sarkari-category-table th {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #128807 !important;
+    padding: 12px 8px !important;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+}
+
+.sarkari-container .sarkari-category-table td,
+.responsive-container .professional-table .sarkari-category-table td,
+.details-card .sarkari-category-table td {
+    border: 1px solid #128807 !important;
+    padding: 10px 8px !important;
+    color: #000000 !important;
+    vertical-align: middle !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+.sarkari-container .sarkari-category-table .column-header,
+.responsive-container .professional-table .sarkari-category-table .column-header,
+.details-card .sarkari-category-table .column-header {
+    color: #ff0000 !important; /* Red text for column headers in screenshot 2 */
+}
+
+/* Professional Action Buttons Layout (Screenshot 1 Match) */
+.link-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 24px 0;
+    justify-content: center;
+    width: 100%;
+}
+
+.professional-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+    text-align: center;
+    min-width: 180px;
+    color: #ffffff !important;
+}
+
+.professional-button i {
+    font-size: 16px;
+}
+
+.professional-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.12);
+}
+
+.btn-apply {
+    background: linear-gradient(135deg, #FF9933, #F47C1C) !important;
+    border: 2px solid #F47C1C !important;
+}
+
+.btn-apply:hover {
+    background: linear-gradient(135deg, #F47C1C, #d35400) !important;
+}
+
+.btn-notification {
+    background: linear-gradient(135deg, #0a1128, #000080) !important;
+    border: 2px solid #000080 !important;
+}
+
+.btn-notification:hover {
+    background: linear-gradient(135deg, #000080, #00005C) !important;
+}
+
+.btn-official {
+    background: linear-gradient(135deg, #138808, #0F6F06) !important;
+    border: 2px solid #0F6F06 !important;
+}
+
+.btn-official:hover {
+    background: linear-gradient(135deg, #0F6F06, #0b4f04) !important;
+}
+
+.btn-syllabus {
+    background: linear-gradient(135deg, #6f42c1, #5a32a3) !important;
+    border: 2px solid #5a32a3 !important;
+}
+
+.btn-syllabus:hover {
+    background: linear-gradient(135deg, #5a32a3, #432874) !important;
+}
+
+.btn-admit {
+    background: linear-gradient(135deg, #17a2b8, #138496) !important;
+    border: 2px solid #138496 !important;
+}
+
+.btn-admit:hover {
+    background: linear-gradient(135deg, #138496, #0f6674) !important;
+}
+
+.btn-result {
+    background: linear-gradient(135deg, #e63946, #d62828) !important;
+    border: 2px solid #d62828 !important;
+}
+
+.btn-result:hover {
+    background: linear-gradient(135deg, #d62828, #b22222) !important;
+}
+
+@media (max-width: 768px) {
+    .link-buttons-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .professional-button {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+
+

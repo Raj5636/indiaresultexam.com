@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Important Citizen Services & Tools • India Result Exam</title>
+  <link rel="icon" type="image/png" href="/INDIAL.PNG" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" referrerpolicy="no-referrer" />
+  <style>
+    body { 
+      font-family: 'Poppins', 'Inter', Arial, sans-serif; 
+      line-height: 1.6; 
+      margin: 0; 
+      padding: 0; 
+      background: linear-gradient(135deg, rgba(255,153,51,0.24) 0%, rgba(255,255,255,0.85) 50%, rgba(18,136,7,0.24) 100%) !important;
+    }
+    
+    .details-card { 
+      padding: 32px 24px; 
+      background: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-frosted) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05) !important;
+      border-radius: 20px;
+    }
+
+    /* Sub-tabs layout */
+    .tools-layout {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .tools-sidebar {
+      flex: 0 0 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tool-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border-frosted);
+      background: rgba(255, 255, 255, 0.6);
+      color: #334155;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tool-tab-btn i {
+      font-size: 16px;
+      width: 20px;
+      color: #64748b;
+      transition: color 0.3s;
+    }
+
+    .tool-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(4px);
+      border-color: rgba(255, 153, 51, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 153, 51, 0.08);
+    }
+
+    .tool-tab-btn.is-active {
+      background: linear-gradient(135deg, #ff9933 0%, #f47c1c 100%) !important;
+      color: #fff !important;
+      border-color: transparent !important;
+      box-shadow: 0 8px 20px rgba(244, 124, 28, 0.3) !important;
+    }
+
+    .tool-tab-btn.is-active i {
+      color: #fff !important;
+    }
+
+    .tools-content {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border-frosted);
+      border-radius: 16px;
+      padding: 24px;
+      min-height: 480px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+
+    .tool-panel {
+      display: none;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .tool-panel.is-active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Common Form Styling inside panels */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 13.5px;
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: #0f172a;
+      transition: all 0.3s;
+      background: #f8fafc;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #ff9933;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.15);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* Tool Buttons */
+    .btn-tool {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #128807, #1b9d0e);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(18, 136, 7, 0.25);
+      transition: all 0.3s;
+    }
+
+    .btn-tool:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(18, 136, 7, 0.4);
+      filter: brightness(1.05);
+    }
+
+    .btn-tool:active {
+      transform: translateY(0);
+    }
+
+    /* Age Calc Styles */
+    .age-result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .age-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+    }
+
+    .age-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ff9933;
+      margin-bottom: 2px;
+    }
+
+    .age-label {
+      font-size: 12.5px;
+      color: #64748b;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Photo Joiner Styles */
+    .joiner-dropzone {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 16px;
+    }
+
+    .joiner-dropzone:hover {
+      border-color: #ff9933;
+      background: rgba(255, 153, 51, 0.02);
+    }
+
+    .joiner-dropzone.dragover {
+      border-color: #128807;
+      background: rgba(18, 136, 7, 0.03);
+    }
+
+    .joiner-preview-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    #joinerCanvas {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 4px;
+    }
+
+    /* CV Builder Steps styling */
+    .cv-steps {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+    }
+
+    .cv-step-tab {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .cv-step-tab.is-active {
+      color: #ff9933;
+    }
+
+    .cv-step-tab.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #ff9933;
+    }
+
+    .cv-form-step {
+      display: none;
+    }
+
+    .cv-form-step.is-active {
+      display: block;
+    }
+
+    /* Resume Template Printing CSS Rules */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printArea, #printArea * {
+        visibility: visible;
+      }
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: white;
+      }
+      #printPdfArea, #printPdfArea * {
+        visibility: visible;
+      }
+      #printPdfArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: white;
+      }
+      .pdf-print-page {
+        page-break-after: always;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .pdf-print-page img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    /* Form format downloads list */
+    .formats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .format-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s;
+    }
+
+    .format-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.04);
+      border-color: #cbd5e1;
+    }
+
+    .format-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 6px 0;
+    }
+
+    .format-desc {
+      font-size: 12.5px;
+      color: #64748b;
+      margin: 0 0 16px 0;
+      line-height: 1.5;
+    }
+
+    .format-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      background: rgba(18, 136, 7, 0.08);
+      color: #128807;
+      transition: all 0.3s;
+    }
+
+    .format-btn:hover {
+      background: #128807;
+      color: #fff;
+    }
+
+    /* CGPA meter style */
+    .percentage-meter {
+      margin-top: 24px;
+      background: linear-gradient(135deg, rgba(18,136,7,0.05) 0%, rgba(255,255,255,1) 100%);
+      border: 1px dashed rgba(18, 136, 7, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .percentage-val {
+      font-size: 40px;
+      font-weight: 800;
+      color: #128807;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .details-card {
+        padding: 20px 14px;
+      }
+      .tools-layout {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .tools-sidebar {
+        flex: none;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        white-space: nowrap;
+      }
+      .tool-tab-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+      .age-result-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .cv-steps {
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar and header will be injected from index.html to inherit design -->
+    <aside class="sidebar" aria-label="Main Sidebar Navigation" id="injectedSidebar" hidden></aside>
+    <div class="shell">
+      <header class="header" role="banner" id="injectedHeader">
+        <h1 class="header__title">India Result Exam</h1>
+      </header>
+
+      <main class="main" role="main">
+        <section class="tab is-active" id="important-portal">
+          <article class="card details-card">
+            <header class="card__header" style="margin-bottom:24px; text-align:center; display:block; border-bottom:1px dashed var(--border); padding-bottom:24px;">
+              <h2 class="section__title" style="color:var(--tiranga-green); font-size:28px; margin:0 0 8px 0; font-family:'Poppins',sans-serif; font-weight:800; justify-content:center;">
+                <i class="fa-solid fa-star" style="color:#ff9933; margin-right:10px; text-shadow: 0 0 10px rgba(255, 153, 51, 0.25);"></i> Important Services & Online Tools (महत्वपूर्ण टूल्स)
+              </h2>
+              <p class="muted" style="margin:0; font-size:15px; font-weight:600; color:#475569;">
+                नौकरी की तैयारी एवं सरकारी फॉर्म भरने से संबंधित आवश्यक टूल्स और उपयोगी प्रमाण-पत्र प्रारूप
+              </p>
+            </header>
+            
+            <div class="tools-layout">
+              <!-- Left Sidebar Tabs -->
+              <div class="tools-sidebar">
+                <button class="tool-tab-btn is-active" data-tool="age-calc">
+                  <i class="fa-solid fa-calculator"></i>
+                  <span>Age Calculator</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="photo-joiner">
+                  <i class="fa-solid fa-image"></i>
+                  <span>Photo Name Joiner</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="cv-builder">
+                  <i class="fa-solid fa-file-invoice"></i>
+                  <span>Resume Builder</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="cgpa-calc">
+                  <i class="fa-solid fa-percent"></i>
+                  <span>CGPA Calculator</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="photo-sig">
+                  <i class="fa-solid fa-images"></i>
+                  <span>Photo &amp; Sig Joiner</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="img-to-pdf">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>Image to PDF</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="pass-gen">
+                  <i class="fa-solid fa-key"></i>
+                  <span>Password Generator</span>
+                </button>
+                <button class="tool-tab-btn" data-tool="print-tools">
+                  <i class="fa-solid fa-print"></i>
+                  <span>Print Tools</span>
+                </button>
+              </div>
+
+              <!-- Right Panel Content -->
+              <div class="tools-content">
+                
+                <!-- Tab 1: Age Calculator -->
+                <div class="tool-panel is-active" id="panel-age-calc">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-calculator" style="color:#ff9933;"></i> Age Calculator (उम्र की गणना)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">सरकारी नौकरियों की पात्रता के अनुसार अपनी जन्मतिथि (Date of Birth) और लक्ष्य तिथि (Age limit target date) दर्ज कर अपनी सही आयु का पता लगाएं।</p>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="dob">Date of Birth (जन्मतिथि)</label>
+                      <input type="date" id="dob" class="form-control" value="2000-01-01" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="targetDate">Calculate Age as of (लक्ष्य तिथि)</label>
+                      <input type="date" id="targetDate" class="form-control" />
+                    </div>
+                  </div>
+                  
+                  <button type="button" class="btn-tool" id="btnCalculateAge"><i class="fa-solid fa-play"></i> Calculate Age</button>
+                  
+                  <div class="age-result-grid" id="ageResultBox" style="display:none;">
+                    <div class="age-card">
+                      <div class="age-num" id="ageYears">0</div>
+                      <div class="age-label">Years (वर्ष)</div>
+                    </div>
+                    <div class="age-card">
+                      <div class="age-num" id="ageMonths">0</div>
+                      <div class="age-label">Months (माह)</div>
+                    </div>
+                    <div class="age-card">
+                      <div class="age-num" id="ageDays">0</div>
+                      <div class="age-label">Days (दिन)</div>
+                    </div>
+                  </div>
+                  <div id="ageSummaryText" style="margin-top:16px; font-size:13.5px; font-weight:600; color:#334155; text-align:center; display:none;"></div>
+                </div>
+
+                <!-- Tab 2: Photo Name & Date Joiner -->
+                <div class="tool-panel" id="panel-photo-joiner">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-image" style="color:#ff9933;"></i> Photo Name &amp; Date Joiner (फोटो नाम-तिथि योजक)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">SSC, UPSSSC, या अन्य सरकारी परीक्षाओं में मांगे गए फॉर्मेट के अनुसार अपने फोटो के नीचे सफेद पट्टी पर अपना नाम और फोटो की तिथि (Date of Photo) अंकित करें।</p>
+                  
+                  <div class="joiner-dropzone" id="joinerDropzone">
+                    <input type="file" id="joinerFileInput" accept="image/*" style="display:none;" />
+                    <i class="fa-solid fa-cloud-arrow-up" style="font-size:28px; color:#ff9933; margin-bottom:8px;"></i>
+                    <p style="margin:0; font-size:13.5px; font-weight:600; color:#334155;">Drag &amp; Drop Photo Here or Click to Upload</p>
+                    <p style="margin:2px 0 0 0; font-size:12px; color:#64748b;">Supports JPG, JPEG, PNG</p>
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="joinerName">Candidate's Name (उम्मीदवार का नाम)</label>
+                      <input type="text" id="joinerName" class="form-control" placeholder="E.g. SANDEEP KUMAR" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="joinerDate">Date of Photo (फोटो लेने की तिथि)</label>
+                      <input type="text" id="joinerDate" class="form-control" placeholder="E.g. 04/06/2026" />
+                    </div>
+                  </div>
+                  
+                  <div class="joiner-preview-container" id="joinerPreviewArea" style="display:none;">
+                    <h4 style="margin:0 0 10px 0; color:#334155; font-size:14px; font-weight:700;">Live Preview (लाइव प्रिव्यू)</h4>
+                    <canvas id="joinerCanvas"></canvas>
+                    <button type="button" class="btn-tool" id="btnDownloadJoined" style="margin-top:16px; background:linear-gradient(135deg, #128807, #1b9d0e);"><i class="fa-solid fa-download"></i> Download Photo</button>
+                  </div>
+                </div>
+
+                <!-- Tab 3: Resume / CV Builder -->
+                <div class="tool-panel" id="panel-cv-builder">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-file-invoice" style="color:#ff9933;"></i> Sarkari Resume &amp; CV Builder (बायोडाटा मेकर)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">कुछ ही मिनटों में अपनी शैक्षणिक और व्यक्तिगत विवरणों को भरकर एक पेशेवर और आकर्षक रिज्यूमे तैयार कर प्रिंट या PDF में सहेजें।</p>
+                  
+                  <div class="cv-steps">
+                    <span class="cv-step-tab is-active" data-step="1">1. Personal Details</span>
+                    <span class="cv-step-tab" data-step="2">2. Education & Skills</span>
+                    <span class="cv-step-tab" data-step="3">3. Declaration</span>
+                  </div>
+
+                  <!-- Step 1: Personal -->
+                  <div class="cv-form-step is-active" id="cv-step-1-content">
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label class="form-label">Full Name (पूरा नाम)</label>
+                        <input type="text" id="cvName" class="form-control" placeholder="E.g. RAJESH PRASAD" />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Father's Name (पिता का नाम)</label>
+                        <input type="text" id="cvFather" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label class="form-label">Email ID (ईमेल)</label>
+                        <input type="email" id="cvEmail" class="form-control" placeholder="rajesh@example.com" />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Mobile Number (मोबाइल)</label>
+                        <input type="text" id="cvMobile" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Full Address (पता)</label>
+                      <textarea id="cvAddress" class="form-control" rows="2" placeholder="Village, Post, Block, District, Pin Code"></textarea>
+                    </div>
+                    <div style="text-align:right;">
+                      <button type="button" class="btn-tool next-step-btn" data-next="2">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- Step 2: Education -->
+                  <div class="cv-form-step" id="cv-step-2-content">
+                    <h4 style="margin:0 0 10px 0; font-size:14px; color:#1e293b;">Academic Details</h4>
+                    <div class="form-group">
+                      <label class="form-label">Class 10th (High School) - Board, Year, %</label>
+                      <input type="text" id="cvEdu10" class="form-control" placeholder="E.g. UP Board, 2018, 76.5%" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Class 12th (Intermediate) - Board, Year, %</label>
+                      <input type="text" id="cvEdu12" class="form-control" placeholder="E.g. UP Board, 2020, 81.2%" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Graduation / Higher Degree (If any)</label>
+                      <input type="text" id="cvEduGrad" class="form-control" placeholder="E.g. B.Sc (Physics), MJPRU, 2023, 72.8%" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Key Skills (कौशल - अल्पविराम से अलग करें)</label>
+                      <input type="text" id="cvSkills" class="form-control" placeholder="E.g. Hindi Typing, MS Office, Customer Service" />
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                      <button type="button" class="btn-tool prev-step-btn" style="background:#64748b; box-shadow:none;" data-prev="1"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+                      <button type="button" class="btn-tool next-step-btn" data-next="3">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- Step 3: Declaration -->
+                  <div class="cv-form-step" id="cv-step-3-content">
+                    <div class="form-group">
+                      <label class="form-label">Declaration Statement (घोषणा पत्र)</label>
+                      <textarea id="cvDeclaration" class="form-control" rows="3">I hereby declare that all the details mentioned above are true, complete and correct to the best of my knowledge and belief.</textarea>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label class="form-label">Date (दिनांक)</label>
+                        <input type="date" id="cvDate" class="form-control" />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Place (स्थान)</label>
+                        <input type="text" id="cvPlace" class="form-control" placeholder="E.g. Bareilly" />
+                      </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                      <button type="button" class="btn-tool prev-step-btn" style="background:#64748b; box-shadow:none;" data-prev="2"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+                      <button type="button" class="btn-tool" id="btnGenerateResume" style="background:linear-gradient(135deg, #ff9933, #f47c1c); box-shadow:0 4px 15px rgba(244, 124, 28, 0.25);"><i class="fa-solid fa-file-pdf"></i> Generate &amp; Print Resume</button>
+                    </div>
+                  </div>
+
+                  <!-- Print Container Area (hidden on screen, visible during window.print()) -->
+                  <div id="printArea" style="display:none; font-family:'Inter', Arial, sans-serif; color:#000; padding:40px; line-height:1.5;">
+                    <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:15px; margin-bottom:25px;">
+                      <h1 id="pName" style="margin:0; font-size:28px; text-transform:uppercase; font-weight:bold;"></h1>
+                      <p id="pContact" style="margin:5px 0 0; font-size:14px; font-weight:600;"></p>
+                    </div>
+                    
+                    <div style="margin-bottom:25px;">
+                      <h2 style="font-size:16px; border-bottom:1px solid #000; padding-bottom:4px; margin-bottom:10px; text-transform:uppercase; font-weight:bold;">Objective / उद्देस्य</h2>
+                      <p style="margin:0; font-size:14px; text-align:justify;">To secure a challenging position where I can effectively contribute my skills and educational credentials for the growth of the organization while continuously enhancing my knowledge.</p>
+                    </div>
+
+                    <div style="margin-bottom:25px;">
+                      <h2 style="font-size:16px; border-bottom:1px solid #000; padding-bottom:4px; margin-bottom:10px; text-transform:uppercase; font-weight:bold;">Personal Profile / व्यक्तिगत विवरण</h2>
+                      <table style="width:100%; font-size:14px; border-collapse:collapse;">
+                        <tr><td style="width:30%; padding:4px 0; font-weight:bold;">Father's Name:</td><td id="pFather" style="padding:4px 0;"></td></tr>
+                        <tr><td style="width:30%; padding:4px 0; font-weight:bold;">Address:</td><td id="pAddress" style="padding:4px 0;"></td></tr>
+                      </table>
+                    </div>
+
+                    <div style="margin-bottom:25px;">
+                      <h2 style="font-size:16px; border-bottom:1px solid #000; padding-bottom:4px; margin-bottom:10px; text-transform:uppercase; font-weight:bold;">Academic Qualification / शैक्षणिक विवरण</h2>
+                      <table style="width:100%; font-size:14px; border:1px solid #000; border-collapse:collapse; text-align:left;">
+                        <thead>
+                          <tr style="background:#f2f2f2;">
+                            <th style="border:1px solid #000; padding:8px;">Education / Board</th>
+                            <th style="border:1px solid #000; padding:8px;">Details (Year, Board/Institution, Marks)</th>
+                          </tr>
+                        </thead>
+                        <tbody id="pEduTableBody"></tbody>
+                      </table>
+                    </div>
+
+                    <div style="margin-bottom:25px;">
+                      <h2 style="font-size:16px; border-bottom:1px solid #000; padding-bottom:4px; margin-bottom:10px; text-transform:uppercase; font-weight:bold;">Technical Skills / तकनीकी कौशल</h2>
+                      <ul id="pSkillsList" style="margin:0; padding-left:20px; font-size:14px;"></ul>
+                    </div>
+
+                    <div style="margin-bottom:35px;">
+                      <h2 style="font-size:16px; border-bottom:1px solid #000; padding-bottom:4px; margin-bottom:10px; text-transform:uppercase; font-weight:bold;">Declaration / घोषणा</h2>
+                      <p id="pDeclaration" style="margin:0; font-size:14px; text-align:justify;"></p>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; font-size:14px; margin-top:40px;">
+                      <div>
+                        <p style="margin:0; font-weight:bold;">Date: <span id="pDate" style="font-weight:normal;"></span></p>
+                        <p style="margin:4px 0 0; font-weight:bold;">Place: <span id="pPlace" style="font-weight:normal;"></span></p>
+                      </div>
+                      <div style="text-align:center;">
+                        <div style="width:180px; height:50px; border-bottom:1px solid #000; margin-bottom:5px;"></div>
+                        <p style="margin:0; font-weight:bold;">(Signature of Candidate)</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Tab 4: CGPA Calculator -->
+                <div class="tool-panel" id="panel-cgpa-calc">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-percent" style="color:#ff9933;"></i> CGPA to Percentage Calculator (प्रतिशत कैलकुलेटर)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">CBSE, ICSE, या अन्य बोर्ड परीक्षाओं के CGPA ग्रेड स्कोर को तुरंत आधिकारिक फॉर्मूला (CGPA &times; 9.5) के अनुसार प्रतिशत अंकों में बदलें।</p>
+                  
+                  <div class="form-group" style="max-width:320px; margin:0 auto;">
+                    <label class="form-label" for="cgpaVal">Enter CGPA Score (1.0 - 10.0)</label>
+                    <input type="number" id="cgpaVal" class="form-control" min="1.0" max="10.0" step="0.01" value="8.0" style="text-align:center; font-size:18px; font-weight:700;" />
+                  </div>
+                  
+                  <div class="percentage-meter">
+                    <div class="percentage-val" id="percentOutput">76.0%</div>
+                    <div style="font-size:13px; font-weight:600; color:#475569;">Calculated Percentage (प्राप्त प्रतिशत)</div>
+                    <div style="font-size:11px; color:#64748b; margin-top:4px;">Formula used: CGPA &times; 9.5</div>
+                  </div>
+                </div>
+
+                <!-- Tab 5: Photo & Signature Joiner -->
+                <div class="tool-panel" id="panel-photo-sig">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-images" style="color:#ff9933;"></i> Photo &amp; Signature Joiner (फोटो-हस्ताक्षर योजक)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">UPSC, IBPS, या अन्य परीक्षाओं के लिए अपना passport फोटो और सिग्नेचर इमेज को एक सिंगल वर्टिकल इमेज में जोड़ें।</p>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Upload Passport Photo (फोटो अपलोड करें)</label>
+                      <div class="joiner-dropzone" id="sigPhotoDropzone" style="padding: 20px;">
+                        <input type="file" id="sigPhotoInput" accept="image/*" style="display:none;" />
+                        <i class="fa-solid fa-user" style="font-size:20px; color:#ff9933; margin-bottom:4px;"></i>
+                        <p style="margin:0; font-size:12px; font-weight:600; color:#334155;" id="sigPhotoName">Click to Upload Photo</p>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label class="form-label">Upload Signature (सिग्नेचर अपलोड करें)</label>
+                      <div class="joiner-dropzone" id="sigSignDropzone" style="padding: 20px;">
+                        <input type="file" id="sigSignInput" accept="image/*" style="display:none;" />
+                        <i class="fa-solid fa-signature" style="font-size:20px; color:#128807; margin-bottom:4px;"></i>
+                        <p style="margin:0; font-size:12px; font-weight:600; color:#334155;" id="sigSignName">Click to Upload Signature</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="joiner-preview-container" id="sigPreviewArea" style="display:none; margin-top:10px;">
+                    <h4 style="margin:0 0 10px 0; color:#334155; font-size:14px; font-weight:700;">Live Combined Preview (लाइव संयुक्त प्रिव्यू)</h4>
+                    <canvas id="photoSigCanvas" style="border:1px solid #cbd5e1; box-shadow:0 4px 12px rgba(0,0,0,0.08); background:#fff; border-radius:4px; max-width:260px; height:auto;"></canvas>
+                    <button type="button" class="btn-tool" id="btnDownloadCombined" style="margin-top:16px; background:linear-gradient(135deg, #128807, #1b9d0e);"><i class="fa-solid fa-download"></i> Download Combined Image</button>
+                  </div>
+                </div>
+
+                <!-- Tab 6: Image to PDF Converter -->
+                <div class="tool-panel" id="panel-img-to-pdf">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-file-pdf" style="color:#ff9933;"></i> Image to PDF Converter (इमेज से पीडीएफ)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">अपने महत्वपूर्ण दस्तावेजों (जैसे आधार कार्ड, अंकपत्र) की तस्वीरों को अपलोड करें और तुरंत उन्हें एक सिंगल PDF फाइल में बदलें।</p>
+                  
+                  <div class="joiner-dropzone" id="pdfDropzone" style="padding: 24px;">
+                    <input type="file" id="pdfFileInput" accept="image/*" multiple style="display:none;" />
+                    <i class="fa-solid fa-file-arrow-up" style="font-size:24px; color:#ff9933; margin-bottom:6px;"></i>
+                    <p style="margin:0; font-size:13px; font-weight:600; color:#334155;">Upload One or Multiple Document Images</p>
+                    <p style="margin:2px 0 0 0; font-size:11px; color:#64748b;">JPG, JPEG, PNG formats supported</p>
+                  </div>
+                  
+                  <div id="pdfFilesContainer" style="display:none; margin-top:16px;">
+                    <h4 style="margin:0 0 10px 0; color:#334155; font-size:14px; font-weight:700;">Uploaded Documents (अपलोड किए गए दस्तावेज़)</h4>
+                    <div id="pdfThumbnails" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); gap:12px; margin-bottom:20px; background:#f8fafc; border:1px solid #e2e8f0; padding:12px; border-radius:8px;"></div>
+                    <button type="button" class="btn-tool" id="btnGeneratePdf"><i class="fa-solid fa-file-pdf"></i> Generate &amp; Save PDF</button>
+                  </div>
+
+                  <!-- PDF Print Area (Hidden, visible during print) -->
+                  <div id="printPdfArea" style="display:none; background:#fff;"></div>
+                </div>
+
+                <!-- Tab 7: Password Generator -->
+                <div class="tool-panel" id="panel-pass-gen">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-key" style="color:#ff9933;"></i> Secure Password Generator (पासवर्ड जनरेटर)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">विभिन्न ऑनलाइन सरकारी पोर्टल्स पर नया पंजीकरण (New Registration) करने के लिए मजबूत और सुरक्षित पासवर्ड तुरंत बनाएं।</p>
+                  
+                  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:24px; max-width:480px; margin:0 auto; box-shadow:0 2px 8px rgba(0,0,0,0.01);">
+                    <div style="display:flex; gap:10px; margin-bottom:20px;">
+                      <input type="text" id="genPasswordOutput" readonly class="form-control" style="font-size:18px; font-weight:700; text-align:center; letter-spacing:1px; background:#fff; border-color:#cbd5e1; color:#0f172a; padding:12px;" />
+                      <button type="button" class="btn-tool" id="btnCopyPassword" style="background:#0f172a; box-shadow:none; padding:12px 18px;"><i class="fa-solid fa-copy"></i> Copy</button>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label class="form-label">Password Type (पासवर्ड का प्रकार)</label>
+                      <select id="passTypeSelect" class="form-control" style="font-weight:600;">
+                        <option value="personalized" selected>Personalized (आपके विवरण आधारित - E.g. Sandeep@1997)</option>
+                        <option value="memorable">Memorable Word (याद रखने योग्य शब्द - E.g. SmartPanda@2026)</option>
+                        <option value="random">Strong Random (कठिन रैंडम - E.g. xT&9#qPxL)</option>
+                      </select>
+                    </div>
+
+                    <div id="personalizedSettingsArea" style="margin-top: 16px;">
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label class="form-label" style="font-size:12px;">Your Name (नाम)</label>
+                          <input type="text" id="ppName" class="form-control" placeholder="E.g. Sandeep" style="padding:8px 12px; font-size:13px;" />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label" style="font-size:12px;">Birth Year (जन्म वर्ष)</label>
+                          <input type="number" id="ppYear" class="form-control" placeholder="E.g. 1998" style="padding:8px 12px; font-size:13px;" />
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label class="form-label" style="font-size:12px;">Father's Name (पिता का नाम)</label>
+                          <input type="text" id="ppFather" class="form-control" placeholder="E.g. Rajesh" style="padding:8px 12px; font-size:13px;" />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label" style="font-size:12px;">Last 4 Digits Mobile (मोबाइल अंतिम 4 अंक)</label>
+                          <input type="text" id="ppMobile" class="form-control" placeholder="E.g. 7890" maxlength="4" style="padding:8px 12px; font-size:13px;" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="randomSettingsArea" style="display:none;">
+                      <div class="form-group">
+                        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:13px; color:#334155; margin-bottom:6px;">
+                          <span>Password Length (पासवर्ड की लंबाई)</span>
+                          <span id="passLengthVal">12</span>
+                        </div>
+                        <input type="range" id="passLengthSlider" min="8" max="20" value="12" style="width:100%; accent-color:#ff9933;" />
+                      </div>
+
+                      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#475569; cursor:pointer;">
+                          <input type="checkbox" id="chkUpper" checked style="accent-color:#128807; width:16px; height:16px;" /> Uppercase (A-Z)
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#475569; cursor:pointer;">
+                          <input type="checkbox" id="chkLower" checked style="accent-color:#128807; width:16px; height:16px;" /> Lowercase (a-z)
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#475569; cursor:pointer;">
+                          <input type="checkbox" id="chkNumbers" checked style="accent-color:#128807; width:16px; height:16px;" /> Numbers (0-9)
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#475569; cursor:pointer;">
+                          <input type="checkbox" id="chkSymbols" checked style="accent-color:#128807; width:16px; height:16px;" /> Symbols (@#$%)
+                        </label>
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn-tool" id="btnGeneratePassword" style="width:100%; justify-content:center; background:linear-gradient(135deg, #ff9933, #f47c1c); box-shadow:0 4px 15px rgba(244, 124, 28, 0.25);"><i class="fa-solid fa-arrows-rotate"></i> Generate Password</button>
+                  </div>
+                </div>
+
+                <!-- Tab 8: Print Tools -->
+                <div class="tool-panel" id="panel-print-tools">
+                  <h3 style="margin-top:0; color:#0f172a; font-size:18px;"><i class="fa-solid fa-print" style="color:#ff9933;"></i> Print Tools (प्रिंट टूल्स)</h3>
+                  <p style="color:#64748b; font-size:13px; margin-bottom:20px;">प्रमाण पत्र और फोटो को प्रोफेशनल प्रिंट लेआउट में तैयार करें।</p>
+                  
+                  <div class="formats-grid">
+                    <!-- Aadhaar Card PVC Print Layout -->
+                    <div class="format-card">
+                      <div>
+                        <h4 class="format-title"><i class="fa-solid fa-id-card" style="color:#128807; margin-right:8px;"></i> Aadhaar Card PVC Print Layout</h4>
+                        <p class="format-desc">आधार कार्ड को PVC कार्ड के साइज में प्रिंट करने के लिए लेआउट</p>
+                      </div>
+                      <a href="javascript:void(0);" class="format-btn" onclick="openPrintTool('aadhaar')"><i class="fa-solid fa-print"></i> Open Tool</a>
+                    </div>
+                    
+                    <!-- PAN Card Print Layout -->
+                    <div class="format-card">
+                      <div>
+                        <h4 class="format-title"><i class="fa-solid fa-credit-card" style="color:#128807; margin-right:8px;"></i> PAN Card Print Layout</h4>
+                        <p class="format-desc">पैन कार्ड को मूल साइज में प्रिंट करने के लिए लेआउट</p>
+                      </div>
+                      <a href="javascript:void(0);" class="format-btn" onclick="openPrintTool('pan')"><i class="fa-solid fa-print"></i> Open Tool</a>
+                    </div>
+                    
+                    <!-- Voter ID Print Layout -->
+                    <div class="format-card">
+                      <div>
+                        <h4 class="format-title"><i class="fa-solid fa-vote-yea" style="color:#128807; margin-right:8px;"></i> Voter ID Print Layout</h4>
+                        <p class="format-desc">वोटर आईडी कार्ड को मूल साइज में प्रिंट करने के लिए लेआउट</p>
+                      </div>
+                      <a href="javascript:void(0);" class="format-btn" onclick="openPrintTool('voter')"><i class="fa-solid fa-print"></i> Open Tool</a>
+                    </div>
+                    
+                    <!-- Ayushman Card Print Layout -->
+                    <div class="format-card">
+                      <div>
+                        <h4 class="format-title"><i class="fa-solid fa-heart-pulse" style="color:#128807; margin-right:8px;"></i> Ayushman Card Print Layout</h4>
+                        <p class="format-desc">आयुष्मान कार्ड को प्रिंट करने के लिए लेआउट</p>
+                      </div>
+                      <a href="javascript:void(0);" class="format-btn" onclick="openPrintTool('ayushman')"><i class="fa-solid fa-print"></i> Open Tool</a>
+                    </div>
+                    
+                    <!-- Passport Photo Sheet Generator -->
+                    <div class="format-card">
+                      <div>
+                        <h4 class="format-title"><i class="fa-solid fa-user-tie" style="color:#128807; margin-right:8px;"></i> Passport Photo Sheet Generator</h4>
+                        <p class="format-desc">एक ही A4 शीट में 6 या 8 पासपोर्ट साइज की फोटो तैयार करें</p>
+                      </div>
+                      <a href="javascript:void(0);" class="format-btn" onclick="openPrintTool('passport-sheet')"><i class="fa-solid fa-print"></i> Open Tool</a>
+                    </div>
+                    
+                    <!-- Multiple Passport Photos on A4 -->
+                    <div class="format-card">
+                      <div>
+                        <h4 class="format-title"><i class="fa-solid fa-photo-film" style="color:#128807; margin-right:8px;"></i> Multiple Passport Photos on A4</h4>
+                        <p class="format-desc">A4 शीट पर 4×6 इंच में कई पासपोर्ट फोटो तैयार करें</p>
+                      </div>
+                      <a href="javascript:void(0);" class="format-btn" onclick="openPrintTool('multiple-passport')"><i class="fa-solid fa-print"></i> Open Tool</a>
+                    </div>
+                  </div>
+                  
+                  <!-- Print Tool Content Area -->
+                  <div id="printToolContent" style="margin-top:24px; display:none;">
+                    <!-- Dynamic content will be loaded here -->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer__container">
+      <div class="footer__grid">
+        <!-- Col 1: Brand & Status -->
+        <div class="footer__col">
+          <h4 class="footer__brand-title">India Result Exam</h4>
+          <p class="footer__brand-desc">Your trusted gateway to latest government jobs, exam results, admit cards, and digital services across India. We deliver fast, reliable, and verified notifications.</p>
+          <div class="footer__status-card">
+            <span class="footer__status-dot"></span>
+            <div>
+              <div class="footer__status-text">Live Updates Active</div>
+              <div class="footer__status-sub">Refreshed: 24/7 Server Monitor</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="/#latest-jobs"><i class="fa-solid fa-chevron-right"></i> Latest Jobs</a></li>
+            <li><a href="/#admit-cards"><i class="fa-solid fa-chevron-right"></i> Admit Cards</a></li>
+            <li><a href="/#results"><i class="fa-solid fa-chevron-right"></i> Exam Results</a></li>
+            <li><a href="/#answer-key"><i class="fa-solid fa-chevron-right"></i> Answer Keys</a></li>
+            <li><a href="/#sarkari-yojana"><i class="fa-solid fa-chevron-right"></i> Sarkari Yojana</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Services & Tools -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Services &amp; Tools</h4>
+          <ul class="footer__links">
+            <li><a href="/csc-services.html"><i class="fa-solid fa-chevron-right"></i> CSC Services</a></li>
+            <li><a href="/education.html"><i class="fa-solid fa-chevron-right"></i> Education Dept</a></li>
+            <li><a href="/important-services.html"><i class="fa-solid fa-chevron-right"></i> Important Links</a></li>
+            <li><a href="/#image-resizer"><i class="fa-solid fa-chevron-right"></i> Photo Resizer</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Stay Connected -->
+        <div class="footer__col">
+          <h4 class="footer__col-title">Connect with Us</h4>
+          <p class="footer__brand-desc">Join our official social networks for instant alerts on your mobile phone.</p>
+          <div class="footer__social-list">
+            <a href="https://t.me/" target="_blank" rel="noopener" class="footer__social-btn telegram" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://wa.me/" target="_blank" rel="noopener" class="footer__social-btn whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer__social-btn youtube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer__bottom">
+      <div class="footer__bottom-inner">
+        <div class="footer__copy">
+          &copy; 2026 India Result Exam. All Rights Reserved.
+        </div>
+        <div class="footer__legal-links">
+          <a href="/contact-us">Contact Us</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/disclaimer">Disclaimer</a>
+          <a href="/terms">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PDF.js Library for handling PDFs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+  <script src="/firebase-config.js"></script>
+  <script>
+    const qs = (s, r = document) => r.querySelector(s);
+    
+    // Dynamic sidebar / header injection from index.html
+    async function injectShellFromIndex() {
+      try {
+        const res = await fetch('/index.html', { credentials: 'same-origin' });
+        const text = await res.text();
+        const docFrag = document.implementation.createHTMLDocument('index');
+        docFrag.documentElement.innerHTML = text;
+        const sidebar = docFrag.querySelector('.sidebar');
+        const header = docFrag.querySelector('.header');
+        if (sidebar) {
+          const targetSidebar = qs('#injectedSidebar');
+          targetSidebar.innerHTML = sidebar.innerHTML;
+          targetSidebar.hidden = false;
+        }
+        if (header) {
+          const targetHeader = qs('#injectedHeader');
+          targetHeader.innerHTML = header.innerHTML;
+        }
+        // Hamburger toggle logic for mobile
+        const hamburger = qs('.hamburger');
+        const app = qs('.app');
+        if (hamburger && app) {
+          hamburger.addEventListener('click', (e) => {
+            e.preventDefault();
+            app.classList.toggle('sidebar-open');
+          });
+        }
+        // Sidebar nav redirection logic
+        const navBtns = Array.from(document.querySelectorAll('.sidebar .nav__item'));
+        navBtns.forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = btn.getAttribute('data-tab-target') || 'home';
+            if (target === 'important-services') {
+              // Stay on this page
+              return;
+            }
+            if (target === 'csc-services') {
+              location.href = '/csc-services.html';
+              return;
+            }
+            if (target === 'education-dept') {
+              location.href = '/education.html';
+              return;
+            }
+            let hash = '#home';
+            if (target === 'results') hash = '#results';
+            else if (target === 'admit-cards') hash = '#admit-cards';
+            else if (target === 'latest-jobs') hash = '#latest-jobs';
+            else if (target === 'answer-key') hash = '#answer-key';
+            else if (target === 'admission') hash = '#admission';
+            else if (target === 'otr') hash = '#otr';
+            else if (target === 'image-resizer') hash = '#image-resizer';
+            else if (target === 'sarkari-yojana') hash = '#sarkari-yojana';
+            location.href = `/${hash}`;
+          });
+        });
+        
+        // Highlight active nav item
+        const impBtn = document.querySelector('.sidebar .nav__item[data-tab-target="important-services"]');
+        if (impBtn) {
+          document.querySelectorAll('.sidebar .nav__item').forEach(b => b.classList.remove('is-active'));
+          impBtn.classList.add('is-active');
+        }
+      } catch (e) {
+        console.warn('Failed to inject shell from index.html', e);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', injectShellFromIndex);
+
+    // Tab Switching Logic inside the tools card
+    const tabBtns = document.querySelectorAll('.tool-tab-btn');
+    const panels = document.querySelectorAll('.tool-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('is-active'));
+        panels.forEach(p => p.classList.remove('is-active'));
+
+        btn.classList.add('is-active');
+        const tool = btn.getAttribute('data-tool');
+        const targetPanel = qs(`#panel-${tool}`);
+        if (targetPanel) {
+          targetPanel.classList.add('is-active');
+        }
+      });
+    });
+
+    // 1. Age Calculator Logic
+    const inputDOB = qs('#dob');
+    const inputTarget = qs('#targetDate');
+    const btnCalcAge = qs('#btnCalculateAge');
+    const boxAgeResult = qs('#ageResultBox');
+    const txtAgeSummary = qs('#ageSummaryText');
+
+    // Default target date to today
+    const today = new Date();
+    inputTarget.value = today.toISOString().split('T')[0];
+
+    btnCalcAge.addEventListener('click', () => {
+      const dobVal = inputDOB.value;
+      const targetVal = inputTarget.value;
+      if (!dobVal || !targetVal) return;
+
+      const dob = new Date(dobVal);
+      const target = new Date(targetVal);
+
+      if (dob > target) {
+        alert('Date of birth cannot be after the calculation date.');
+        return;
+      }
+
+      let years = target.getFullYear() - dob.getFullYear();
+      let months = target.getMonth() - dob.getMonth();
+      let days = target.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        const previousMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+        days += previousMonth.getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      qs('#ageYears').textContent = years;
+      qs('#ageMonths').textContent = months;
+      qs('#ageDays').textContent = days;
+
+      boxAgeResult.style.display = 'grid';
+
+      // Summary detail in total days
+      const totalTimeDiff = target.getTime() - dob.getTime();
+      const totalDays = Math.floor(totalTimeDiff / (1000 * 3600 * 24));
+      txtAgeSummary.textContent = `कुल आयु: ${totalDays.toLocaleString()} दिन (${years} वर्ष, ${months} महीने, और ${days} दिन)`;
+      txtAgeSummary.style.display = 'block';
+    });
+
+    // 2. Photo Name & Date Joiner Logic
+    const dropzone = qs('#joinerDropzone');
+    const fileInput = qs('#joinerFileInput');
+    const joinName = qs('#joinerName');
+    const joinDate = qs('#joinerDate');
+    const previewArea = qs('#joinerPreviewArea');
+    const canvas = qs('#joinerCanvas');
+    const ctx = canvas.getContext('2d');
+    const btnDownload = qs('#btnDownloadJoined');
+    let loadedImage = null;
+
+    // Fill current date by default in Date input
+    const dStr = today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth()+1).toString().padStart(2, '0') + '/' + today.getFullYear();
+    joinDate.value = dStr;
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length) {
+        handlePhotoFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length) {
+        handlePhotoFile(e.target.files[0]);
+      }
+    });
+
+    function handlePhotoFile(file) {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          loadedImage = img;
+          previewArea.style.display = 'flex';
+          drawJoinedImage();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    [joinName, joinDate].forEach(el => {
+      el.addEventListener('input', () => {
+        if (loadedImage) drawJoinedImage();
+      });
+    });
+
+    function drawJoinedImage() {
+      if (!loadedImage) return;
+      
+      // Standard target resolution for joint photocard (e.g. 350x450 px)
+      const targetW = 350;
+      const targetH = 450;
+      const whiteStripH = 75; // height of name date strip
+
+      canvas.width = targetW;
+      canvas.height = targetH;
+
+      // Clear canvas
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, targetW, targetH);
+
+      // Draw uploaded image resized to fill photo container (aspect scale)
+      const imgRatio = loadedImage.width / loadedImage.height;
+      const photoH = targetH - whiteStripH;
+      const targetRatio = targetW / photoH;
+
+      let drawW, drawH, drawX, drawY;
+      if (imgRatio > targetRatio) {
+        // Image is wider
+        drawH = photoH;
+        drawW = photoH * imgRatio;
+        drawX = (targetW - drawW) / 2;
+        drawY = 0;
+      } else {
+        // Image is taller
+        drawW = targetW;
+        drawH = targetW / imgRatio;
+        drawX = 0;
+        drawY = (photoH - drawH) / 2;
+      }
+
+      ctx.drawImage(loadedImage, drawX, drawY, drawW, drawH);
+
+      // Draw bottom white block for credentials
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, photoH, targetW, whiteStripH);
+
+      // Draw divider line
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, photoH);
+      ctx.lineTo(targetW, photoH);
+      ctx.stroke();
+
+      // Write Text
+      ctx.fillStyle = '#000000';
+      ctx.textAlign = 'center';
+      
+      const nameVal = (joinName.value || 'NAME HERE').toUpperCase();
+      const dateVal = (joinDate.value || 'DATE HERE').toUpperCase();
+
+      // Name styling
+      ctx.font = 'bold 15px Arial, sans-serif';
+      ctx.fillText(nameVal, targetW / 2, photoH + 30);
+
+      // Date styling
+      ctx.font = '13px Arial, sans-serif';
+      ctx.fillText(dateVal, targetW / 2, photoH + 54);
+    }
+
+    btnDownload.addEventListener('click', () => {
+      if (!loadedImage) return;
+      const nameVal = (joinName.value || 'photo').toLowerCase().replace(/\s+/g, '_');
+      const dataURL = canvas.toDataURL('image/jpeg', 0.9);
+      const link = document.createElement('a');
+      link.download = `${nameVal}_resizer.jpg`;
+      link.href = dataURL;
+      link.click();
+    });
+
+    // 3. Resume Builder Multi-Step Logic
+    const cvStepTabs = document.querySelectorAll('.cv-step-tab');
+    const cvSteps = document.querySelectorAll('.cv-form-step');
+
+    // Handle next step triggers
+    document.querySelectorAll('.next-step-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const nextVal = btn.getAttribute('data-next');
+        showCvStep(nextVal);
+      });
+    });
+
+    // Handle previous step triggers
+    document.querySelectorAll('.prev-step-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const prevVal = btn.getAttribute('data-prev');
+        showCvStep(prevVal);
+      });
+    });
+
+    // Make step tabs clickable
+    cvStepTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const stepNum = tab.getAttribute('data-step');
+        showCvStep(stepNum);
+      });
+    });
+
+    function showCvStep(stepNum) {
+      cvStepTabs.forEach(t => t.classList.toggle('is-active', t.getAttribute('data-step') === stepNum));
+      cvSteps.forEach((s, idx) => s.classList.toggle('is-active', (idx + 1).toString() === stepNum));
+    }
+
+    // Default resume date
+    qs('#cvDate').value = today.toISOString().split('T')[0];
+
+    // Generate Resume Print Dialog
+    qs('#btnGenerateResume').addEventListener('click', () => {
+      const name = qs('#cvName').value || 'RAJESH KUMAR';
+      const father = qs('#cvFather').value || 'M.P. PRASAD';
+      const email = qs('#cvEmail').value || 'rajesh@example.com';
+      const mobile = qs('#cvMobile').value || '9876543210';
+      const address = qs('#cvAddress').value || 'Village, District, Uttar Pradesh';
+      const edu10 = qs('#cvEdu10').value || 'UP Board, 2018, 75%';
+      const edu12 = qs('#cvEdu12').value || 'UP Board, 2020, 80%';
+      const eduGrad = qs('#cvEduGrad').value || 'B.Sc, 2023, 70%';
+      const skillsStr = qs('#cvSkills').value || 'Computer Basics, Typing';
+      const dec = qs('#cvDeclaration').value;
+      const dDate = qs('#cvDate').value;
+      const dPlace = qs('#cvPlace').value || 'Bareilly';
+
+      // Map to Print layout elements
+      qs('#pName').textContent = name;
+      qs('#pContact').textContent = `Mobile: +91 ${mobile} | Email: ${email}`;
+      qs('#pFather').textContent = father;
+      qs('#pAddress').textContent = address;
+      qs('#pDeclaration').textContent = dec;
+      qs('#pDate').textContent = dDate;
+      qs('#pPlace').textContent = dPlace;
+
+      // Render Education table body
+      const tbody = qs('#pEduTableBody');
+      tbody.innerHTML = `
+        <tr><td style="border:1px solid #000; padding:8px; font-weight:bold;">10th (High School)</td><td style="border:1px solid #000; padding:8px;">${edu10}</td></tr>
+        <tr><td style="border:1px solid #000; padding:8px; font-weight:bold;">12th (Intermediate)</td><td style="border:1px solid #000; padding:8px;">${edu12}</td></tr>
+        ${eduGrad ? `<tr><td style="border:1px solid #000; padding:8px; font-weight:bold;">Graduation / Higher</td><td style="border:1px solid #000; padding:8px;">${eduGrad}</td></tr>` : ''}
+      `;
+
+      // Render Skills list
+      const skillsList = qs('#pSkillsList');
+      skillsList.innerHTML = '';
+      skillsStr.split(',').forEach(skill => {
+        const li = document.createElement('li');
+        li.textContent = skill.trim();
+        skillsList.appendChild(li);
+      });
+
+      // Show print zone, print, and hide
+      const printZone = qs('#printArea');
+      printZone.style.display = 'block';
+      window.print();
+      printZone.style.display = 'none';
+    });
+
+    // 4. CGPA Calculator Logic
+    const cgpaVal = qs('#cgpaVal');
+    const percentOutput = qs('#percentOutput');
+
+    cgpaVal.addEventListener('input', () => {
+      calculatePercentage();
+    });
+
+    function calculatePercentage() {
+      let cgpa = parseFloat(cgpaVal.value);
+      if (isNaN(cgpa) || cgpa < 0) {
+        percentOutput.textContent = '0.0%';
+        return;
+      }
+      if (cgpa > 10.0) {
+        cgpaVal.value = 10.0;
+        cgpa = 10.0;
+      }
+      const percent = (cgpa * 9.5).toFixed(1);
+      percentOutput.textContent = `${percent}%`;
+    }
+    
+    // Initial load run
+    calculatePercentage();
+    
+    // Print Tools Logic
+    let currentPrintTool = null;
+    let printToolImage = null;
+    
+    function openPrintTool(toolType) {
+      currentPrintTool = toolType;
+      const printToolContent = qs('#printToolContent');
+      
+      let contentHTML = '';
+      
+      if (toolType === 'passport-sheet' || toolType === 'multiple-passport') {
+        contentHTML = `
+          <div style="border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+            <h4 style="margin:0 0 12px 0; font-size:16px; color:#1e293b;">Passport Photo Generator</h4>
+            <div class="joiner-dropzone" id="printPhotoDropzone" style="padding:24px; margin-bottom:16px;">
+              <input type="file" id="printPhotoInput" accept="image/*" style="display:none;">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size:28px; color:#ff9933; margin-bottom:8px;"></i>
+              <p style="margin:0; font-size:13px; font-weight:600; color:#334155;">Upload Passport Photo</p>
+            </div>
+            <div class="form-row" style="margin-bottom:16px;">
+              <div class="form-group">
+                <label class="form-label">Photo Layout Type</label>
+                <select id="passportLayoutSelect" class="form-control">
+                  <option value="6">6 Photos (3×2 grid)</option>
+                  <option value="8">8 Photos (4×2 grid)</option>
+                  <option value="12">12 Photos (4×3 grid)</option>
+                </select>
+              </div>
+            </div>
+            <div class="joiner-preview-container" id="passportPreviewArea" style="display:none; margin-bottom:16px;">
+              <h5 style="margin:0 0 8px 0; color:#334155;">Preview</h5>
+              <canvas id="passportCanvas" style="max-width:100%; border:1px solid #e2e8f0; border-radius:4px; background:#fff;"></canvas>
+            </div>
+            <button type="button" class="btn-tool" id="btnPrintPassport" style="background:linear-gradient(135deg, #128807, #1b9d0e); display:none;"><i class="fa-solid fa-print"></i> Print Photo Sheet</button>
+          </div>
+        `;
+      } else {
+        // Card print tools (Aadhaar, PAN, Voter, Ayushman)
+        let cardTitle = '';
+        let cardDescription = '';
+        let cardWidthMm = 85.6; // Standard credit card width
+        let cardHeightMm = 54.0; // Standard credit card height
+        
+        switch (toolType) {
+          case 'aadhaar':
+            cardTitle = 'Aadhaar Card Print Tool';
+            cardDescription = 'Aadhaar card front/back upload and print at actual size';
+            break;
+          case 'pan':
+            cardTitle = 'PAN Card Print Tool';
+            cardDescription = 'PAN card upload and print at actual size';
+            break;
+          case 'voter':
+            cardTitle = 'Voter ID Card Print Tool';
+            cardDescription = 'Voter ID upload and print at actual size';
+            break;
+          case 'ayushman':
+            cardTitle = 'Ayushman Card Print Tool';
+            cardDescription = 'Ayushman card upload and print at actual size';
+            break;
+        }
+        
+        contentHTML = `
+          <div style="border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+            <h4 style="margin:0 0 12px 0; font-size:16px; color:#1e293b;">${cardTitle}</h4>
+            <p style="font-size:13px; color:#64748b; margin:0 0 16px 0;">${cardDescription} <span style="color:#128807; font-weight:600;">(Supports Images & Password Protected PDFs)</span></p>
+            <div class="form-group" id="pdfPasswordGroup" style="display:none; margin-bottom:16px;">
+              <label class="form-label">PDF Password (if needed)</label>
+              <div style="display:flex; gap:8px;">
+                <input type="password" id="pdfPasswordInput" class="form-control" placeholder="Enter password for PDF" style="flex:1;">
+                <button type="button" class="btn-tool" id="tryPdfPasswordBtn" style="background:linear-gradient(135deg, #128807, #1b9d0e); padding:10px 20px; white-space:nowrap;">Try Password</button>
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+              <div class="joiner-dropzone" id="cardFrontDropzone" style="padding:20px;">
+                <input type="file" id="cardFrontInput" accept="image/*,.pdf" style="display:none;">
+                <i class="fa-solid fa-file-arrow-up" style="font-size:20px; color:#128807; margin-bottom:4px;"></i>
+                <p style="margin:0; font-size:12px; font-weight:600; color:#334155;">Front Side (Image/PDF)</p>
+              </div>
+              <div class="joiner-dropzone" id="cardBackDropzone" style="padding:20px;">
+                <input type="file" id="cardBackInput" accept="image/*,.pdf" style="display:none;">
+                <i class="fa-solid fa-file-arrow-up" style="font-size:20px; color:#128807; margin-bottom:4px;"></i>
+                <p style="margin:0; font-size:12px; font-weight:600; color:#334155;">Back Side (Optional)</p>
+              </div>
+            </div>
+            <div class="joiner-preview-container" id="cardPreviewArea" style="display:none; margin-bottom:16px;">
+              <h5 style="margin:0 0 8px 0; color:#334155;">Preview</h5>
+              <div id="cardPrintPreview" style="border:1px solid #e2e8f0; border-radius:4px; padding:12px; background:#fff;"></div>
+            </div>
+            <button type="button" class="btn-tool" id="btnPrintCard" style="background:linear-gradient(135deg, #128807, #1b9d0e); display:none;"><i class="fa-solid fa-print"></i> Print Card</button>
+          </div>
+        `;
+      }
+      
+      printToolContent.innerHTML = contentHTML;
+      printToolContent.style.display = 'block';
+      
+      // Attach event listeners based on tool type
+      if (toolType === 'passport-sheet' || toolType === 'multiple-passport') {
+        const dropzone = qs('#printPhotoDropzone');
+        const input = qs('#printPhotoInput');
+        const layoutSelect = qs('#passportLayoutSelect');
+        const previewArea = qs('#passportPreviewArea');
+        const canvas = qs('#passportCanvas');
+        const btnPrint = qs('#btnPrintPassport');
+        
+        dropzone.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          input.click();
+        });
+        // Drag and drop support
+        dropzone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('dragover');
+        });
+        dropzone.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+        });
+        dropzone.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            await handlePassportFile(e.dataTransfer.files[0]);
+          }
+        });
+        input.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            handlePassportFile(e.target.files[0]);
+          }
+        });
+        
+        function handlePassportFile(file) {
+          if (!file.type.startsWith('image/')) {
+            alert('Please upload an image file for passport photos');
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+              printToolImage = img;
+              drawPassportSheet();
+            };
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+        layoutSelect.addEventListener('change', drawPassportSheet);
+        btnPrint.addEventListener('click', printPassportSheet);
+      } else {
+        // Card tools
+        const frontDropzone = qs('#cardFrontDropzone');
+        const frontInput = qs('#cardFrontInput');
+        const backDropzone = qs('#cardBackDropzone');
+        const backInput = qs('#cardBackInput');
+        const previewArea = qs('#cardPreviewArea');
+        const previewDiv = qs('#cardPrintPreview');
+        const btnPrint = qs('#btnPrintCard');
+        const pdfPasswordGroup = qs('#pdfPasswordGroup');
+        const pdfPasswordInput = qs('#pdfPasswordInput');
+        const tryPdfPasswordBtn = qs('#tryPdfPasswordBtn');
+        
+        let frontImage = null;
+        let backImage = null;
+        let pendingFile = null;
+        let pendingSide = null;
+        
+        // Set PDF.js worker
+        window.PDFJS = window['pdfjs-dist/build/pdf'] || window.PDFJS;
+        if (window.PDFJS) {
+          window.PDFJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+        }
+        
+        // Front dropzone handlers
+        frontDropzone.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          frontInput.click();
+        });
+        frontInput.addEventListener('change', async (e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            pendingSide = 'front';
+            await handleFile(e.target.files[0]);
+          }
+        });
+        // Drag and drop for front
+        frontDropzone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          frontDropzone.classList.add('dragover');
+        });
+        frontDropzone.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          frontDropzone.classList.remove('dragover');
+        });
+        frontDropzone.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          frontDropzone.classList.remove('dragover');
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            pendingSide = 'front';
+            await handleFile(e.dataTransfer.files[0]);
+          }
+        });
+
+        // Back dropzone handlers
+        backDropzone.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          backInput.click();
+        });
+        backInput.addEventListener('change', async (e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            pendingSide = 'back';
+            await handleFile(e.target.files[0]);
+          }
+        });
+        // Drag and drop for back
+        backDropzone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          backDropzone.classList.add('dragover');
+        });
+        backDropzone.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          backDropzone.classList.remove('dragover');
+        });
+        backDropzone.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          backDropzone.classList.remove('dragover');
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            pendingSide = 'back';
+            await handleFile(e.dataTransfer.files[0]);
+          }
+        });
+        
+        pdfPasswordInput.addEventListener('keypress', async (e) => {
+          if (e.key === 'Enter' && pendingFile) {
+            await tryLoadPdf(pendingFile, pdfPasswordInput.value);
+          }
+        });
+        
+        tryPdfPasswordBtn.addEventListener('click', async (e) => {
+          if (pendingFile) {
+            await tryLoadPdf(pendingFile, pdfPasswordInput.value);
+          }
+        });
+        
+        async function handleFile(file) {
+          pendingFile = file;
+          
+          if (file.type === 'application/pdf') {
+            pdfPasswordGroup.style.display = 'block';
+            await tryLoadPdf(file, ''); // First try without password
+          } else if (file.type.startsWith('image/')) {
+            pdfPasswordGroup.style.display = 'none';
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const img = new Image();
+              img.onload = () => {
+                if (pendingSide === 'front') {
+                  frontImage = img;
+                } else {
+                  backImage = img;
+                }
+                renderCardPreview();
+              };
+              img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+        
+        async function tryLoadPdf(file, password) {
+          try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await window.PDFJS.getDocument({ 
+              data: arrayBuffer, 
+              password: password 
+            }).promise;
+            
+            pdfPasswordGroup.style.display = 'none';
+            
+            // Load first page
+            const page = await pdf.getPage(1);
+            const scale = 2;
+            const viewport = page.getViewport({ scale: scale });
+            
+            // Create canvas to render page
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            // Render PDF page into canvas
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            await page.render(renderContext).promise;
+            
+            const img = new Image();
+            img.onload = () => {
+              if (pendingSide === 'front') {
+                frontImage = img;
+              } else {
+                backImage = img;
+              }
+              renderCardPreview();
+            };
+            img.src = canvas.toDataURL('image/png');
+            
+          } catch (error) {
+            if (error.name === 'PasswordException' || error.message && error.message.toLowerCase().includes('password')) {
+              alert('This PDF is password protected. Please enter the password.');
+              pdfPasswordGroup.style.display = 'block';
+              pdfPasswordInput.focus();
+            } else {
+              alert('Error loading PDF: ' + error.message);
+              console.error(error);
+            }
+          }
+        }
+        
+        btnPrint.addEventListener('click', printCard);
+        
+        function renderCardPreview() {
+          if (!frontImage) return;
+          
+          previewArea.style.display = 'block';
+          btnPrint.style.display = 'inline-flex';
+          
+          let previewHTML = `
+            <div style="display:flex; gap:24px; flex-wrap:wrap;">
+              <div style="text-align:center;">
+                <div style="font-size:12px; font-weight:600; color:#64748b; margin-bottom:4px;">Front</div>
+                <img src="${frontImage.src}" style="width:200px; height:auto; border:1px solid #e2e8f0; border-radius:4px;">
+              </div>
+          `;
+          
+          if (backImage) {
+            previewHTML += `
+              <div style="text-align:center;">
+                <div style="font-size:12px; font-weight:600; color:#64748b; margin-bottom:4px;">Back</div>
+                <img src="${backImage.src}" style="width:200px; height:auto; border:1px solid #e2e8f0; border-radius:4px;">
+              </div>
+            `;
+          }
+          
+          previewHTML += '</div>';
+          previewDiv.innerHTML = previewHTML;
+        }
+        
+        function printCard() {
+          if (!frontImage) return;
+          
+          const printWindow = window.open('', '_blank');
+          printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Print Card</title>
+              <style>
+                @page {
+                  size: A4 portrait;
+                  margin: 15mm;
+                }
+                body {
+                  font-family: Arial, sans-serif;
+                  margin:0;
+                  padding:0;
+                }
+                .card-container {
+                  display: flex;
+                  gap:20px;
+                  flex-wrap:wrap;
+                  margin-bottom:20px;
+                }
+                .card-wrapper {
+                  text-align:center;
+                }
+                .card-label {
+                  font-size:12px;
+                  color:#666;
+                  margin-bottom:5px;
+                }
+                .card-image {
+                  width: 85.6mm;
+                  height: 54mm;
+                  object-fit:contain;
+                  border:1px dashed #ccc;
+                }
+                .print-btn {
+                  display:block;
+                  margin:20px auto;
+                  padding:10px 30px;
+                  background:#128807;
+                  color:#fff;
+                  border:none;
+                  border-radius:4px;
+                  font-size:16px;
+                  cursor:pointer;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="card-container">
+          `);
+          
+          printWindow.document.write(`
+            <div class="card-wrapper">
+              <div class="card-label">Front Side</div>
+              <img src="${frontImage.src}" class="card-image">
+            </div>
+          `);
+          
+          if (backImage) {
+            printWindow.document.write(`
+              <div class="card-wrapper">
+                <div class="card-label">Back Side</div>
+                <img src="${backImage.src}" class="card-image">
+              </div>
+            `);
+          }
+          
+          printWindow.document.write(`
+              </div>
+              <button class="print-btn" onclick="window.print()">Print</button>
+            </body>
+            </html>
+          `);
+          
+          printWindow.document.close();
+        }
+      }
+      
+      function drawPassportSheet() {
+        if (!printToolImage) return;
+        
+        const canvas = qs('#passportCanvas');
+        const ctx = canvas.getContext('2d');
+        const layout = parseInt(qs('#passportLayoutSelect').value);
+        
+        const photoW = 413; // ~35mm at 300dpi
+        const photoH = 531; // ~45mm at 300dpi
+        const gap = 20;
+        
+        let cols, rows;
+        switch (layout) {
+          case 6: cols=3; rows=2; break;
+          case 8: cols=4; rows=2; break;
+          case 12: cols=4; rows=3; break;
+        }
+        
+        canvas.width = cols * photoW + (cols + 1) * gap;
+        canvas.height = rows * photoH + (rows + 1) * gap;
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        
+        const imgRatio = printToolImage.width / printToolImage.height;
+        const targetRatio = photoW / photoH;
+        
+        let drawW, drawH, drawX, drawY;
+        
+        if (imgRatio > targetRatio) {
+          drawH = photoH;
+          drawW = photoH * imgRatio;
+        } else {
+          drawW = photoW;
+          drawH = photoW / imgRatio;
+        }
+        
+        for (let r=0; r<rows; r++) {
+          for (let c=0; c<cols; c++) {
+            const x = gap + c*(photoW + gap);
+            const y = gap + r*(photoH + gap);
+            
+            // Draw photo container
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, photoW, photoH);
+            
+            // Calculate image position (center in container)
+            const imgX = x + (photoW - drawW)/2;
+            const imgY = y + (photoH - drawH)/2;
+            
+            ctx.drawImage(printToolImage, imgX, imgY, drawW, drawH);
+          }
+        }
+        
+        qs('#passportPreviewArea').style.display = 'block';
+        qs('#btnPrintPassport').style.display = 'inline-flex';
+      }
+      
+      function printPassportSheet() {
+        const canvas = qs('#passportCanvas');
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Print Passport Photos</title>
+            <style>
+              @page {
+                size: A4 portrait;
+                margin: 10mm;
+              }
+              body {
+                font-family: Arial, sans-serif;
+                margin:0;
+                padding:0;
+                text-align:center;
+              }
+              img {
+                max-width:100%;
+                height:auto;
+              }
+              .print-btn {
+                margin:20px auto;
+                padding:10px 30px;
+                background:#128807;
+                color:#fff;
+                border:none;
+                border-radius:4px;
+                font-size:16px;
+                cursor:pointer;
+              }
+            </style>
+          </head>
+          <body>
+            <img src="${canvas.toDataURL('image/jpeg', 0.95)}">
+            <button class="print-btn" onclick="window.print()">Print</button>
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+      }
+    }
+
+    // 5. Photo & Signature Joiner Logic
+    const sigPhotoDropzone = qs('#sigPhotoDropzone');
+    const sigPhotoInput = qs('#sigPhotoInput');
+    const sigPhotoName = qs('#sigPhotoName');
+    
+    const sigSignDropzone = qs('#sigSignDropzone');
+    const sigSignInput = qs('#sigSignInput');
+    const sigSignName = qs('#sigSignName');
+    
+    const sigPreviewArea = qs('#sigPreviewArea');
+    const photoSigCanvas = qs('#photoSigCanvas');
+    const sigCtx = photoSigCanvas.getContext('2d');
+    const btnDownloadCombined = qs('#btnDownloadCombined');
+    
+    let uploadedPhotoImg = null;
+    let uploadedSignImg = null;
+
+    sigPhotoDropzone.addEventListener('click', () => sigPhotoInput.click());
+    sigPhotoInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length) {
+        processPhotoSigFile(e.target.files[0], 'photo');
+      }
+    });
+
+    sigSignDropzone.addEventListener('click', () => sigSignInput.click());
+    sigSignInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length) {
+        processPhotoSigFile(e.target.files[0], 'sign');
+      }
+    });
+
+    function processPhotoSigFile(file, type) {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          if (type === 'photo') {
+            uploadedPhotoImg = img;
+            sigPhotoName.textContent = file.name;
+            sigPhotoDropzone.style.borderColor = '#128807';
+          } else {
+            uploadedSignImg = img;
+            sigSignName.textContent = file.name;
+            sigSignDropzone.style.borderColor = '#128807';
+          }
+          if (uploadedPhotoImg || uploadedSignImg) {
+            sigPreviewArea.style.display = 'flex';
+            drawCombinedPhotoSig();
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function drawCombinedPhotoSig() {
+      const canvasW = 350;
+      const photoH = 350;
+      const signH = 150;
+      const totalH = photoH + signH;
+
+      photoSigCanvas.width = canvasW;
+      photoSigCanvas.height = totalH;
+
+      sigCtx.fillStyle = '#ffffff';
+      sigCtx.fillRect(0, 0, canvasW, totalH);
+
+      if (uploadedPhotoImg) {
+        const imgRatio = uploadedPhotoImg.width / uploadedPhotoImg.height;
+        const targetRatio = canvasW / photoH;
+        let dW, dH, dX, dY;
+        if (imgRatio > targetRatio) {
+          dH = photoH;
+          dW = photoH * imgRatio;
+          dX = (canvasW - dW) / 2;
+          dY = 0;
+        } else {
+          dW = canvasW;
+          dH = canvasW / imgRatio;
+          dX = 0;
+          dY = (photoH - dH) / 2;
+        }
+        sigCtx.drawImage(uploadedPhotoImg, dX, dY, dW, dH);
+      } else {
+        sigCtx.fillStyle = '#f1f5f9';
+        sigCtx.fillRect(10, 10, canvasW - 20, photoH - 20);
+        sigCtx.fillStyle = '#64748b';
+        sigCtx.font = '14px Arial';
+        sigCtx.textAlign = 'center';
+        sigCtx.fillText('Photo Placeholder', canvasW / 2, photoH / 2);
+      }
+
+      sigCtx.strokeStyle = '#cbd5e1';
+      sigCtx.lineWidth = 1;
+      sigCtx.beginPath();
+      sigCtx.moveTo(0, photoH);
+      sigCtx.lineTo(canvasW, photoH);
+      sigCtx.stroke();
+
+      if (uploadedSignImg) {
+        const imgRatio = uploadedSignImg.width / uploadedSignImg.height;
+        const targetRatio = canvasW / signH;
+        let dW, dH, dX, dY;
+        if (imgRatio > targetRatio) {
+          dH = signH;
+          dW = signH * imgRatio;
+          dX = (canvasW - dW) / 2;
+          dY = photoH;
+        } else {
+          dW = canvasW;
+          dH = canvasW / imgRatio;
+          dX = 0;
+          dY = photoH + (signH - dH) / 2;
+        }
+        sigCtx.drawImage(uploadedSignImg, dX, dY, dW, dH);
+      } else {
+        sigCtx.fillStyle = '#f1f5f9';
+        sigCtx.fillRect(10, photoH + 10, canvasW - 20, signH - 20);
+        sigCtx.fillStyle = '#64748b';
+        sigCtx.font = '14px Arial';
+        sigCtx.textAlign = 'center';
+        sigCtx.fillText('Signature Placeholder', canvasW / 2, photoH + (signH / 2));
+      }
+    }
+
+    btnDownloadCombined.addEventListener('click', () => {
+      if (!uploadedPhotoImg && !uploadedSignImg) return;
+      const dataURL = photoSigCanvas.toDataURL('image/jpeg', 0.9);
+      const link = document.createElement('a');
+      link.download = 'photo_signature_combined.jpg';
+      link.href = dataURL;
+      link.click();
+    });
+
+    // 6. Image to PDF Converter Logic
+    const pdfDropzone = qs('#pdfDropzone');
+    const pdfFileInput = qs('#pdfFileInput');
+    const pdfFilesContainer = qs('#pdfFilesContainer');
+    const pdfThumbnails = qs('#pdfThumbnails');
+    const btnGeneratePdf = qs('#btnGeneratePdf');
+    const printPdfArea = qs('#printPdfArea');
+    
+    let pdfImageFiles = [];
+
+    pdfDropzone.addEventListener('click', () => pdfFileInput.click());
+    pdfFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length) {
+        Array.from(e.target.files).forEach(file => {
+          if (file.type.startsWith('image/')) {
+            pdfImageFiles.push(file);
+          }
+        });
+        renderPdfThumbnails();
+      }
+    });
+
+    function renderPdfThumbnails() {
+      pdfThumbnails.innerHTML = '';
+      if (pdfImageFiles.length === 0) {
+        pdfFilesContainer.style.display = 'none';
+        return;
+      }
+      
+      pdfFilesContainer.style.display = 'block';
+      pdfImageFiles.forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const wrapper = document.createElement('div');
+          wrapper.style.position = 'relative';
+          wrapper.style.border = '1px solid #cbd5e1';
+          wrapper.style.borderRadius = '4px';
+          wrapper.style.overflow = 'hidden';
+          wrapper.style.background = '#fff';
+          wrapper.style.padding = '2px';
+          
+          const img = document.createElement('img');
+          img.src = event.target.result;
+          img.style.width = '100%';
+          img.style.height = '60px';
+          img.style.objectFit = 'contain';
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+          removeBtn.style.position = 'absolute';
+          removeBtn.style.top = '1px';
+          removeBtn.style.right = '1px';
+          removeBtn.style.background = 'rgba(239, 68, 68, 0.9)';
+          removeBtn.style.color = '#fff';
+          removeBtn.style.border = 'none';
+          removeBtn.style.borderRadius = '50%';
+          removeBtn.style.width = '16px';
+          removeBtn.style.height = '16px';
+          removeBtn.style.fontSize = '10px';
+          removeBtn.style.cursor = 'pointer';
+          removeBtn.style.display = 'flex';
+          removeBtn.style.alignItems = 'center';
+          removeBtn.style.justifyContent = 'center';
+          removeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            pdfImageFiles.splice(idx, 1);
+            renderPdfThumbnails();
+          });
+          
+          wrapper.appendChild(img);
+          wrapper.appendChild(removeBtn);
+          pdfThumbnails.appendChild(wrapper);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    btnGeneratePdf.addEventListener('click', async () => {
+      if (pdfImageFiles.length === 0) return;
+      
+      printPdfArea.innerHTML = '';
+      
+      const promises = pdfImageFiles.map(file => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'pdf-print-page';
+            
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            
+            pageDiv.appendChild(img);
+            printPdfArea.appendChild(pageDiv);
+            resolve();
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      await Promise.all(promises);
+
+      printPdfArea.style.display = 'block';
+      window.print();
+      printPdfArea.style.display = 'none';
+    });
+
+    // 7. Password Generator Logic
+    const genPasswordOutput = qs('#genPasswordOutput');
+    const btnCopyPassword = qs('#btnCopyPassword');
+    const passLengthSlider = qs('#passLengthSlider');
+    const passLengthVal = qs('#passLengthVal');
+    const btnGeneratePassword = qs('#btnGeneratePassword');
+    const passTypeSelect = qs('#passTypeSelect');
+    const randomSettingsArea = qs('#randomSettingsArea');
+    const personalizedSettingsArea = qs('#personalizedSettingsArea');
+    
+    const chkUpper = qs('#chkUpper');
+    const chkLower = qs('#chkLower');
+    const chkNumbers = qs('#chkNumbers');
+    const chkSymbols = qs('#chkSymbols');
+
+    passLengthSlider.addEventListener('input', (e) => {
+      passLengthVal.textContent = e.target.value;
+    });
+
+    passTypeSelect.addEventListener('change', () => {
+      const val = passTypeSelect.value;
+      personalizedSettingsArea.style.display = val === 'personalized' ? 'block' : 'none';
+      randomSettingsArea.style.display = val === 'random' ? 'block' : 'none';
+      generateSecurePassword();
+    });
+
+    function generateSecurePassword() {
+      const type = passTypeSelect.value;
+      if (type === 'personalized') {
+        const pName = (qs('#ppName').value || '').trim();
+        const pYear = (qs('#ppYear').value || '').trim();
+        const pFather = (qs('#ppFather').value || '').trim();
+        const pMobile = (qs('#ppMobile').value || '').trim();
+
+        // Fallbacks
+        const namePart = pName ? pName.charAt(0).toUpperCase() + pName.slice(1).toLowerCase().replace(/[^a-z]/g, '') : 'User';
+        const fatherPart = pFather ? pFather.charAt(0).toUpperCase() : 'F';
+        const yearPart = pYear ? pYear.slice(-4) : '2026';
+        const mobilePart = pMobile ? pMobile.slice(-4) : '9876';
+
+        const symbols = ['@', '#', '$', '&'];
+        const sym = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        const choice = Math.floor(Math.random() * 3);
+        let password = '';
+        if (choice === 0) {
+          password = namePart + sym + yearPart;
+        } else if (choice === 1) {
+          password = namePart + fatherPart + sym + mobilePart;
+        } else {
+          const fName = pFather ? pFather.charAt(0).toUpperCase() + pFather.slice(1).toLowerCase().replace(/[^a-z]/g, '') : 'Father';
+          const nameInitial = pName ? pName.charAt(0).toUpperCase() : 'U';
+          password = fName + nameInitial + sym + mobilePart;
+        }
+        
+        genPasswordOutput.value = password;
+        return;
+      }
+      
+      if (type === 'memorable') {
+        const adjectives = ['Happy', 'Smart', 'Lucky', 'Super', 'Bright', 'Cool', 'Gold', 'Swift', 'Royal', 'Grand', 'Mega', 'Star', 'Strong', 'Brave', 'Great', 'Active', 'Caring', 'Sweet', 'Sharp', 'Warm', 'Fresh', 'Pure'];
+        const nouns = ['Panda', 'Tiger', 'Eagle', 'India', 'Delhi', 'King', 'Hero', 'Star', 'Cloud', 'River', 'Sun', 'Moon', 'Cobra', 'Lion', 'Forest', 'Ocean', 'Rose', 'Lotus', 'Apple', 'Bird', 'Peacock', 'Friend'];
+        const symbols = ['@', '#', '$', '&'];
+        
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        const sym = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        const numOptions = ['2026', '123', '786', '999', '777', String(Math.floor(Math.random() * 900) + 100)];
+        const num = numOptions[Math.floor(Math.random() * numOptions.length)];
+        
+        genPasswordOutput.value = adj + noun + sym + num;
+        return;
+      }
+
+      const length = parseInt(passLengthSlider.value);
+      const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const lower = 'abcdefghijklmnopqrstuvwxyz';
+      const numbers = '0123456789';
+      const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+      
+      let charSet = '';
+      let mandatoryChars = [];
+
+      if (chkUpper.checked) {
+        charSet += upper;
+        mandatoryChars.push(upper[Math.floor(Math.random() * upper.length)]);
+      }
+      if (chkLower.checked) {
+        charSet += lower;
+        mandatoryChars.push(lower[Math.floor(Math.random() * lower.length)]);
+      }
+      if (chkNumbers.checked) {
+        charSet += numbers;
+        mandatoryChars.push(numbers[Math.floor(Math.random() * numbers.length)]);
+      }
+      if (chkSymbols.checked) {
+        charSet += symbols;
+        mandatoryChars.push(symbols[Math.floor(Math.random() * symbols.length)]);
+      }
+
+      if (charSet.length === 0) {
+        genPasswordOutput.value = 'SELECT AN OPTION';
+        return;
+      }
+
+      let generated = '';
+      const remainingLength = length - mandatoryChars.length;
+      for (let i = 0; i < remainingLength; i++) {
+        const randomIndex = Math.floor(Math.random() * charSet.length);
+        generated += charSet[randomIndex];
+      }
+
+      const finalArray = generated.split('').concat(mandatoryChars);
+      for (let i = finalArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [finalArray[i], finalArray[j]] = [finalArray[j], finalArray[i]];
+      }
+
+      genPasswordOutput.value = finalArray.join('');
+    }
+
+    btnGeneratePassword.addEventListener('click', generateSecurePassword);
+    
+    btnCopyPassword.addEventListener('click', () => {
+      const val = genPasswordOutput.value;
+      if (!val || val === 'SELECT AN OPTION') return;
+      navigator.clipboard.writeText(val).then(() => {
+        const oldText = btnCopyPassword.innerHTML;
+        btnCopyPassword.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => {
+          btnCopyPassword.innerHTML = oldText;
+        }, 1500);
+      });
+    });
+
+    generateSecurePassword();
+  </script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - India Result Exam</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Quill Editor CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .ai-box {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            transition: all 0.3s ease;
+        }
+        .ai-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.3);
+        }
+        .preview-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        .table-row:hover {
+            background-color: #f8fafc;
+        }
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-graduation-cap text-3xl"></i>
+                    <div>
+                        <h1 class="text-2xl font-bold">Admin Panel</h1>
+                        <p class="text-sm opacity-90">India Result Exam Management System</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm" id="connectionStatus">
+                        <i class="fas fa-circle text-green-400"></i> Connected
+                    </span>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm transition">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Gemini AI Smart Box & 1-Click Link Importer -->
+    <section class="container mx-auto px-4 py-6">
+        <div class="ai-box rounded-xl p-6 text-white shadow-xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left Column: 1-Click Link Importer -->
+                <div class="flex flex-col justify-between space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-cloud-download-alt text-3xl"></i>
+                        <div>
+                            <h2 class="text-xl font-bold">1-Click Sarkari Link Importer</h2>
+                            <p class="text-sm opacity-90">Paste any Sarkari Result link to fetch and auto-fill everything instantly</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow flex flex-col justify-center">
+                        <div class="relative">
+                            <input 
+                                type="url" 
+                                id="sarkariImportUrl" 
+                                placeholder="Paste Sarkari Result page URL here (e.g., https://www.sarkariresult.com/...)"
+                                class="w-full p-4 pr-12 rounded-lg bg-white border-2 border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-sans"
+                            >
+                            <i class="fas fa-link absolute right-4 top-4 text-gray-400 text-lg"></i>
+                        </div>
+                        <p class="text-xs text-purple-200 mt-2 flex items-start space-x-1">
+                            <i class="fas fa-info-circle text-yellow-300 mt-0.5"></i>
+                            <span>SarkariResult blocks automated requests (Cloudflare WAF). Please install a free Chrome extension like <strong>"Allow CORS"</strong> & turn it <strong>ON</strong> for 100% successful direct fetch.</span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="text-xs text-purple-200">Extracts dates, fees, age limits, vacancy tables & links.</span>
+                        <button id="sarkariImportBtn" onclick="importFromSarkariURL()" class="bg-white text-purple-700 px-6 py-2.5 rounded-lg font-bold hover:bg-gray-100 transition shadow-md flex items-center space-x-2">
+                            <i class="fas fa-bolt"></i>
+                            <span>Fetch & Autofill</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Gemini AI Smart Box (JSON Input) -->
+                <div class="flex flex-col justify-between space-y-4 lg:border-l lg:border-white/20 lg:pl-8">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-robot text-3xl"></i>
+                            <div>
+                                <h2 class="text-xl font-bold">Gemini AI Smart Box</h2>
+                                <p class="text-sm opacity-90">Paste structured JSON data manually</p>
+                            </div>
+                        </div>
+                        <button onclick="processAIData()" class="bg-white text-purple-700 px-5 py-1.5 rounded-lg font-bold hover:bg-gray-100 transition shadow-sm text-sm flex items-center space-x-1">
+                            <i class="fas fa-magic"></i> <span>Auto Fill Form</span>
+                        </button>
+                    </div>
+                    
+                    <textarea 
+                        id="aiDataInput" 
+                        placeholder='Paste JSON data here, example: {"title": "SSC CGL Recruitment 2026", "category": "Latest Jobs", "lastDate": "2026-12-31", "applyLink": "https://example.com/apply"}'
+                        class="w-full h-24 p-3 rounded-lg bg-white border-2 border-gray-300 text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-xs"
+                    ></textarea>
+                    
+                    <div class="flex items-center justify-between text-xs text-purple-200">
+                        <span>Supports standard JSON layout as backup.</span>
+                        <button onclick="clearAIBox()" class="text-white/80 hover:text-white transition flex items-center space-x-1">
+                            <i class="fas fa-eraser"></i> <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Form Section -->
+            <section class="glass-effect rounded-xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-edit text-blue-600 mr-2"></i>
+                    Add New Job/Update
+                </h3>
+                
+                <form id="jobForm" class="space-y-4">
+                    <input type="hidden" id="jobId" value="">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                            <input type="text" id="title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                            <select id="category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Select Category</option>
+                                <option value="Latest Jobs">Latest Jobs</option>
+                                <option value="Admit Card">Admit Card</option>
+                                <option value="Result">Result</option>
+                                <option value="Admission">Admission</option>
+                                <option value="Answer Key">Answer Key</option>
+                                <option value="OTR">OTR</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Date *</label>
+                            <input type="date" id="lastDate" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Post Date</label>
+                            <input type="date" id="postDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Apply Link *</label>
+                        <input type="url" id="applyLink" required placeholder="https://example.com/apply" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Official Link</label>
+                        <input type="url" id="officialLink" placeholder="https://example.com/official" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Additional Link Boxes for JSON Auto-Fill -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Apply Link (Auto-Fill)</label>
+                        <input type="url" id="f_apply_link" placeholder="Auto-filled from JSON links array" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Official Link (Auto-Fill)</label>
+                        <input type="url" id="f_official_link" placeholder="Auto-filled from JSON links array" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        
+                        <!-- Editor Toolbar Buttons -->
+                        <div class="mb-3 flex flex-wrap gap-2">
+                            <button onclick="insertJobTable()" class="px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition flex items-center gap-2">
+                                <i class="fas fa-table"></i>
+                                Insert Job Table
+                            </button>
+                            <button onclick="insertApplyButtons()" class="px-3 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition flex items-center gap-2">
+                                <i class="fas fa-link"></i>
+                                Insert Apply Buttons
+                            </button>
+                            <button onclick="clearQuillEditor()" class="px-3 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition flex items-center gap-2">
+                                <i class="fas fa-eraser"></i>
+                                Clear Editor
+                            </button>
+                        </div>
+                        
+                        <div id="quillEditor" style="height: 200px;"></div>
+                        <input type="hidden" id="description" name="description">
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <button type="submit" class="btn-primary text-white px-6 py-2 rounded-lg font-semibold">
+                            <i class="fas fa-save"></i> <span id="submitBtnText">Add Job</span>
+                        </button>
+                        <button type="button" onclick="resetForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Live Preview Section -->
+            <section class="glass-effect rounded-xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-eye text-green-600 mr-2"></i>
+                    Live Preview
+                </h3>
+                
+                <div id="previewContent" class="preview-card p-4">
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-file-alt text-4xl mb-3"></i>
+                        <p>Start filling the form to see live preview</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Jobs Table Section -->
+        <section class="glass-effect rounded-xl p-6 mt-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-table text-purple-600 mr-2"></i>
+                    Manage Jobs/Updates
+                </h3>
+                <div class="flex items-center space-x-3">
+                    <input type="text" id="searchInput" placeholder="Search jobs..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <select id="categoryFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">All Categories</option>
+                        <option value="Latest Jobs">Latest Jobs</option>
+                        <option value="Admit Card">Admit Card</option>
+                        <option value="Result">Result</option>
+                        <option value="Admission">Admission</option>
+                        <option value="Answer Key">Answer Key</option>
+                        <option value="OTR">OTR</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Date</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsTableBody">
+                        <tr>
+                            <td colspan="5" class="px-4 py-8 text-center text-gray-500">
+                                <div class="loading-spinner mx-auto mb-3"></div>
+                                <p>Loading jobs...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-4 flex items-center space-x-3 min-w-[300px]">
+            <div id="toastIcon"></div>
+            <div>
+                <p id="toastMessage" class="text-gray-800 font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Quill Editor JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- Sarkari Result Style -->
+    <link rel="stylesheet" href="sarkari-style.css">
+    <script src="sarkari-details-generator.js"></script>
+    <script src="sarkari-admin-enhancer.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

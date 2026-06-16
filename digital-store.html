@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Store - India Result Exam</title>
+  <link rel="icon" type="image/png" href="inl.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --store-gold: #f59e0b;
+      --store-gold-dark: #d97706;
+    }
+    .store-hero {
+      background: linear-gradient(135deg, var(--store-gold) 0%, var(--store-gold-dark) 100%);
+      padding: 60px 20px;
+      text-align: center;
+      color: #fff;
+      border-radius: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .store-hero::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .store-hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .store-hero p {
+      font-size: 18px;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 10px;
+    }
+    .store-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .store-tab-btn {
+      padding: 10px 20px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #64748b;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .store-tab-btn.active {
+      background: var(--store-gold);
+      color: #fff;
+      border-color: var(--store-gold);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      border-color: var(--store-gold);
+    }
+    .product-image {
+      height: 180px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: var(--store-gold);
+      position: relative;
+    }
+    .product-price-tag {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #16a34a;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(22, 163, 74, 0.3);
+    }
+    .product-info {
+      padding: 24px;
+      flex: 1;
+    }
+    .product-cat {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--store-gold-dark);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .product-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .product-desc {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+    .product-footer {
+      padding: 20px 24px;
+      background: #f8fafc;
+      border-top: 1px solid #f1f5f9;
+    }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--store-gold) 0%, var(--store-gold-dark) 100%);
+      color: #fff !important;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .btn-buy:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #64748b;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .back-home:hover { color: var(--primary); }
+
+    [data-theme="dark"] .product-card { background: #1e293b; border-color: #334155; }
+    [data-theme="dark"] .product-title { color: #f1f5f9; }
+    [data-theme="dark"] .product-desc { color: #94a3b8; }
+    [data-theme="dark"] .product-footer { background: #0f172a; border-color: #334155; }
+    [data-theme="dark"] .product-image { background: #0f172a; }
+  </style>
+</head>
+<body>
+  <div class="shell" style="margin-left: 0; max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <a href="index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    
+    <div class="store-hero">
+      <h1><i class="fa-solid fa-bag-shopping"></i> India Result Digital Store</h1>
+      <p>Best Exam PDFs, eBooks, and Templates at Lowest Prices. Instant Access via WhatsApp.</p>
+    </div>
+
+    <div class="store-tabs" id="storeTabs">
+      <button class="store-tab-btn active" data-cat="all">All Products</button>
+      <button class="store-tab-btn" data-cat="resume">Resume Templates</button>
+      <button class="store-tab-btn" data-cat="excel">Excel Templates</button>
+      <button class="store-tab-btn" data-cat="ebook">eBooks & Notes</button>
+    </div>
+
+    <div class="product-grid" id="digitalStoreGrid">
+      <!-- Loading Skeletons -->
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getFirestore, collection, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import { firebaseConfig } from './firebase-config.js';
+
+    const grid = document.getElementById('digitalStoreGrid');
+    const tabs = document.querySelectorAll('.store-tab-btn');
+    let allProducts = [];
+    let currentCat = 'all';
+
+    const dummyProducts = [
+      {
+        id: 'dummy-1',
+        title: 'Professional Modern Resume Template',
+        category: 'Resume',
+        price: '49',
+        department: 'ATS Friendly • MS Word Format • Easy to Edit',
+        icon: 'fa-file-invoice'
+      },
+      {
+        id: 'dummy-2',
+        title: 'GST Invoice Billing Excel Sheet',
+        category: 'Excel',
+        price: '99',
+        department: 'Automatic Calculation • Professional Layout • Life Time Access',
+        icon: 'fa-file-excel'
+      },
+      {
+        id: 'dummy-3',
+        title: 'General Knowledge 2026 Master eBook',
+        category: 'eBook',
+        price: '149',
+        department: '5000+ MCQ • Latest Updates • PDF Format',
+        icon: 'fa-book-open'
+      },
+      {
+        id: 'dummy-4',
+        title: 'Executive Cover Letter Templates',
+        category: 'Resume',
+        price: '29',
+        department: '50+ Samples • Multiple Roles • Word Format',
+        icon: 'fa-envelope-open-text'
+      }
+    ];
+
+    function renderProducts(products) {
+      if (products.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;"><h3>No products found in this category.</h3></div>';
+        return;
+      }
+
+      grid.innerHTML = products.map(p => {
+        const whatsappNumber = firebaseConfig.whatsappNumber || '919548816799';
+        const buyMsg = encodeURIComponent(`नमस्ते! मुझे आपका डिजिटल प्रोडक्ट "${p.title}" खरीदना है। कृपया पेमेंट डिटेल्स भेजें।`);
+        
+        let icon = p.icon || 'fa-file-pdf';
+        if (p.category?.toLowerCase().includes('resume')) icon = 'fa-file-invoice';
+        if (p.category?.toLowerCase().includes('excel')) icon = 'fa-file-excel';
+        if (p.category?.toLowerCase().includes('ebook')) icon = 'fa-book-open';
+
+        return `
+          <div class="product-card">
+            <div class="product-image">
+              <i class="fa-solid ${icon}"></i>
+              <div class="product-price-tag">₹${p.price || '99'}</div>
+            </div>
+            <div class="product-info">
+              <span class="product-cat">${p.category || 'Digital Store'}</span>
+              <h3 class="product-title">${p.title}</h3>
+              <p class="product-desc">${p.department || 'Instant Access After Payment • Premium Quality'}</p>
+            </div>
+            <div class="product-footer">
+              <a href="https://wa.me/${whatsappNumber}?text=${buyMsg}" target="_blank" class="btn-buy">
+                <i class="fa-solid fa-cart-shopping"></i> Buy Now via WhatsApp
+              </a>
+              ${p.id.startsWith('dummy') ? '' : `<a href="details.html?id=${p.id}" style="display: block; text-align: center; margin-top: 12px; font-size: 12px; color: #64748b; text-decoration: none; font-weight: 600;">View Sample / Details</a>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAndRender() {
+      const filtered = allProducts.filter(p => {
+        if (currentCat === 'all') return true;
+        return p.category?.toLowerCase().includes(currentCat);
+      });
+      renderProducts(filtered);
+    }
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const jobsRef = collection(db, 'latest_jobs');
+    const q = query(jobsRef, orderBy('createdAt', 'desc'));
+
+    onSnapshot(q, (snap) => {
+      const dbProducts = snap.docs
+        .filter(d => {
+          const cat = (d.data().category || '').toLowerCase();
+          return cat.includes('store') || cat.includes('product');
+        })
+        .map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => {
+          const timeA = Math.max(a.updatedAt?.seconds || 0, a.createdAt?.seconds || 0);
+          const timeB = Math.max(b.updatedAt?.seconds || 0, b.createdAt?.seconds || 0);
+          return timeB - timeA;
+        });
+      
+      // Combine dummy and real products
+      allProducts = [...dbProducts, ...dummyProducts];
+      filterAndRender();
+    });
+
+    // Tab Logic
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentCat = tab.getAttribute('data-cat');
+        filterAndRender();
+      });
+    });
+
+    // Theme Support
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') document.body.setAttribute('data-theme', 'dark');
+  </script>
+</body>
+</html>

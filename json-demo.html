@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to Details Demo - India Result Exam</title>
+    <link rel="icon" type="image/png" href="INDIAL.PNG" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" referrerpolicy="no-referrer" />
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f4f4f4; 
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        }
+        
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .json-input {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .btn-convert {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-convert:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        .btn-clear {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        .output-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            background: #f8fff8;
+        }
+        
+        .sample-json {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        h1, h2, h3 {
+            color: #007bff;
+            text-align: center;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-code"></i> JSON to Details Converter Demo</h1>
+        <p style="text-align: center; color: #666;">Paste your JSON data below and see it converted to professional job details!</p>
+        
+        <div class="demo-section">
+            <h2><i class="fas fa-edit"></i> JSON Input</h2>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> <strong>Instructions:</strong> Paste your job JSON data in the textarea below and click "Convert to Details" to see the professional output.
+            </div>
+            
+            <textarea id="jsonInput" class="json-input" placeholder='Paste your JSON here...
+Example:
+{
+  "title": "UP Police Constable 2026",
+  "postName": "Police Constable",
+  "totalPosts": "32679",
+  "qualification": "12th Pass",
+  "lastDate": "30 Jan 2026",
+  "importantDates": "<ul><li><strong>Start Date:</strong> 15 Dec 2025</li><li><strong>Last Date:</strong> 30 Jan 2026</li></ul>",
+  "fees": "<ul><li><strong>General/OBC:</strong> 400/-</li><li><strong>SC/ST:</strong> 100/-</li></ul>",
+  "links": [
+    {"name": "Apply Online", "url": "https://example.com/apply"},
+    {"name": "Official Website", "url": "https://example.com/official"}
+  ]
+}'></textarea>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <button class="btn-convert" onclick="convertJSON()">
+                    <i class="fas fa-sync"></i> Convert to Details
+                </button>
+                <button class="btn-clear" onclick="clearAll()">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+                <button class="btn-convert" onclick="loadSampleJSON()">
+                    <i class="fas fa-file-import"></i> Load Sample JSON
+                </button>
+            </div>
+        </div>
+        
+        <div class="output-section" id="outputSection" style="display: none;">
+            <h2><i class="fas fa-eye"></i> Generated Details</h2>
+            <div id="detailsOutput"></div>
+        </div>
+        
+        <div class="demo-section">
+            <h3><i class="fas fa-lightbulb"></i> Sample JSON Data</h3>
+            <p>You can use this sample JSON to test the converter:</p>
+            <div class="sample-json" id="sampleJson">
+{
+  "title": "UP Police Constable Recruitment 2026",
+  "postName": "Police Constable",
+  "totalPosts": "32679",
+  "qualification": "12th Pass from recognized board",
+  "lastDate": "30 January 2026",
+  "startDate": "15 December 2025",
+  "examDate": "20 March 2026",
+  "ageLimit": "Minimum 18 years, Maximum 22 years (Age relaxation as per rules)",
+  "selectionProcess": "Written Exam, Physical Test, Medical Examination",
+  "importantDates": "<ul><li><strong>Start Date:</strong> 15 December 2025</li><li><strong>Last Date:</strong> 30 January 2026</li><li><strong>Exam Date:</strong> 20 March 2026</li><li><strong>Admit Card:</strong> 10 March 2026</li></ul>",
+  "fees": "<ul><li><strong>General/OBC:</strong> ₹400/-</li><li><strong>SC/ST:</strong> ₹100/-</li><li><strong>PH:</strong> ₹0/-</li></ul>",
+  "vacancyDetails": "<ul><li><strong>Unreserved:</strong> 12000 posts</li><li><strong>OBC:</strong> 8000 posts</li><li><strong>SC:</strong> 6000 posts</li><li><strong>ST:</strong> 6679 posts</li></ul>",
+  "links": [
+    {"name": "Apply Online", "url": "https://example.com/up-police-apply"},
+    {"name": "Official Website", "url": "https://example.com/up-police"}
+  ]
+}
+            </div>
+        </div>
+    </div>
+
+    <script src="json-to-details.js"></script>
+    <script>
+        function convertJSON() {
+            const jsonInput = document.getElementById('jsonInput').value.trim();
+            const outputSection = document.getElementById('outputSection');
+            const detailsOutput = document.getElementById('detailsOutput');
+            
+            if (!jsonInput) {
+                alert('Please paste JSON data in the textarea above.');
+                return;
+            }
+            
+            try {
+                const jsonData = JSON.parse(jsonInput);
+                const detailsHTML = jsonToDetailsTable(jsonData);
+                
+                detailsOutput.innerHTML = detailsHTML;
+                outputSection.style.display = 'block';
+                
+                // Scroll to output
+                outputSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Show success message
+                showNotification('JSON converted successfully!', 'success');
+                
+            } catch (error) {
+                alert('Invalid JSON format: ' + error.message);
+                console.error('JSON Parse Error:', error);
+            }
+        }
+        
+        function clearAll() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('outputSection').style.display = 'none';
+            showNotification('All cleared!', 'info');
+        }
+        
+        function loadSampleJSON() {
+            const sampleJson = document.getElementById('sampleJson').textContent.trim();
+            document.getElementById('jsonInput').value = sampleJson;
+            showNotification('Sample JSON loaded!', 'success');
+        }
+        
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type}`;
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '9999';
+            notification.style.maxWidth = '300px';
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Auto-convert on paste (optional)
+        document.getElementById('jsonInput').addEventListener('paste', function(e) {
+            setTimeout(() => {
+                const pastedData = this.value.trim();
+                if (pastedData.startsWith('{') && pastedData.endsWith('}')) {
+                    // Auto-convert if it looks like JSON
+                    // convertJSON(); // Uncomment for auto-convert
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -110,48 +110,52 @@ function checkAuth() {
 
 function setupEvents() {
   // Logout
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    signOut(auth).then(() => {
-      window.location.href = 'login.html';
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = 'login.html';
+      });
     });
-  });
+  }
 
   // Dynamic row buttons
-  document.getElementById('addPostRowBtn').addEventListener('click', () => addPostRow());
-  document.getElementById('addLinkRowBtn').addEventListener('click', () => addLinkRow());
-  document.getElementById('addCategoryRowBtn').addEventListener('click', () => addCategoryVacancyRow());
-
-  // Custom Table Builder events
-  document.getElementById('tableAddColBtn').addEventListener('click', () => addCustomColumn());
-  document.getElementById('tableRemoveColBtn').addEventListener('click', () => removeCustomColumn());
-  document.getElementById('tableAddRowBtn').addEventListener('click', () => addCustomRow());
-
-  // Auto-prepopulate eligibility header when organization changes
-  document.getElementById('organization').addEventListener('input', (e) => {
-    const orgVal = e.target.value.trim();
-    const eligibilityHeader = document.getElementById('dynamicEligibilityHeader');
-    if (eligibilityHeader) {
-      if (orgVal) {
-        eligibilityHeader.value = `${orgVal} Eligibility`;
-      } else {
-        eligibilityHeader.value = 'Eligibility';
-      }
-    }
-  });
+  const addPostRowBtn = document.getElementById('addPostRowBtn');
+  const addLinkRowBtn = document.getElementById('addLinkRowBtn');
+  const addCategoryRowBtn = document.getElementById('addCategoryRowBtn');
+  const addFeeRowBtn = document.getElementById('addFeeRowBtn');
+  const addCustomDateBtn = document.getElementById('addCustomDateBtn');
+  
+  if (addPostRowBtn) addPostRowBtn.addEventListener('click', () => addPostRow());
+  if (addLinkRowBtn) addLinkRowBtn.addEventListener('click', () => addLinkRow());
+  if (addCategoryRowBtn) addCategoryRowBtn.addEventListener('click', () => addCategoryVacancyRow());
+  if (addFeeRowBtn) addFeeRowBtn.addEventListener('click', () => addFeeRow());
+  if (addCustomDateBtn) addCustomDateBtn.addEventListener('click', () => addCustomDateRow());
 
   // 1-Click Import Scraper
-  document.getElementById('sarkariImportBtn').addEventListener('click', importFromSarkariURL);
+  const sarkariImportBtn = document.getElementById('sarkariImportBtn');
+  if (sarkariImportBtn) {
+    sarkariImportBtn.addEventListener('click', importFromSarkariURL);
+  }
 
   // Form submit & cancel
-  document.getElementById('jobForm').addEventListener('submit', handleFormSubmit);
-  document.getElementById('resetBtn').addEventListener('click', () => clearForm(true));
+  const jobForm = document.getElementById('jobForm');
+  const resetBtn = document.getElementById('resetBtn');
+  if (jobForm) {
+    jobForm.addEventListener('submit', handleFormSubmit);
+  }
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => clearForm(true));
+  }
 
   // Search & Filters
   const searchJobsInput = document.getElementById('searchInput');
   const filterCategorySelect = document.getElementById('categoryFilter');
+  const filterApprovalSelect = document.getElementById('approvalFilter');
   
   if (searchJobsInput) searchJobsInput.addEventListener('input', filterJobsList);
   if (filterCategorySelect) filterCategorySelect.addEventListener('change', filterJobsList);
+  if (filterApprovalSelect) filterApprovalSelect.addEventListener('change', filterJobsList);
 
   // Tab switching logic
   const tabButtons = document.querySelectorAll('.admin-tab');
@@ -176,7 +180,10 @@ function setupEvents() {
       // If switching to Add Post tab while NOT editing, clear form
       if (tabId === 'add-post' && !editingJobId) {
         clearForm(false);
-        document.getElementById('formPanelTitle').innerHTML = '<i class="fa-solid fa-plus-circle text-primary"></i> Add New Job Post';
+        const formPanelTitle = document.getElementById('formPanelTitle');
+        if (formPanelTitle) {
+          formPanelTitle.innerHTML = '<i class="fa-solid fa-plus-circle text-primary"></i> Add New Job Post';
+        }
       }
     });
   });
@@ -202,6 +209,69 @@ function setupEvents() {
         showToast('Failed to update maintenance mode.', 'error');
       }
     });
+  }
+
+  // Preview Modal Close Events
+  const previewModalClose = document.getElementById('previewModalClose');
+  const previewModal = document.getElementById('previewModal');
+  
+  if (previewModalClose) {
+    previewModalClose.addEventListener('click', closePreviewModal);
+  }
+  
+  if (previewModal) {
+    previewModal.addEventListener('click', (e) => {
+      if (e.target === previewModal) {
+        closePreviewModal();
+      }
+    });
+  }
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closePreviewModal();
+    }
+  });
+  
+  // Multiple Custom Tables Events
+  const addNewTableBtn = document.getElementById('addNewTableBtn');
+  if (addNewTableBtn) {
+    addNewTableBtn.addEventListener('click', () => addNewCustomTable());
+  }
+  
+  // Initial first table setup
+  const firstTableWrapper = document.querySelector('.custom-table-wrapper');
+  if (firstTableWrapper) {
+    firstTableWrapper.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const action = e.target.closest('[data-action]').getAttribute('data-action');
+        if (action === 'add-column') addCustomColumnToTable(firstTableWrapper);
+        if (action === 'remove-column') removeCustomColumnFromTable(firstTableWrapper);
+        if (action === 'add-row') addCustomRowToTable(firstTableWrapper);
+        if (action === 'remove-table') {
+          if (confirm('Are you sure you want to delete this table?')) {
+            firstTableWrapper.remove();
+          }
+        }
+      });
+    });
+  }
+  
+  // Bulk Action Events
+  const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener('change', toggleSelectAll);
+  }
+  
+  const bulkApproveBtn = document.getElementById('bulkApproveBtn');
+  if (bulkApproveBtn) {
+    bulkApproveBtn.addEventListener('click', bulkApprove);
+  }
+  
+  const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+  if (bulkDeleteBtn) {
+    bulkDeleteBtn.addEventListener('click', bulkDelete);
   }
 }
 
@@ -332,6 +402,62 @@ function addCategoryVacancyRow(data = {}) {
   `;
 
   row.querySelector('.remove-category-row').addEventListener('click', () => row.remove());
+  container.appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function addFeeRow(data = {}) {
+  const container = document.getElementById('feesContainer');
+  if (!container) return;
+
+  const row = document.createElement('div');
+  row.className = 'fee-row';
+  row.setAttribute('draggable', 'false');
+  row.style = 'display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; padding: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;';
+  row.innerHTML = `
+    <div class="drag-handle" style="margin-top: 25px;"><i class="fa-solid fa-grip-vertical"></i></div>
+    <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label text-xs">Category Name</label>
+        <input type="text" class="form-control text-sm fee-category" value="${data.category || ''}" placeholder="e.g. General / OBC / EWS" required />
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label text-xs">Fee Amount</label>
+        <input type="text" class="form-control text-sm fee-amount" value="${data.amount || ''}" placeholder="e.g. 100/-" required />
+      </div>
+    </div>
+    <button type="button" class="btn-row-action btn-remove remove-fee-row" style="margin-top: 22px; height: 38px;"><i class="fa-solid fa-trash"></i></button>
+  `;
+
+  row.querySelector('.remove-fee-row').addEventListener('click', () => row.remove());
+  container.appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function addCustomDateRow(data = {}) {
+  const container = document.getElementById('customDatesContainer');
+  if (!container) return;
+
+  const row = document.createElement('div');
+  row.className = 'custom-date-row';
+  row.setAttribute('draggable', 'false');
+  row.style = 'display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; padding: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;';
+  row.innerHTML = `
+    <div class="drag-handle" style="margin-top: 25px;"><i class="fa-solid fa-grip-vertical"></i></div>
+    <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label text-xs">Date Label</label>
+        <input type="text" class="form-control text-sm custom-date-label" value="${data.label || ''}" placeholder="e.g. Correction Date / Late Payment Date" required />
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label text-xs">Date Value</label>
+        <input type="text" class="form-control text-sm custom-date-value" value="${data.value || ''}" placeholder="e.g. 25/06/2026" required />
+      </div>
+    </div>
+    <button type="button" class="btn-row-action btn-remove remove-custom-date-row" style="margin-top: 22px; height: 38px;"><i class="fa-solid fa-trash"></i></button>
+  `;
+
+  row.querySelector('.remove-custom-date-row').addEventListener('click', () => row.remove());
   container.appendChild(row);
   row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -525,6 +651,12 @@ function generateCategoryTableHTML(rows, organization) {
 // ----------------------------------------------------
 
 async function importFromSarkariURL() {
+  // First, make sure we're on the Add New Post tab
+  document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  document.querySelector('[data-tab="add-post"]').classList.add('active');
+  document.getElementById('tab-add-post').classList.add('active');
+
   const urlInput = document.getElementById('sarkariImportUrl');
   const importBtn = document.getElementById('sarkariImportBtn');
   const btnText = document.getElementById('importBtnText');
@@ -535,8 +667,8 @@ async function importFromSarkariURL() {
     return;
   }
 
-  if (!url.toLowerCase().includes('sarkariresult.com')) {
-    showToast('Only sarkariresult.com links are supported.', 'warning');
+  if (!url.toLowerCase().includes('sarkariresult.com') && !url.toLowerCase().includes('sarkariresult.com.cm')) {
+    showToast('Only sarkariresult.com or sarkariresult.com.cm links are supported.', 'warning');
     return;
   }
 
@@ -565,7 +697,10 @@ async function importFromSarkariURL() {
       { name: 'Proxy Route 5 (Thingproxy)', url: `https://thingproxy.freeboard.io/fetch/${url}`, parse: async (res) => await res.text() },
       { name: 'Proxy Route 6 (GoCors)', url: `https://go-cors.deno.dev/${url}`, parse: async (res) => await res.text() },
       { name: 'Proxy Route 7 (Jina AI)', url: `https://r.jina.ai/${url}`, parse: async (res) => await res.text() },
-      { name: 'Proxy Route 8 (AllowOrigin)', url: `https://alloworigin.com/get?url=${encodeURIComponent(url)}`, parse: async (res) => await res.text() }
+      { name: 'Proxy Route 8 (AllowOrigin)', url: `https://alloworigin.com/get?url=${encodeURIComponent(url)}`, parse: async (res) => await res.text() },
+      { name: 'Proxy Route 9 (CORS-anywhere)', url: `https://cors-anywhere.herokuapp.com/${url}`, parse: async (res) => await res.text() },
+      { name: 'Proxy Route 10 (CORS.sh)', url: `https://cors.sh/${url}`, parse: async (res) => await res.text() },
+      { name: 'Proxy Route 11 (api.bridged.xyz)', url: `https://api.bridged.xyz/proxy?url=${encodeURIComponent(url)}`, parse: async (res) => await res.text() }
     ];
 
     for (const route of routes) {
@@ -587,6 +722,7 @@ async function importFromSarkariURL() {
     }
 
     if (!fetchSuccess) {
+      showToast('⚠️ CORS proxies blocked! Install "Allow CORS: Access-Control-Allow-Origin" Chrome extension for 100% working direct connection!', 'error', 10000);
       throw new Error('All CORS proxy routes are currently blocked by target. Install "Allow CORS" Chrome extension for a 100% direct connection.');
     }
 
@@ -620,6 +756,8 @@ async function importFromSarkariURL() {
 
     // Clean title structure & Extract Organization
     const organization = extractOrg(title);
+    console.log('Extracted title:', title);
+    console.log('Extracted organization:', organization);
 
     // Deep parsing table text for Dates, Fees, Age, Selection
     let applicationBegin = '';
@@ -791,7 +929,8 @@ async function importFromSarkariURL() {
             if (anchor) {
               const rawHref = anchor.getAttribute('href');
               if (rawHref) {
-                nLink = rawHref.startsWith('http') ? rawHref : `https://www.sarkariresult.com/${rawHref.replace(/^\//, '')}`;
+                const baseDomain = url.toLowerCase().includes('sarkariresult.com.cm') ? 'https://www.sarkariresult.com.cm' : 'https://www.sarkariresult.com';
+                nLink = rawHref.startsWith('http') ? rawHref : `${baseDomain}/${rawHref.replace(/^\//, '')}`;
               }
             }
 
@@ -818,7 +957,8 @@ async function importFromSarkariURL() {
     doc.querySelectorAll('a').forEach(anchor => {
       const href = anchor.getAttribute('href');
       if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
-      const absUrl = href.startsWith('http') ? href : `https://www.sarkariresult.com/${href.replace(/^\//, '')}`;
+      const baseDomain = url.toLowerCase().includes('sarkariresult.com.cm') ? 'https://www.sarkariresult.com.cm' : 'https://www.sarkariresult.com';
+      const absUrl = href.startsWith('http') ? href : `${baseDomain}/${href.replace(/^\//, '')}`;
       const text = anchor.textContent.trim().replace(/\s+/g, ' ');
       const lowText = text.toLowerCase();
       const parent = anchor.parentElement ? anchor.parentElement.textContent.toLowerCase() : '';
@@ -878,6 +1018,7 @@ async function importFromSarkariURL() {
     }
 
     // Populate Fields
+    console.log('Populating fields with:', { title, category, detectedState, organization });
     document.getElementById('title').value = title;
     document.getElementById('category').value = category;
     document.getElementById('state').value = detectedState;
@@ -888,11 +1029,17 @@ async function importFromSarkariURL() {
     document.getElementById('lastDate').value = lastDate;
     document.getElementById('examDate').value = examDate;
     document.getElementById('admitCardDate').value = admitCardDate;
-    document.getElementById('feeGeneral').value = feeGeneral;
-    document.getElementById('feeSCST').value = feeSCST;
-    document.getElementById('feeFemale').value = feeFemale;
+    
+    // Populate Fee rows
+    const feesContainer = document.getElementById('feesContainer');
+    feesContainer.innerHTML = '';
+    if (feeGeneral) addFeeRow({ category: 'General / OBC / EWS', amount: feeGeneral });
+    if (feeSCST) addFeeRow({ category: 'SC / ST / PH', amount: feeSCST });
+    if (feeFemale) addFeeRow({ category: 'All Category Female', amount: feeFemale });
+
     document.getElementById('ageLimit').value = ageLimit;
     document.getElementById('selectionProcess').value = selectionProcess;
+    console.log('Fields populated!');
     // Populate Category vacancy rows
     const categoryVacancyContainer = document.getElementById('categoryVacancyContainer');
     categoryVacancyContainer.innerHTML = '';
@@ -947,15 +1094,24 @@ async function handleFormSubmit(e) {
   const category = document.getElementById('category').value;
   const state = document.getElementById('state').value;
   const organization = document.getElementById('organization').value.trim();
+  const advtNo = document.getElementById('advtNo').value.trim();
   const officialLink = document.getElementById('officialLink').value.trim();
   const applyLink = document.getElementById('applyLink').value.trim();
   const applicationBegin = document.getElementById('applicationBegin').value.trim();
   const lastDate = document.getElementById('lastDate').value.trim();
   const examDate = document.getElementById('examDate').value.trim();
   const admitCardDate = document.getElementById('admitCardDate').value.trim();
-  const feeGeneral = document.getElementById('feeGeneral').value.trim();
-  const feeSCST = document.getElementById('feeSCST').value.trim();
-  const feeFemale = document.getElementById('feeFemale').value.trim();
+  
+  // Compile Fee Rows list
+  const feeRows = [];
+  document.querySelectorAll('.fee-row').forEach(row => {
+    const category = row.querySelector('.fee-category').value.trim();
+    const amount = row.querySelector('.fee-amount').value.trim();
+    if (category && amount) {
+      feeRows.push({ category, amount });
+    }
+  });
+
   const ageLimit = document.getElementById('ageLimit').value.trim();
   const selectionProcess = document.getElementById('selectionProcess').value.trim();
   // Compile Category Vacancy Rows list
@@ -1065,62 +1221,126 @@ async function handleFormSubmit(e) {
     }
   }
 
-  // Compile Customizable Vacancy Details Table
-  const customTableHeaders = [];
-  const customTableRows = [];
-  let customVacancyTableHTML = '';
+  // Compile Multiple Custom Tables
+  const customTablesData = [];
+  let customTablesHTML = '';
   
-  const customGridBody = document.getElementById('customGridBody');
-  const customGridHeaderRow = document.getElementById('customGridHeaderRow');
-  const useCustomTable = customGridBody && customGridBody.querySelectorAll('tr').length > 0;
+  const customTablesContainer = document.getElementById('customTablesContainer');
+  if (customTablesContainer) {
+    const tableWrappers = customTablesContainer.querySelectorAll('.custom-table-wrapper');
+    tableWrappers.forEach(tableWrapper => {
+      const titleInput = tableWrapper.querySelector('.custom-table-title');
+      const headerRow = tableWrapper.querySelector('.custom-grid-header-row');
+      const body = tableWrapper.querySelector('.custom-grid-body');
+      
+      const tableData = {
+        title: titleInput ? titleInput.value.trim() : '',
+        headers: [],
+        rows: [] // Array of strings (cells joined with |||) to avoid nested arrays in Firestore
+      };
+      
+      // Collect headers
+      if (headerRow) {
+        headerRow.querySelectorAll('.header-input').forEach(input => {
+          tableData.headers.push(input.value.trim());
+        });
+      }
+      
+      // Collect rows
+      if (body) {
+        body.querySelectorAll('tr').forEach(row => {
+          const cells = [];
+          row.querySelectorAll('.cell-input').forEach(input => {
+            cells.push(input.value.trim());
+          });
+          if (cells.length > 0 && cells.some(cell => cell.length > 0)) {
+            tableData.rows.push(cells.join('|||')); // Join cells to a string
+          }
+        });
+      }
+      
+      // Only add if we have headers and at least one row
+      if (tableData.headers.length > 0 && tableData.rows.length > 0) {
+        customTablesData.push(tableData);
+        
+        // Render individual table
+        let headerColsHTML = tableData.headers.map(h => `<th style="border: 1px solid #128807; font-weight: bold; background-color: #ffffff; padding: 12px; text-align: center;">${h}</th>`).join('');
+        let bodyRowsHTML = tableData.rows.map(rowStr => {
+          const rowCells = rowStr.split('|||'); // Split back to array
+          const cellsHTML = rowCells.map((val, idx) => {
+            const alignClass = idx === 0 ? 'sarkari-cell-left' : 'sarkari-cell-center';
+            const weightStyle = idx === 0 ? 'font-weight: bold;' : '';
+            let processedVal = val.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            if (idx >= 2 && processedVal.includes('|')) {
+              const bulletItems = processedVal.split('|').map(item => `<li>${item.trim()}</li>`).join('');
+              return `<td style="border: 1px solid #128807; padding: 10px;"><ul class="sarkari-bullet-list" style="margin:0; padding-left:18px;">${bulletItems}</ul></td>`;
+            }
+            return `<td class="${alignClass}" style="border: 1px solid #128807; padding: 10px; ${weightStyle}">${processedVal}</td>`;
+          }).join('');
+          return `<tr>${cellsHTML}</tr>`;
+        }).join('');
+        
+        const tableTitleHTML = tableData.title 
+          ? `<tr><th colspan="${tableData.headers.length}" class="sarkari-cell-center" style="background-color: #ffffff; padding: 12px;"><span class="sarkari-text-magenta" style="font-size: 16px;">${tableData.title}</span></th></tr>`
+          : '';
+          
+        customTablesHTML += `
+          <div style="margin-bottom: 20px;">
+            <table class="sarkari-master-table">
+              <thead>
+                ${tableTitleHTML}
+                <tr style="background-color: #ffffff;">
+                  ${headerColsHTML}
+                </tr>
+              </thead>
+              <tbody>
+                ${bodyRowsHTML}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    });
+  }
   
-  if (useCustomTable && customGridHeaderRow) {
-    customGridHeaderRow.querySelectorAll('.header-input').forEach(input => {
-      customTableHeaders.push(input.value.trim());
-    });
-    
-    customGridBody.querySelectorAll('tr').forEach(row => {
-      const cells = [];
-      row.querySelectorAll('.cell-input').forEach(input => {
-        cells.push(input.value.trim());
-      });
-      customTableRows.push(cells);
-    });
-    
-    let headerColsHTML = customTableHeaders.map(h => `<th style="border: 1px solid #128807; font-weight: bold; background-color: #ffffff; padding: 12px; text-align: center;">${h}</th>`).join('');
-    let bodyRowsHTML = customTableRows.map(rowCells => {
-      const cellsHTML = rowCells.map((val, idx) => {
-        const alignClass = idx === 0 ? 'sarkari-cell-left' : 'sarkari-cell-center';
-        const weightStyle = idx === 0 ? 'font-weight: bold;' : '';
-        let processedVal = val.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        if (idx >= 2 && processedVal.includes('|')) {
-          const bulletItems = processedVal.split('|').map(item => `<li>${item.trim()}</li>`).join('');
-          return `<td style="border: 1px solid #128807; padding: 10px;"><ul class="sarkari-bullet-list" style="margin:0; padding-left:18px;">${bulletItems}</ul></td>`;
+  // Compile Custom Dates
+  const customDatesData = [];
+  let customDatesHTML = '';
+  
+  const customDatesContainer = document.getElementById('customDatesContainer');
+  if (customDatesContainer) {
+    const customDateRows = customDatesContainer.querySelectorAll('.custom-date-row');
+    customDateRows.forEach(row => {
+      const labelInput = row.querySelector('.custom-date-label');
+      const valueInput = row.querySelector('.custom-date-value');
+      
+      if (labelInput && valueInput) {
+        const label = labelInput.value.trim();
+        const value = valueInput.value.trim();
+        
+        if (label && value) {
+          customDatesData.push({ label, value });
         }
-        return `<td class="${alignClass}" style="border: 1px solid #128807; padding: 10px; ${weightStyle}">${processedVal}</td>`;
-      }).join('');
-      return `<tr>${cellsHTML}</tr>`;
-    }).join('');
+      }
+    });
     
-    const commissionText = organization || 'Combined Recruitment Board';
-    customVacancyTableHTML = `
-      <table class="sarkari-master-table">
-        <thead>
-          <tr>
-            <th colspan="${customTableHeaders.length}" class="sarkari-cell-center" style="background-color: #ffffff; padding: 12px;">
-              <span class="sarkari-text-magenta" style="font-size: 16px;">${commissionText} Recruitment 2026 : </span>
-              <span class="sarkari-text-green" style="font-size: 16px;">Vacancy Details</span>
-            </th>
-          </tr>
-          <tr style="background-color: #ffffff;">
-            ${headerColsHTML}
-          </tr>
-        </thead>
-        <tbody>
-          ${bodyRowsHTML}
-        </tbody>
-      </table>
-    `;
+    // Render custom dates HTML
+    if (customDatesData.length > 0) {
+      customDatesHTML = `
+        <div style="margin-bottom: 20px;">
+          <table class="sarkari-master-table">
+            <tbody>
+              ${customDatesData.map(date => `
+                <tr>
+                  <td style="border: 1px solid #128807; font-weight: bold; padding: 10px; width: 40%;">${date.label}</td>
+                  <td style="border: 1px solid #128807; padding: 10px;">${date.value}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
   }
 
   // Check if there is an manual override from Quill editor
@@ -1138,24 +1358,29 @@ async function handleFormSubmit(e) {
       lastDate,
       examDate,
       admitCardDate,
-      feeGeneral,
-      feeSCST,
-      feeFemale,
+      feeGeneral: feeRows[0]?.amount || '',
+      feeSCST: feeRows[1]?.amount || '',
+      feeFemale: feeRows[2]?.amount || '',
+      feeRows,
       ageLimit,
       selectionProcess,
       recruitmentPosts,
       links,
       organization,
+      advtNo,
       categoryVacancyHTML,
-      customVacancyTableHTML
+      customVacancyTableHTML: customTablesHTML,
+      customDatesHTML
     });
   }
 
   // Form compile payload
+  const job = jobs.find(j => j.id === editingJobId);
   const payload = {
     title,
     category,
     organization,
+    advtNo,
     state,
     officialLink,
     applyLink,
@@ -1163,9 +1388,10 @@ async function handleFormSubmit(e) {
     lastDate,
     examDate,
     admitCardDate,
-    feeGeneral,
-    feeSCST,
-    feeFemale,
+    feeGeneral: feeRows[0]?.amount || '',
+    feeSCST: feeRows[1]?.amount || '',
+    feeFemale: feeRows[2]?.amount || '',
+    feeRows,
     ageLimit,
     selectionProcess,
     recruitmentPosts,
@@ -1173,9 +1399,10 @@ async function handleFormSubmit(e) {
     description,
     categoryVacancyHTML,
     categoryVacancyRows,
-    customTableHeaders,
-    customTableRows: JSON.stringify(customTableRows),
-    customVacancyTableHTML,
+    customTablesData,
+    customTablesHTML,
+    customDatesData,
+    customDatesHTML,
     department: title, // kompatibility for existing layout
     location: 'India',
     salary: 'As per rules',
@@ -1185,6 +1412,7 @@ async function handleFormSubmit(e) {
     showOnHome: document.getElementById('showOnHome').checked,
     sourceUrl: document.getElementById('sourceUrl').value || '',
     status: 'active',
+    approved: job ? job.approved : false, // Keep existing approval status when editing, default false (pending) for new
     updatedAt: serverTimestamp()
   };
 
@@ -1230,6 +1458,7 @@ function clearForm(promptUser = false) {
   // Clear sub-tables
   document.getElementById('postsContainer').innerHTML = '';
   document.getElementById('linksContainer').innerHTML = '';
+  document.getElementById('feesContainer').innerHTML = '';
 
   // Clear category table
   const categoryVacancyContainer = document.getElementById('categoryVacancyContainer');
@@ -1237,8 +1466,12 @@ function clearForm(promptUser = false) {
     categoryVacancyContainer.innerHTML = '';
   }
 
-  // Clear Custom Table
-  clearCustomTable();
+  // Clear Custom Tables
+  clearAllCustomTables();
+  
+  // Clear Custom Dates
+  const customDatesContainer = document.getElementById('customDatesContainer');
+  if (customDatesContainer) customDatesContainer.innerHTML = '';
 
   // Clear Quill
   if (quill) quill.setText('');
@@ -1253,11 +1486,18 @@ async function loadJobs() {
   if (!jobsListBody) return;
 
   try {
+    console.log('Loading jobs from Firestore...');
     const querySnapshot = await getDocs(collection(db, 'latest_jobs'));
+    console.log('Query snapshot size:', querySnapshot.size);
+    
     jobs = [];
     querySnapshot.forEach((doc) => {
-      jobs.push({ id: doc.id, ...doc.data() });
+      const jobData = { id: doc.id, ...doc.data() };
+      console.log('Loaded job:', jobData);
+      jobs.push(jobData);
     });
+
+    console.log('Total jobs loaded:', jobs.length);
 
     // Sort by latest of createdAt or updatedAt
     jobs.sort((a, b) => {
@@ -1266,13 +1506,14 @@ async function loadJobs() {
       return timeB - timeA;
     });
 
+    console.log('Rendering jobs list...');
     renderJobsList(jobs);
     renderRecentActivity(jobs);
   } catch (error) {
     console.error('Load jobs error:', error);
     jobsListBody.innerHTML = `
       <tr>
-        <td colspan="4" class="empty-state">
+        <td colspan="6" class="empty-state">
           <i class="fa-solid fa-exclamation-triangle text-danger"></i>
           <span>Failed to connect to database. Make sure Firebase settings are correct.</span>
         </td>
@@ -1283,12 +1524,16 @@ async function loadJobs() {
 
 function renderJobsList(jobsToRender) {
   const jobsListBody = document.getElementById('jobsListBody');
-  if (!jobsListBody) return;
+  console.log('renderJobsList called with', jobsToRender.length, 'jobs');
+  if (!jobsListBody) {
+    console.error('jobsListBody not found!');
+    return;
+  }
 
   if (jobsToRender.length === 0) {
     jobsListBody.innerHTML = `
       <tr>
-        <td colspan="4" class="empty-state">
+        <td colspan="6" class="empty-state">
           <i class="fa-solid fa-folder-open"></i>
           <span>No job posts found. Create one first!</span>
         </td>
@@ -1306,17 +1551,28 @@ function renderJobsList(jobsToRender) {
     else if (job.category === 'Sarkari Yojana') badgeClass = 'badge-yojana';
     else if (job.category === 'Outsourcing') badgeClass = 'badge-outsourcing';
 
+    const isApproved = job.approved === true;
+    const approvalBadge = isApproved 
+      ? `<span style="background: #10b981; color: white; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;">Approved</span>`
+      : `<span style="background: #f59e0b; color: white; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;">Pending</span>`;
+
     return `
       <tr>
+        <td style="text-align: center;">
+          <input type="checkbox" class="post-checkbox" data-id="${job.id}">
+        </td>
         <td>
           <div style="font-weight: 600; color: #1e293b">${job.title || 'Untitled'}</div>
           ${job.organization ? `<div style="font-size: 11px; color: #64748b; margin-top: 2px">${job.organization}</div>` : ''}
         </td>
         <td><span class="job-badge ${badgeClass}">${job.category || 'Latest Jobs'}</span></td>
+        <td>${approvalBadge}</td>
         <td style="white-space: nowrap">${job.lastDate || 'N/A'}</td>
         <td>
           <div class="job-actions">
+            <button type="button" class="btn-icon btn-edit preview-job-btn" data-id="${job.id}" title="Preview Post" style="background: #3b82f6;"><i class="fa-solid fa-eye"></i></button>
             <button type="button" class="btn-icon btn-edit edit-job-btn" data-id="${job.id}" title="Edit Post"><i class="fa-solid fa-pen-to-square"></i></button>
+            ${!isApproved ? `<button type="button" class="btn-icon btn-edit approve-job-btn" data-id="${job.id}" title="Approve Post" style="background: #10b981;"><i class="fa-solid fa-check"></i></button>` : ''}
             <button type="button" class="btn-icon btn-delete delete-job-btn" data-id="${job.id}" title="Delete Post"><i class="fa-solid fa-trash"></i></button>
           </div>
         </td>
@@ -1338,6 +1594,50 @@ function renderJobsList(jobsToRender) {
       deleteJob(jobId);
     });
   });
+
+  document.querySelectorAll('.approve-job-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const jobId = btn.getAttribute('data-id');
+      approveJob(jobId);
+    });
+  });
+
+  document.querySelectorAll('.preview-job-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const jobId = btn.getAttribute('data-id');
+      previewJob(jobId);
+    });
+  });
+}
+
+// Preview Job Post
+function previewJob(jobId) {
+  const job = jobs.find(j => j.id === jobId);
+  if (!job) return;
+
+  const modal = document.getElementById('previewModal');
+  const titleEl = document.getElementById('previewModalTitle');
+  const bodyEl = document.getElementById('previewModalBody');
+
+  if (!modal || !titleEl || !bodyEl) return;
+
+  titleEl.textContent = job.title || 'Post Preview';
+  
+  bodyEl.innerHTML = `
+    <div class="preview-description">
+      ${job.description || '<p>No description available</p>'}
+    </div>
+  `;
+
+  modal.classList.add('active');
+}
+
+// Close Preview Modal
+function closePreviewModal() {
+  const modal = document.getElementById('previewModal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
 }
 
 function renderRecentActivity(allJobs) {
@@ -1416,15 +1716,26 @@ function editJob(jobId) {
   document.getElementById('category').value = job.category || 'Latest Jobs';
   document.getElementById('state').value = job.state || 'ALL';
   document.getElementById('organization').value = job.organization || '';
+  document.getElementById('advtNo').value = job.advtNo || '';
   document.getElementById('officialLink').value = job.officialLink || job.officialWebsite || '';
   document.getElementById('applyLink').value = job.applyLink || '';
   document.getElementById('applicationBegin').value = job.applicationBegin || '';
   document.getElementById('lastDate').value = job.lastDate || '';
   document.getElementById('examDate').value = job.examDate || '';
   document.getElementById('admitCardDate').value = job.admitCardDate || '';
-  document.getElementById('feeGeneral').value = job.feeGeneral || '';
-  document.getElementById('feeSCST').value = job.feeSCST || '';
-  document.getElementById('feeFemale').value = job.feeFemale || '';
+  
+  // Repopulate Fee rows
+  const feesContainer = document.getElementById('feesContainer');
+  feesContainer.innerHTML = '';
+  if (job.feeRows && Array.isArray(job.feeRows) && job.feeRows.length > 0) {
+    job.feeRows.forEach(f => addFeeRow(f));
+  } else {
+    // Legacy support
+    if (job.feeGeneral) addFeeRow({ category: 'General / OBC / EWS', amount: job.feeGeneral });
+    if (job.feeSCST) addFeeRow({ category: 'SC / ST / PH', amount: job.feeSCST });
+    if (job.feeFemale) addFeeRow({ category: 'All Category Female', amount: job.feeFemale });
+  }
+
   document.getElementById('ageLimit').value = job.ageLimit || '';
   document.getElementById('selectionProcess').value = job.selectionProcess || '';
   
@@ -1468,24 +1779,18 @@ function editJob(jobId) {
     job.links.forEach(l => addLinkRow(l));
   }
 
-  // Repopulate Custom Table Builder
-  clearCustomTable();
-  if (job.customTableHeaders && Array.isArray(job.customTableHeaders) && job.customTableHeaders.length > 0) {
-    const headerRow = document.getElementById('customGridHeaderRow');
-    if (headerRow) {
-      headerRow.innerHTML = '';
-      job.customTableHeaders.forEach((headerText, index) => {
-        const th = document.createElement('th');
-        th.style.padding = '8px';
-        th.style.border = '1px solid #cbd5e1';
-        
-        const idAttr = index === 2 ? 'id="dynamicEligibilityHeader"' : '';
-        th.innerHTML = `<input type="text" class="form-control text-sm header-input" ${idAttr} value="${headerText}" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" />`;
-        headerRow.appendChild(th);
+  // Repopulate Multiple Custom Tables
+  clearAllCustomTables();
+  if (job.customTablesData && Array.isArray(job.customTablesData) && job.customTablesData.length > 0) {
+    const container = document.getElementById('customTablesContainer');
+    if (container) {
+      container.innerHTML = ''; // Clear default table
+      job.customTablesData.forEach((tableData, index) => {
+        addNewCustomTable(tableData);
       });
-      recalculateCustomTableWidths();
     }
-
+  } else if (job.customTableHeaders && Array.isArray(job.customTableHeaders) && job.customTableHeaders.length > 0) {
+    // Legacy support for single table
     let rowsData = [];
     if (job.customTableRows) {
       if (typeof job.customTableRows === 'string') {
@@ -1498,10 +1803,26 @@ function editJob(jobId) {
         rowsData = job.customTableRows;
       }
     }
-    if (rowsData && Array.isArray(rowsData)) {
-      rowsData.forEach(rowData => {
-        addCustomRow(rowData);
-      });
+    
+    const legacyTableData = {
+      title: '',
+      headers: job.customTableHeaders,
+      rows: rowsData
+    };
+    
+    const container = document.getElementById('customTablesContainer');
+    if (container) {
+      container.innerHTML = ''; // Clear default table
+      addNewCustomTable(legacyTableData);
+    }
+  }
+  
+  // Repopulate Custom Dates
+  const customDatesContainer = document.getElementById('customDatesContainer');
+  if (customDatesContainer) {
+    customDatesContainer.innerHTML = '';
+    if (job.customDatesData && Array.isArray(job.customDatesData) && job.customDatesData.length > 0) {
+      job.customDatesData.forEach(d => addCustomDateRow(d));
     }
   }
 
@@ -1542,25 +1863,119 @@ async function deleteJob(jobId) {
 function filterJobsList() {
   const queryInput = document.getElementById('searchInput');
   const categorySelect = document.getElementById('categoryFilter');
+  const approvalSelect = document.getElementById('approvalFilter');
   
   if (!queryInput || !categorySelect) return;
 
   const query = queryInput.value.toLowerCase().trim();
   const category = categorySelect.value;
+  const approval = approvalSelect ? approvalSelect.value : '';
 
   const filtered = jobs.filter(job => {
     const matchesQuery = !query || 
       (job.title && job.title.toLowerCase().includes(query)) || 
       (job.organization && job.organization.toLowerCase().includes(query));
     
-    const jobCategory = String(job.category || '').toLowerCase();
-    const targetCategory = String(category || '').toLowerCase();
-    const matchesCat = !category || jobCategory.includes(targetCategory);
+    const jobCategory = String(job.category || 'Latest Jobs');
+    const matchesCat = !category || jobCategory === category;
     
-    return matchesQuery && matchesCat;
+    const isApproved = job.approved === true;
+    let matchesApproval = true;
+    if (approval === 'pending') matchesApproval = !isApproved;
+    if (approval === 'approved') matchesApproval = isApproved;
+    
+    return matchesQuery && matchesCat && matchesApproval;
   });
 
   renderJobsList(filtered);
+}
+
+// Approve Job Post
+async function approveJob(jobId) {
+  try {
+    await updateDoc(doc(db, 'latest_jobs', jobId), {
+      approved: true,
+      updatedAt: serverTimestamp()
+    });
+    showToast('Post approved successfully!', 'success');
+    await loadJobs();
+  } catch (error) {
+    console.error('Approve error:', error);
+    showToast('Failed to approve post.', 'error');
+  }
+}
+
+// Get selected post IDs
+function getSelectedPostIds() {
+  const checkboxes = document.querySelectorAll('.post-checkbox:checked');
+  return Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+}
+
+// Bulk approve selected posts
+async function bulkApprove() {
+  const selectedIds = getSelectedPostIds();
+  if (selectedIds.length === 0) {
+    showToast('Please select at least one post to approve!', 'warning');
+    return;
+  }
+  
+  if (!confirm(`Are you sure you want to approve ${selectedIds.length} posts?`)) {
+    return;
+  }
+  
+  try {
+    let successCount = 0;
+    for (const id of selectedIds) {
+      await updateDoc(doc(db, 'latest_jobs', id), {
+        approved: true,
+        updatedAt: serverTimestamp()
+      });
+      successCount++;
+    }
+    
+    showToast(`Successfully approved ${successCount} posts!`, 'success');
+    await loadJobs();
+  } catch (error) {
+    console.error('Bulk approve error:', error);
+    showToast('Failed to approve some posts.', 'error');
+  }
+}
+
+// Bulk delete selected posts
+async function bulkDelete() {
+  const selectedIds = getSelectedPostIds();
+  if (selectedIds.length === 0) {
+    showToast('Please select at least one post to delete!', 'warning');
+    return;
+  }
+  
+  if (!confirm(`Are you sure you want to DELETE ${selectedIds.length} posts? This cannot be undone!`)) {
+    return;
+  }
+  
+  try {
+    let successCount = 0;
+    for (const id of selectedIds) {
+      await deleteDoc(doc(db, 'latest_jobs', id));
+      successCount++;
+    }
+    
+    showToast(`Successfully deleted ${successCount} posts!`, 'success');
+    await loadJobs();
+  } catch (error) {
+    console.error('Bulk delete error:', error);
+    showToast('Failed to delete some posts.', 'error');
+  }
+}
+
+// Toggle select all checkboxes
+function toggleSelectAll() {
+  const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+  const postCheckboxes = document.querySelectorAll('.post-checkbox');
+  
+  postCheckboxes.forEach(cb => {
+    cb.checked = selectAllCheckbox.checked;
+  });
 }
 
 // ----------------------------------------------------
@@ -1584,8 +1999,10 @@ function createProfessionalTable(data) {
     recruitmentPosts = [],
     links = [],
     organization = data.organization || '',
+    advtNo = data.advtNo || '',
     categoryVacancyHTML = data.categoryVacancyHTML || '',
-    customVacancyTableHTML = data.customVacancyTableHTML || ''
+    customVacancyTableHTML = data.customVacancyTableHTML || '',
+    customDatesHTML = data.customDatesHTML || ''
   } = data;
 
   // 1. Post Name Title Block (Screenshot 1)
@@ -1608,7 +2025,8 @@ function createProfessionalTable(data) {
 
   // 2. Master Info Table (Screenshot 2)
   const commissionText = organization || 'Combined Recruitment Board';
-  const headerAdvtText = `${commissionText} Advt No. 07-Exam/2026 : Short Details of Notification`;
+  const advtNoValue = advtNo || '07-Exam/2026';
+  const headerAdvtText = `${commissionText} Advt No. ${advtNoValue} : Short Details of Notification`;
   
   const datesList = [];
   if (startDate) datesList.push(`<li>Application Begin : <strong>${startDate}</strong></li>`);
@@ -1622,9 +2040,15 @@ function createProfessionalTable(data) {
     : '';
 
   const feesList = [];
-  if (feeGeneral) feesList.push(`<li>General / OBC / EWS : <strong>${feeGeneral}</strong></li>`);
-  if (feeSCST) feesList.push(`<li>SC / ST : <strong>${feeSCST}</strong></li>`);
-  if (feeFemale) feesList.push(`<li>All Category Female : <strong>${feeFemale}</strong></li>`);
+  if (data.feeRows && Array.isArray(data.feeRows) && data.feeRows.length > 0) {
+    data.feeRows.forEach(f => {
+      feesList.push(`<li>${f.category} : <strong>${f.amount}</strong></li>`);
+    });
+  } else {
+    if (feeGeneral) feesList.push(`<li>General / OBC / EWS : <strong>${feeGeneral}</strong></li>`);
+    if (feeSCST) feesList.push(`<li>SC / ST : <strong>${feeSCST}</strong></li>`);
+    if (feeFemale) feesList.push(`<li>All Category Female : <strong>${feeFemale}</strong></li>`);
+  }
   const feesHTML = feesList.length > 0
     ? `<ul class="sarkari-bullet-list">${feesList.join('')}</ul>`
     : '';
@@ -1899,6 +2323,7 @@ function createProfessionalTable(data) {
     <div class="sarkari-container">
       ${titleBlockHTML}
       ${masterTableHTML}
+      ${customDatesHTML}
       ${ageLimitTextHTML}
       ${vacancyHTML}
       ${categoryVacancyHTML ? `<div class="sarkari-category-table-wrapper">${categoryVacancyHTML}</div><div style="height:12px"></div>` : ''}
@@ -1981,11 +2406,13 @@ function makeSortable(containerId) {
 }
 
 // ----------------------------------------------------
-// CUSTOMISABLE VACANCY TABLE BUILDER ENGINE
+// MULTIPLE CUSTOM TABLES BUILDER ENGINE
 // ----------------------------------------------------
 
-function recalculateCustomTableWidths() {
-  const headerRow = document.getElementById('customGridHeaderRow');
+let nextTableId = 1;
+
+function recalculateMultiTableWidths(tableWrapper) {
+  const headerRow = tableWrapper.querySelector('.custom-grid-header-row');
   if (!headerRow) return;
   const ths = headerRow.querySelectorAll('th');
   const numCols = ths.length;
@@ -2009,9 +2436,9 @@ function recalculateCustomTableWidths() {
   }
 }
 
-function addCustomColumn(headerVal = 'New Column') {
-  const headerRow = document.getElementById('customGridHeaderRow');
-  const bodyRows = document.querySelectorAll('#customGridBody tr');
+function addCustomColumnToTable(tableWrapper, headerVal = 'New Column') {
+  const headerRow = tableWrapper.querySelector('.custom-grid-header-row');
+  const bodyRows = tableWrapper.querySelectorAll('.custom-grid-body tr');
   if (!headerRow) return;
 
   const th = document.createElement('th');
@@ -2028,15 +2455,15 @@ function addCustomColumn(headerVal = 'New Column') {
     row.insertBefore(td, row.lastElementChild);
     
     const input = td.querySelector('.cell-input');
-    setupCellInputEvents(input);
+    setupMultiTableCellInputEvents(input);
   });
 
-  recalculateCustomTableWidths();
+  recalculateMultiTableWidths(tableWrapper);
 }
 
-function removeCustomColumn() {
-  const headerRow = document.getElementById('customGridHeaderRow');
-  const bodyRows = document.querySelectorAll('#customGridBody tr');
+function removeCustomColumnFromTable(tableWrapper) {
+  const headerRow = tableWrapper.querySelector('.custom-grid-header-row');
+  const bodyRows = tableWrapper.querySelectorAll('.custom-grid-body tr');
   if (!headerRow) return;
 
   const ths = headerRow.querySelectorAll('th');
@@ -2054,13 +2481,19 @@ function removeCustomColumn() {
     }
   });
 
-  recalculateCustomTableWidths();
+  recalculateMultiTableWidths(tableWrapper);
 }
 
-function addCustomRow(rowData = []) {
-  const body = document.getElementById('customGridBody');
-  const headerRow = document.getElementById('customGridHeaderRow');
+function addCustomRowToTable(tableWrapper, rowData = []) {
+  const body = tableWrapper.querySelector('.custom-grid-body');
+  const headerRow = tableWrapper.querySelector('.custom-grid-header-row');
   if (!body || !headerRow) return;
+
+  // If rowData is a string (from saved data), split it
+  let processedRowData = rowData;
+  if (typeof processedRowData === 'string') {
+    processedRowData = processedRowData.split('|||');
+  }
 
   const colCount = headerRow.querySelectorAll('th').length;
   const tr = document.createElement('tr');
@@ -2068,7 +2501,7 @@ function addCustomRow(rowData = []) {
   let cellsHTML = '';
   for (let i = 0; i < colCount; i++) {
     const placeholderText = i === 0 ? 'e.g. SI Staff Nurse' : i === 1 ? 'e.g. 51' : 'e.g. Bachelor Degree | Age: 18-27';
-    const cellValue = rowData[i] || '';
+    const cellValue = processedRowData[i] || '';
     cellsHTML += `
       <td style="padding: 8px; border: 1px solid #cbd5e1;">
         <input type="text" class="form-control text-sm cell-input" value="${cellValue}" placeholder="${placeholderText}" style="width: 90%; margin: 0 auto; display: block;" />
@@ -2086,29 +2519,147 @@ function addCustomRow(rowData = []) {
   tr.querySelector('.remove-custom-row').addEventListener('click', () => tr.remove());
   
   tr.querySelectorAll('.cell-input').forEach(input => {
-    setupCellInputEvents(input);
+    setupMultiTableCellInputEvents(input);
   });
 
   body.appendChild(tr);
   tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function clearCustomTable() {
-  const body = document.getElementById('customGridBody');
-  if (body) body.innerHTML = '';
+function addNewCustomTable(tableData = null) {
+  const container = document.getElementById('customTablesContainer');
+  if (!container) return;
 
-  const headerRow = document.getElementById('customGridHeaderRow');
-  if (headerRow) {
-    headerRow.innerHTML = `
-      <th style="padding: 8px; border: 1px solid #cbd5e1; width: 30%;"><input type="text" class="form-control text-sm header-input" value="Post Name" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
-      <th style="padding: 8px; border: 1px solid #cbd5e1; width: 20%;"><input type="text" class="form-control text-sm header-input" value="Total Post" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
-      <th style="padding: 8px; border: 1px solid #cbd5e1; width: 50%;"><input type="text" class="form-control text-sm header-input" id="dynamicEligibilityHeader" value="Eligibility" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+  const tableId = nextTableId++;
+  const tableWrapper = document.createElement('div');
+  tableWrapper.className = 'custom-table-wrapper';
+  tableWrapper.setAttribute('data-table-id', tableId);
+  tableWrapper.style.cssText = 'margin-bottom: 24px; padding: 16px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px;';
+  
+  const titleVal = tableData?.title || '';
+  
+  tableWrapper.innerHTML = `
+    <div class="sub-section-header" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+      <input type="text" class="form-control custom-table-title" placeholder="Table Title (e.g. Category-Wise Vacancy)" value="${titleVal}" style="flex: 1; max-width: 300px; font-weight: 600;" />
+      <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+        <button type="button" class="btn-row-action" style="background: #e2e8f0; color: #334155;" data-action="add-column"><i class="fa-solid fa-columns"></i> Add Column</button>
+        <button type="button" class="btn-row-action" style="background: #e2e8f0; color: #334155;" data-action="remove-column"><i class="fa-solid fa-minus"></i> Remove Column</button>
+        <button type="button" class="btn-row-action btn-add" data-action="add-row"><i class="fa-solid fa-plus"></i> Add Row</button>
+        <button type="button" class="btn-row-action btn-remove remove-table-btn" data-action="remove-table" style="background: #fee2e2;"><i class="fa-solid fa-trash"></i> Delete Table</button>
+      </div>
+    </div>
+    <div style="overflow-x: auto; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px;">
+      <table class="custom-grid-table" style="width: 100%; border-collapse: collapse; min-width: 600px;">
+        <thead>
+          <tr class="custom-grid-header-row">
+            <th style="padding: 8px; border: 1px solid #cbd5e1; width: 30%;"><input type="text" class="form-control text-sm header-input" value="Post Name" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+            <th style="padding: 8px; border: 1px solid #cbd5e1; width: 20%;"><input type="text" class="form-control text-sm header-input" value="Total Post" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+            <th style="padding: 8px; border: 1px solid #cbd5e1; width: 50%;"><input type="text" class="form-control text-sm header-input" value="Eligibility" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+          </tr>
+        </thead>
+        <tbody class="custom-grid-body">
+          <!-- Custom rows will be added here -->
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  // Setup button event listeners
+  tableWrapper.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const action = e.target.closest('[data-action]').getAttribute('data-action');
+      if (action === 'add-column') addCustomColumnToTable(tableWrapper);
+      if (action === 'remove-column') removeCustomColumnFromTable(tableWrapper);
+      if (action === 'add-row') addCustomRowToTable(tableWrapper);
+      if (action === 'remove-table') {
+        if (confirm('Are you sure you want to delete this table?')) {
+          tableWrapper.remove();
+        }
+      }
+    });
+  });
+
+  container.appendChild(tableWrapper);
+  
+  // Initialize with rows if we have data
+  if (tableData?.rows && Array.isArray(tableData.rows)) {
+    // First set headers
+    if (tableData.headers && Array.isArray(tableData.headers) && tableData.headers.length > 0) {
+      const headerRow = tableWrapper.querySelector('.custom-grid-header-row');
+      if (headerRow) {
+        headerRow.innerHTML = '';
+        tableData.headers.forEach(header => {
+          const th = document.createElement('th');
+          th.style.padding = '8px';
+          th.style.border = '1px solid #cbd5e1';
+          th.innerHTML = `<input type="text" class="form-control text-sm header-input" value="${header}" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" />`;
+          headerRow.appendChild(th);
+        });
+      }
+    }
+    // Then add rows
+    tableData.rows.forEach(rowData => {
+      addCustomRowToTable(tableWrapper, rowData);
+    });
+    recalculateMultiTableWidths(tableWrapper);
+  }
+
+  recalculateMultiTableWidths(tableWrapper);
+  tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function clearAllCustomTables() {
+  const container = document.getElementById('customTablesContainer');
+  if (container) {
+    container.innerHTML = `
+      <div class="custom-table-wrapper" data-table-id="0" style="margin-bottom: 24px; padding: 16px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px;">
+        <div class="sub-section-header" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <input type="text" class="form-control custom-table-title" placeholder="Table Title (e.g. Category-Wise Vacancy)" style="flex: 1; max-width: 300px; font-weight: 600;" />
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="btn-row-action" style="background: #e2e8f0; color: #334155;" data-action="add-column"><i class="fa-solid fa-columns"></i> Add Column</button>
+            <button type="button" class="btn-row-action" style="background: #e2e8f0; color: #334155;" data-action="remove-column"><i class="fa-solid fa-minus"></i> Remove Column</button>
+            <button type="button" class="btn-row-action btn-add" data-action="add-row"><i class="fa-solid fa-plus"></i> Add Row</button>
+            <button type="button" class="btn-row-action btn-remove remove-table-btn" data-action="remove-table" style="background: #fee2e2;"><i class="fa-solid fa-trash"></i> Delete Table</button>
+          </div>
+        </div>
+        <div style="overflow-x: auto; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px;">
+          <table class="custom-grid-table" style="width: 100%; border-collapse: collapse; min-width: 600px;">
+            <thead>
+              <tr class="custom-grid-header-row">
+                <th style="padding: 8px; border: 1px solid #cbd5e1; width: 30%;"><input type="text" class="form-control text-sm header-input" value="Post Name" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+                <th style="padding: 8px; border: 1px solid #cbd5e1; width: 20%;"><input type="text" class="form-control text-sm header-input" value="Total Post" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+                <th style="padding: 8px; border: 1px solid #cbd5e1; width: 50%;"><input type="text" class="form-control text-sm header-input" value="Eligibility" style="font-weight: bold; background: #f1f5f9; text-align: center; width: 90%; margin: 0 auto; display: block;" /></th>
+              </tr>
+            </thead>
+            <tbody class="custom-grid-body">
+              <!-- Custom rows will be added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     `;
-    recalculateCustomTableWidths();
+    // Re-setup first table's listeners
+    const firstTable = container.querySelector('.custom-table-wrapper');
+    if (firstTable) {
+      firstTable.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const action = e.target.closest('[data-action]').getAttribute('data-action');
+          if (action === 'add-column') addCustomColumnToTable(firstTable);
+          if (action === 'remove-column') removeCustomColumnFromTable(firstTable);
+          if (action === 'add-row') addCustomRowToTable(firstTable);
+          if (action === 'remove-table') {
+            if (confirm('Are you sure you want to delete this table?')) {
+              firstTable.remove();
+            }
+          }
+        });
+      });
+    }
+    nextTableId = 1;
   }
 }
 
-function setupCellInputEvents(input) {
+function setupMultiTableCellInputEvents(input) {
   if (!input) return;
   input.addEventListener('paste', (e) => {
     const pastedData = (e.clipboardData || window.clipboardData).getData('text');
