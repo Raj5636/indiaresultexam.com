@@ -1352,8 +1352,13 @@ async function handleFormSubmit(e) {
 
   // Check if there is an manual override from Quill editor
   let description = '';
+  const existingJob = jobs.find(j => j.id === editingJobId);
+  
   if (quill && quill.getText().trim().length > 0) {
     description = quill.root.innerHTML;
+  } else if (existingJob && existingJob.description) {
+    // If editing and Quill is empty, use existing description
+    description = existingJob.description;
   } else {
     // Generate beautiful layout automatically
     description = createProfessionalTable({
@@ -1833,9 +1838,9 @@ function editJob(jobId) {
     }
   }
 
-  // Paste description if overrides exist
+  // Paste description into Quill
   if (quill) {
-    if (job.description && !job.description.includes('professional-table')) {
+    if (job.description) {
       quill.root.innerHTML = job.description;
     } else {
       quill.setText('');
