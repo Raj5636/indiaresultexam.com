@@ -251,6 +251,12 @@ async function loadDetails() {
       return;
     }
     const data = { id, ...snap.data() };
+    if (data.deleted) {
+      const titleEl = qs('#jobTitle');
+      if (titleEl) titleEl.textContent = 'Not Found';
+      document.title = 'Not Found | India Result Exam';
+      return;
+    }
     console.log("DEBUG: Document data retrieved:", data);
 
     // Check if it is a Sarkari-style page description to hide generic card header

@@ -329,7 +329,7 @@ async function loadByCategoryToGrid(category, targetEl) {
         // Save globally for autocomplete
       if (!window.allJobsList) window.allJobsList = [];
       allCategoryDocs.forEach(item => {
-        if (!window.allJobsList.find(x => x.id === item.id)) {
+        if (!window.allJobsList.find(x => x.id === item.id) && !item.deleted) {
           window.allJobsList.push(item);
         }
       });
@@ -339,6 +339,7 @@ async function loadByCategoryToGrid(category, targetEl) {
       const items = allCategoryDocs
         .filter(j => j.approved === true) // Only show approved posts
         .filter(j => j.showOnHome !== false) // Only show if not explicitly hidden
+        .filter(j => !j.deleted) // Don't show deleted posts
         .filter(j => {
           const jobCategory = String(j.category || '').toLowerCase();
           const targetCategory = String(category || '').toLowerCase();
@@ -820,7 +821,7 @@ async function loadJobsFromFirestore() {
         // Save globally for autocomplete
         if (!window.allJobsList) window.allJobsList = [];
         allMainDocs.forEach(item => {
-          if (!window.allJobsList.find(x => x.id === item.id)) {
+          if (!window.allJobsList.find(x => x.id === item.id) && !item.deleted) {
             window.allJobsList.push(item);
           }
         });
@@ -830,7 +831,8 @@ async function loadJobsFromFirestore() {
           .filter(j => j.approved === true) // Only show approved posts
           .filter(j => (String(j.category || '').toLowerCase().includes('job') || 
                      String(j.category || '').toLowerCase().includes('latest')))
-          .filter(j => j.showOnHome !== false); // Only show if not explicitly hidden
+          .filter(j => j.showOnHome !== false) // Only show if not explicitly hidden
+          .filter(j => !j.deleted); // Don't show deleted posts
         console.log('Latest Jobs section:', jobs.length, 'items');
         console.log('Jobs data sample:', jobs.slice(0, 2));
         console.log('Category check:', jobs.map(j => ({ id: j.id, category: j.category })));
@@ -1180,7 +1182,7 @@ async function loadJobsFromFirestore() {
         return;
       }
       
-      const matches = window.allJobsList.filter(job => {
+      const matches = window.allJobsList.filter(job => !job.deleted).filter(job => {
         const title = String(job.title || '').toLowerCase();
         const dept = String(job.department || '').toLowerCase();
         return title.includes(val) || dept.includes(val);
