@@ -794,6 +794,10 @@
       <i class="fa-solid fa-list-check"></i>
       <span>Active Posts</span>
     </button>
+    <button class="admin-tab" data-tab="deleted-posts">
+      <i class="fa-solid fa-trash-can"></i>
+      <span>Deleted Posts</span>
+    </button>
     <button class="admin-tab" data-tab="analytics">
       <i class="fa-solid fa-chart-line"></i>
       <span>Analytics</span>
@@ -1138,6 +1142,50 @@
           </tbody>
         </table>
       </div>
+      </section>
+    </div>
+
+    <!-- Tab Content: Deleted Posts -->
+    <div id="tab-deleted-posts" class="tab-content">
+      <section class="panel" style="width: 100%;">
+        <h2 class="panel-title"><i class="fa-solid fa-trash-can text-danger"></i> Deleted Posts</h2>
+        
+        <!-- Search & Filter -->
+        <div class="filter-bar">
+          <input type="text" id="deletedSearchInput" class="search-input" placeholder="Search deleted posts...">
+          <select id="deletedCategoryFilter" class="form-control" style="max-width: 140px; margin: 0">
+            <option value="">All Categories</option>
+            <option value="Latest Jobs">Latest Jobs</option>
+            <option value="Outsourcing">Outsourcing</option>
+            <option value="Admit Card">Admit Card</option>
+            <option value="Result">Result</option>
+            <option value="Admission">Admission</option>
+            <option value="Answer Key">Answer Key</option>
+            <option value="Sarkari Yojana">Sarkari Yojana</option>
+          </select>
+        </div>
+        
+        <!-- Deleted Jobs Table -->
+        <div class="jobs-table-container">
+          <table class="jobs-table">
+            <thead>
+              <tr>
+                <th>Post Title</th>
+                <th>Category</th>
+                <th>Last Date</th>
+                <th style="width: 220px; text-align: center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="deletedJobsListBody">
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <i class="fa-solid fa-spinner fa-spin text-primary"></i>
+                  <span>Loading deleted posts...</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
 

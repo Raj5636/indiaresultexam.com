@@ -163,6 +163,13 @@ function setupEvents() {
   if (searchJobsInput) searchJobsInput.addEventListener('input', filterJobsList);
   if (filterCategorySelect) filterCategorySelect.addEventListener('change', filterJobsList);
   if (filterApprovalSelect) filterApprovalSelect.addEventListener('change', filterJobsList);
+  
+  // Deleted Posts Search & Filters
+  const deletedSearchInput = document.getElementById('deletedSearchInput');
+  const deletedCategoryFilter = document.getElementById('deletedCategoryFilter');
+  
+  if (deletedSearchInput) deletedSearchInput.addEventListener('input', filterDeletedJobsList);
+  if (deletedCategoryFilter) deletedCategoryFilter.addEventListener('change', filterDeletedJobsList);
 
   // Tab switching logic
   const tabButtons = document.querySelectorAll('.admin-tab');
@@ -1495,7 +1502,8 @@ function clearForm(promptUser = false) {
 // Fetch all jobs from Firestore
 async function loadJobs() {
   const jobsListBody = document.getElementById('jobsListBody');
-  if (!jobsListBody) return;
+  const deletedJobsListBody = document.getElementById('deletedJobsListBody');
+  if (!jobsListBody || !deletedJobsListBody) return;
 
   try {
     console.log('Loading jobs from Firestore...');
@@ -1518,8 +1526,13 @@ async function loadJobs() {
       return timeB - timeA;
     });
 
+    // Filter active and deleted jobs
+    const activeJobs = jobs.filter(job => !job.deleted);
+    const deletedJobs = jobs.filter(job => job.deleted);
+
     console.log('Rendering jobs list...');
-    renderJobsList(jobs);
+    renderJobsList(activeJobs);
+    renderDeletedJobsList(deletedJobs);
     renderRecentActivity(jobs);
   } catch (error) {
     console.error('Load jobs error:', error);
@@ -1531,7 +1544,96 @@ async function loadJobs() {
         </td>
       </tr>
     `;
+    deletedJobsListBody.innerHTML = `
+      <tr>
+        <td colspan="4" class="empty-state">
+          <i class="fa-solid fa-exclamation-triangle text-danger"></i>
+          <span>Failed to connect to database.</span>
+        </td>
+      </tr>
+    `;
   }
+}
+
+// Render Deleted Jobs List
+function renderDeletedJobsList(jobsToRender) {
+  const deletedJobsListBody = document.getElementById('deletedJobsListBody');
+  console.log('renderDeletedJobsList called with', jobsToRender.length, 'deleted jobs');
+  
+  if (!deletedJobsListBody) {
+    console.error('deletedJobsListBody not found!');
+    return;
+  }
+
+  if (jobsToRender.length === 0) {
+    deletedJobsListBody.innerHTML = `
+      <tr>
+        <td colspan="4" class="empty-state">
+          <i class="fa-solid fa-trash-can"></i>
+          <span>No deleted posts found.</span>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  deletedJobsListBody.innerHTML = jobsToRender.map(job => {
+    let badgeClass = 'badge-job';
+    if (job.category === 'Admit Card') badgeClass = 'badge-admit';
+    else if (job.category === 'Result') badgeClass = 'badge-result';
+    else if (job.category === 'Admission') badgeClass = 'badge-admission';
+    else if (job.category === 'Answer Key') badgeClass = 'badge-key';
+    else if (job.category === 'Sarkari Yojana') badgeClass = 'badge-yojana';
+    else if (job.category === 'Outsourcing') badgeClass = 'badge-outsourcing';
+    
+    return `
+      <tr>
+        <td>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <div><strong>${job.title}</strong></div>
+          </div>
+        </td>
+        <td><span class="badge ${badgeClass}">${job.category || 'Job'}</span></td>
+        <td>${job.lastDate || '-'}</td>
+        <td class="table-actions">
+          <button class="btn btn-success" onclick="restoreJob('${job.id}')">
+            <i class="fa-solid fa-rotate-left"></i> Restore
+          </button>
+          <button class="btn btn-danger" onclick="permanentlyDeleteJob('${job.id}')">
+            <i class="fa-solid fa-trash-xmark"></i> Delete Permanently
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+  
+  filterDeletedJobsList();
+}
+
+// Filter Deleted Jobs List
+function filterDeletedJobsList() {
+  const searchInput = document.getElementById('deletedSearchInput');
+  const categoryFilter = document.getElementById('deletedCategoryFilter');
+  if (!searchInput || !categoryFilter) return;
+
+  const q = searchInput.value.toLowerCase();
+  const category = categoryFilter.value;
+
+  const deletedJobs = jobs.filter(job => job.deleted);
+
+  let filtered = deletedJobs;
+  if (q) {
+    filtered = filtered.filter(job => 
+      (job.title && job.title.toLowerCase().includes(q)) || 
+      (job.organization && job.organization.toLowerCase().includes(q))
+    );
+  }
+  
+  if (category) {
+    filtered = filtered.filter(job => job.category === category);
+  }
+
+  renderDeletedJobsList(filtered);
 }
 
 function renderJobsList(jobsToRender) {
@@ -1851,23 +1953,70 @@ function editJob(jobId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Delete Job from Firestore
+// Delete Job from Firestore (soft delete)
 async function deleteJob(jobId) {
   const job = jobs.find(j => j.id === jobId);
   if (!job) return;
 
-  if (!confirm(`Are you sure you want to permanently delete: "${job.title}"? This cannot be undone.`)) {
+  if (!confirm(`Are you sure you want to delete: "${job.title}"? You can restore it later from Deleted Posts.`)) {
     return;
   }
 
   try {
-    await deleteDoc(doc(db, 'latest_jobs', jobId));
-    showToast('Post deleted successfully.', 'success');
+    await updateDoc(doc(db, 'latest_jobs', jobId), {
+      deleted: true,
+      deletedAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    showToast('Post moved to Deleted Posts.', 'success');
     await loadJobs();
     if (editingJobId === jobId) clearForm();
   } catch (error) {
     console.error('Delete error:', error);
     showToast('Failed to delete job post.', 'error');
+  }
+}
+
+// Restore Job from Deleted Posts
+async function restoreJob(jobId) {
+  const job = jobs.find(j => j.id === jobId);
+  if (!job) return;
+
+  if (!confirm(`Are you sure you want to restore: "${job.title}"?`)) {
+    return;
+  }
+
+  try {
+    await updateDoc(doc(db, 'latest_jobs', jobId), {
+      deleted: false,
+      restoredAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    showToast('Post restored successfully!', 'success');
+    await loadJobs();
+  } catch (error) {
+    console.error('Restore error:', error);
+    showToast('Failed to restore job post.', 'error');
+  }
+}
+
+// Permanently Delete Job from Firestore
+async function permanentlyDeleteJob(jobId) {
+  const job = jobs.find(j => j.id === jobId);
+  if (!job) return;
+
+  if (!confirm(`Are you sure you want to PERMANENTLY delete: "${job.title}"? This CANNOT be undone!`)) {
+    return;
+  }
+
+  try {
+    await deleteDoc(doc(db, 'latest_jobs', jobId));
+    showToast('Post permanently deleted.', 'success');
+    await loadJobs();
+    if (editingJobId === jobId) clearForm();
+  } catch (error) {
+    console.error('Permanent delete error:', error);
+    showToast('Failed to permanently delete job post.', 'error');
   }
 }
 
