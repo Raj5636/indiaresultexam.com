@@ -210,16 +210,33 @@ function parsePostDate(postDateStr) {
       timePart = parts[1] ? parts[1].trim() : '';
     }
     
-    const dateWords = datePart.split(/[\s,\-/]+/);
+    const dateWords = datePart.split(/[\s,\-/]+/).filter(w => w.trim().length > 0);
     if (dateWords.length >= 3) {
-      let day = parseInt(dateWords[0]);
-      let monthStr = dateWords[1].toLowerCase();
-      let year = parseInt(dateWords[2]);
-      
-      if (dateWords[0].length === 4) {
+      let day, monthStr, year;
+
+      // First check if first word is a month (text, not number)
+      const firstWordIsMonth = isNaN(parseInt(dateWords[0])) && dateWords[0].toLowerCase() in {
+        jan:1, january:1, feb:1, february:1, mar:1, march:1,
+        apr:1, april:1, may:1, jun:1, june:1, jul:1, july:1,
+        aug:1, august:1, sep:1, september:1, oct:1, october:1,
+        nov:1, november:1, dec:1, december:1
+      };
+
+      if (firstWordIsMonth) {
+        // Format: Month Day Year (e.g., "June 17 2026" or "June 17, 2026")
+        monthStr = dateWords[0].toLowerCase();
+        day = parseInt(dateWords[1]);
+        year = parseInt(dateWords[2]);
+      } else if (dateWords[0].length === 4) {
+        // Format: Year Month Day
         year = parseInt(dateWords[0]);
         monthStr = dateWords[1].toLowerCase();
         day = parseInt(dateWords[2]);
+      } else {
+        // Format: Day Month Year
+        day = parseInt(dateWords[0]);
+        monthStr = dateWords[1].toLowerCase();
+        year = parseInt(dateWords[2]);
       }
       
       const months = {
@@ -1423,10 +1440,10 @@ async function main() {
       }
 
       // 2. Check if already exists in Firestore (sync data while preserving ID)
-      const existingDocPath = await findExistingJob(scrapedData.title, scrapedData.sourceUrl, accessToken);
+      const existingDoc = await findExistingJob(scrapedData.title, scrapedData.sourceUrl, accessToken);
       let existingDocId = null;
-      if (existingDocPath) {
-        existingDocId = existingDocPath.split('/').pop();
+      if (existingDoc) {
+        existingDocId = existingDoc.path.split('/').pop();
         console.log(`  [SYNC] Job "${scrapedData.title}" already exists (ID: ${existingDocId}). Updating to sync latest changes...`);
       }
 
